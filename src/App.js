@@ -38,7 +38,7 @@ function App() {
       <div className="flyout">
         {/*<Navbar />*/}
         <main>
-          <Routes />
+          <p>So many wow.</p>
         </main>
         {/*<Footer />*/}
       </div>
