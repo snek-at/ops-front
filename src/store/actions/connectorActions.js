@@ -99,14 +99,14 @@ export const getConnectorById = (id) => {
 
     if (result) {
       dispatch({
-        type: "GET_CONNECTOR_BY_ID",
+        type: "GET_CONNECTOR_BY_ID_SUCCESS",
         payload: {
           data: result,
         },
       });
     } else {
       dispatch({
-        type: "GET_CONNECTOR_BY_ID",
+        type: "GET_CONNECTOR_BY_ID_FAIL",
         payload: {
           data: false,
           error: {
@@ -164,24 +164,30 @@ export const testConnector = (connector) => {
 export const createConnector = (connector) => {
   return (dispatch, getState, { clientShopify }) => {
     if (connector) {
-      dispatch({
-        type: "CREATE_CONNECTOR_SUCCESS",
-        payload: {
-          data: connector.id,
-        },
-      });
-    } else {
-      dispatch({
-        type: "CREATE_CONNECTOR_FAIL",
-        payload: {
-          data: false,
-          error: {
-            code: 704,
-            message: "Could not create connector",
-            origin: "connectors",
+      let connectors = getState().connectors.connectors;
+
+      connectors = [...connectors, connector];
+
+      if (true === true) {
+        dispatch({
+          type: "CREATE_CONNECTOR_SUCCESS",
+          payload: {
+            data: connectors,
           },
-        },
-      });
+        });
+      } else {
+        dispatch({
+          type: "CREATE_CONNECTOR_FAIL",
+          payload: {
+            data: false,
+            error: {
+              code: 704,
+              message: "Could not create connector",
+              origin: "connectors",
+            },
+          },
+        });
+      }
     }
   };
 };
