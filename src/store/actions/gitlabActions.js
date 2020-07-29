@@ -1,4 +1,4 @@
-// Get all connectors
+// Get all GitLabs
 export const getGitLabs = () => {
   return (dispatch, getState, { clientShopify }) => {
     // Dummy Data
