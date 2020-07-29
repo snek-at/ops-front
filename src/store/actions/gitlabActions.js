@@ -106,7 +106,7 @@ export const createGitlab = (gitlab) => {
         dispatch({
           type: "CREATE_GITLAB_SUCCESS",
           payload: {
-            data: gitlabs,
+            data: { gitlabs, selected: gitlab },
           },
         });
       } else {
