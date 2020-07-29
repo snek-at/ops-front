@@ -13,7 +13,7 @@ export const getPipelines = () => {
       {
         domain: "share.local",
         org: "anexia",
-        title: "Hydra",
+        title: "Lookingglass",
         latestActivity: 1591034377,
         isActive: false,
       },
