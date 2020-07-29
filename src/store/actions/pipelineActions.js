@@ -1,6 +1,6 @@
 // Get all pipelines
 export const getPipelines = () => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     // Dummy Data
     const result = [
       {

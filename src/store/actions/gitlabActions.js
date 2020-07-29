@@ -1,6 +1,6 @@
 // Get all GitLabs
 export const getGitLabs = () => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     // Dummy Data
     const result = [
       {
@@ -48,7 +48,7 @@ export const getGitLabs = () => {
 
 // Get GitLab by handle
 export const getGitLabByHandle = (handle) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     let gitlabs = getState().gitlabs;
 
     // Returns only matches
@@ -96,7 +96,7 @@ export const getGitLabByHandle = (handle) => {
 
 // Create GitLab
 export const createGitlab = (gitlab) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     if (gitlab) {
       let gitlabs = getState().gitlabs;
 
@@ -128,14 +128,14 @@ export const createGitlab = (gitlab) => {
 
 // Alter gitlab by handle (ip or domain)
 export const alterGitlab = (handle, newGitlab) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     // Take current gitlab by handle and alter its content
   };
 };
 
 // Remove gitlab by handle (ip or domain)
 export const removeGitlab = (handle) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     if (handle) {
       let gitlabs = getState().gitlabs;
       const initialLength = gitlabs.length;

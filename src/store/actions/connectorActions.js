@@ -1,6 +1,6 @@
 // Get all connectors
 export const getConnectors = () => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     // Dummy Data
     const result = [
       {
@@ -61,7 +61,7 @@ export const getConnectors = () => {
 
 // Get connector by id
 export const getConnectorById = (id) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     // Dummy Data
     const result = [
       {
@@ -122,7 +122,7 @@ export const getConnectorById = (id) => {
 
 // Test connector
 export const testConnector = (connector) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     if (connector) {
       if (true === true) {
         dispatch({
@@ -162,7 +162,7 @@ export const testConnector = (connector) => {
 
 // Create connector
 export const createConnector = (connector) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     if (connector) {
       let connectors = getState().connectors.connectors;
 
@@ -194,14 +194,14 @@ export const createConnector = (connector) => {
 
 // Create connector
 export const alterConnector = (id, newConnector) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     // Take current connector by id and alter its content
   };
 };
 
 // Remove connector
 export const removeConnector = (id) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     // Removes connector
   };
 };

@@ -1,6 +1,6 @@
 // Get all Wagtail users
 export const getAllUsers = () => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     // Dummy Data
     const result = [
       {
@@ -62,7 +62,7 @@ export const getAllUsers = () => {
 
 // Creates new user in Wagtail
 export const addUser = (user) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     if (user) {
       let users = getState().permissions.users;
 
@@ -92,7 +92,7 @@ export const addUser = (user) => {
 
 // Creates new group in Wagtail
 export const addGroup = (group) => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     if (group) {
       let groups = getState().permissions.groups;
 
@@ -124,7 +124,7 @@ export const addGroup = (group) => {
 
 // Get all Wagtail groups
 export const getAllGroups = () => {
-  return (dispatch, getState, { clientShopify }) => {
+  return (dispatch, getState, { getIntel }) => {
     // Dummy data
     const result = [
       {
