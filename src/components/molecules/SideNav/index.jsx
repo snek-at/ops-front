@@ -124,7 +124,7 @@ class SideNavbar extends React.Component {
           })}
           <NavItem eventKey="logout" className="item-bottom">
             <NavIcon className="flex-center d-flex">
-              <MDBIcon icon="sign-out-alt" size="lg" />
+              <MDBIcon icon="door-open" size="lg" />
             </NavIcon>
             <NavText>Logout</NavText>
           </NavItem>
