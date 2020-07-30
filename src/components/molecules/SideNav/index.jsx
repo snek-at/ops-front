@@ -14,7 +14,7 @@ import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import { MDBIcon } from "mdbreact";
 
 //> CSS
-import "./nav.scss";
+import "./sidenav.scss";
 //#endregion
 
 //#region > Components
