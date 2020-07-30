@@ -4,7 +4,6 @@
 import React from "react";
 // DOM bindings for React Router
 import { Route, Switch } from "react-router-dom";
-
 //> Components
 import { AdminPage } from "./components/pages";
 //#endregion

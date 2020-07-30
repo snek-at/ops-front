@@ -2,15 +2,12 @@
 //> React
 // Contains all the functionality necessary to define React components
 import React from "react";
-
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
 import { MDBContainer } from "mdbreact";
-
 //> Components
 // Molecules
 import { SideNav } from "../../molecules";
-
 //> Images
 // Too be added
 //#endregion
@@ -77,10 +74,13 @@ class HomePage extends React.Component {
     );
   }
 }
+//#endregion
 
+//#region > Exports
 export default HomePage;
+//#endregion
 
 /**
  * SPDX-License-Identifier: (EUPL-1.2)
- * Copyright © 2019 Werbeagentur Christian Aichner
+ * Copyright © 2020 Simon Prast
  */

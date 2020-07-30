@@ -2,18 +2,16 @@
 //> React
 // Contains all the functionality necessary to define React components
 import React from "react";
-
 //> Additional modules
 // Side Navigation
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-// Side Navigation CSS
-import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
 import { MDBIcon } from "mdbreact";
-
 //> CSS
+// Side Navigation styling
+import "@trendmicro/react-sidenav/dist/react-sidenav.css";
+// Basic adjustments
 import "./sidenav.scss";
 //#endregion
 
