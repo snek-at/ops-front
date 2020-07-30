@@ -31,7 +31,7 @@ import "./index.scss";
 // Root component
 import App from "./App";
 //> Root Reducer
-//import rootReducer from "./store/reducers";
+import rootReducer from "./store/reducers/rootReducer";
 //> Service Worker
 import registerServiceWorker from "./registerServiceWorker";
 //#endregion
@@ -54,33 +54,21 @@ const composeEnhancers =
       })
     : compose;
 
-//const enhancer = composeEnhancers(
-//  applyMiddleware(
-//    loadingBarMiddleware(),
-//    thunk.withExtraArgument({
-//      getIntel, // Intel
-//    })
-//  )
-//  // other store enhancers if any
-//);
+const enhancer = composeEnhancers(
+  applyMiddleware(loadingBarMiddleware())
+  // other store enhancers if any
+);
 
-//const STORE = createStore(rootReducer /* preloadedState, */, enhancer);
+const STORE = createStore(rootReducer, enhancer);
 //#endregion
 
 // Render the root component to <div id="root"></div>
-//ReactDOM.render(
-//  <Provider store={STORE}>
-//    <Router>
-//      <App />
-//    </Router>
-//  </Provider>,
-//  document.getElementById("root")
-//);
-
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <Provider store={STORE}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>,
   document.getElementById("root")
 );
 
