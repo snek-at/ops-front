@@ -55,12 +55,18 @@ class HomePage extends React.Component {
               switch (this.state.page) {
                 case "home":
                   return <p>Home</p>;
-                case "settings":
-                  return <p>Settings</p>;
-                case "api-explorer":
-                  return <p>Test</p>;
-                case "api-library":
-                  return <p>API Library</p>;
+                case "pages":
+                  return <p>Pages</p>;
+                case "permissions":
+                  return <p>Permissions</p>;
+                case "connectors":
+                  return <p>Connectors</p>;
+                case "pipelines":
+                  return <p>Pipelines</p>;
+                case "gitlabs":
+                  return <p>GitLabs</p>;
+                case "logout":
+                  return <p>Logout</p>;
                 default:
                   return <p>Home</p>;
               }

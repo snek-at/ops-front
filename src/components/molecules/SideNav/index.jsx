@@ -17,6 +17,36 @@ import { MDBIcon } from "mdbreact";
 import "./sidenav.scss";
 //#endregion
 
+//#region > Config
+const MENU_ITEMS = [
+  {
+    name: "Dashboard",
+    icon: "home",
+  },
+  {
+    name: "Pages",
+    icon: "book",
+  },
+  {
+    name: "Permissions",
+    icon: "key",
+  },
+  {
+    name: "Connectors",
+    icon: "ring",
+  },
+  {
+    name: "Pipelines",
+    icon: "vials",
+  },
+  {
+    name: "GitLabs",
+    icon: "gitlab",
+    fab: true,
+  },
+];
+//#endregion
+
 //#region > Components
 /** @class The nav component for all pages */
 class SideNavbar extends React.Component {
@@ -57,6 +87,21 @@ class SideNavbar extends React.Component {
     this.props.handleSelect(selected);
   };
 
+  // Creates a unified string out of names
+  stringifyItemName = (name) => {
+    /**
+     * First, all special characters are removed.
+     * All characters are converted to lowercase.
+     * All spaces before and after the string are removed.
+     * All spaces within the word are being replaced with a minus.
+     */
+    return name
+      .replace(/[^a-zA-Z ]/g, "")
+      ?.toLowerCase()
+      ?.trim()
+      ?.replace(new RegExp(" ", "g"), "-");
+  };
+
   render() {
     return (
       <SideNav
@@ -67,41 +112,21 @@ class SideNavbar extends React.Component {
         <SideNav.Toggle />
         <SideNav.Nav defaultSelected="home">
           <div className="w-100" />
-          <NavItem eventKey="home">
+          {MENU_ITEMS.map((item, i) => {
+            return (
+              <NavItem eventKey={this.stringifyItemName(item.name)} key={i}>
+                <NavIcon className="flex-center d-flex">
+                  <MDBIcon icon={item.icon} size="lg" fab={item.fab} />
+                </NavIcon>
+                <NavText>{item.name}</NavText>
+              </NavItem>
+            );
+          })}
+          <NavItem eventKey="logout" className="item-bottom">
             <NavIcon className="flex-center d-flex">
-              <MDBIcon icon="home" size="lg" />
+              <MDBIcon icon="sign-out-alt" size="lg" />
             </NavIcon>
-            <NavText>Dashboard</NavText>
-          </NavItem>
-          <NavItem eventKey="api-explorer">
-            <NavIcon className="flex-center d-flex">
-              <MDBIcon icon="search" size="lg" />
-            </NavIcon>
-            <NavText>API Explorer</NavText>
-          </NavItem>
-          <NavItem eventKey="api-library">
-            <NavIcon className="flex-center d-flex">
-              <MDBIcon icon="book" size="lg" />
-            </NavIcon>
-            <NavText>Library</NavText>
-          </NavItem>
-          <NavItem eventKey="charts">
-            <NavIcon>
-              <MDBIcon icon="chart-line" size="lg" />
-            </NavIcon>
-            <NavText>Credentials</NavText>
-            <NavItem eventKey="charts/linechart">
-              <NavText>API Link</NavText>
-            </NavItem>
-            <NavItem eventKey="charts/barchart">
-              <NavText>Your APIs</NavText>
-            </NavItem>
-          </NavItem>
-          <NavItem eventKey="settings" className="item-bottom">
-            <NavIcon className="flex-center d-flex">
-              <MDBIcon icon="cogs" size="lg" />
-            </NavIcon>
-            <NavText>Settings</NavText>
+            <NavText>Logout</NavText>
           </NavItem>
         </SideNav.Nav>
       </SideNav>
