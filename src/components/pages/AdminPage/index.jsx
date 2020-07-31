@@ -8,8 +8,8 @@ import { MDBContainer } from "mdbreact";
 //> Components
 // Molecules
 import { SideNav } from "../../molecules";
-// Sections
-import { Pipelines } from "../../organisms";
+// Pages
+import { Page, Pipelines } from "../../organisms";
 //> Images
 // Too be added
 //#endregion
@@ -19,7 +19,7 @@ import { Pipelines } from "../../organisms";
 class HomePage extends React.Component {
   state = {
     containerPaddingLeft: "60px",
-    page: "home",
+    page: "dashboard",
   };
 
   navToggle = (exp) => {
@@ -41,6 +41,16 @@ class HomePage extends React.Component {
     });
   };
 
+  renderPages = (selectedPage) => {
+    if (selectedPage.includes("page-")) {
+      const handle = selectedPage.split("page-")[1];
+
+      return <Page handle={handle} />;
+    } else {
+      return <p>Page not valid</p>;
+    }
+  };
+
   render() {
     return (
       <div>
@@ -52,8 +62,8 @@ class HomePage extends React.Component {
           <MDBContainer fluid className="my-5">
             {(() => {
               switch (this.state.page) {
-                case "home":
-                  return <p>Home</p>;
+                case "dashboard":
+                  return <p>Dashboard</p>;
                 case "pages":
                   return <p>Pages</p>;
                 case "permissions":
@@ -67,7 +77,7 @@ class HomePage extends React.Component {
                 case "logout":
                   return <p>Logout</p>;
                 default:
-                  return <p>Home</p>;
+                  return this.renderPages(this.state.page);
               }
             })()}
           </MDBContainer>

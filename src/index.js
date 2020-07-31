@@ -51,6 +51,8 @@ import registerServiceWorker from "./registerServiceWorker";
 // Initialize time ago
 JavascriptTimeAgo.addLocale(en);
 
+//#TODO
+// This is only a placeholder. Intel not required in OPS.
 const getIntel = () => {
   return true;
 };
