@@ -7,14 +7,14 @@ export const getPipelines = () => {
         domain: "gitlab.local",
         org: "anexia",
         title: "Skynet",
-        latestActivity: 1596034377,
+        latestActivity: 1596034377000,
         isActive: true,
       },
       {
         domain: "share.local",
         org: "anexia",
         title: "Lookingglass",
-        latestActivity: 1591034377,
+        latestActivity: 1591034377000,
         isActive: false,
       },
     ];
