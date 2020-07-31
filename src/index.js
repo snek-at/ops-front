@@ -45,6 +45,10 @@ import registerServiceWorker from "./registerServiceWorker";
 //  return INTEL;
 //};
 
+const getIntel = () => {
+  return true;
+};
+
 const composeEnhancers =
   typeof window === "object" &&
   process.env.NODE_ENV !== "production" &&
@@ -55,7 +59,13 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(
-  applyMiddleware(loadingBarMiddleware())
+  applyMiddleware(
+    loadingBarMiddleware(),
+    thunk.withExtraArgument({
+      // Intel
+      getIntel,
+    })
+  )
   // other store enhancers if any
 );
 

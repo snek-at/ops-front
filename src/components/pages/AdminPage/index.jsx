@@ -17,7 +17,7 @@ import { SideNav } from "../../molecules";
 class HomePage extends React.Component {
   state = {
     containerPaddingLeft: "60px",
-    page: "home",
+    page: "dashboard",
   };
 
   navToggle = (exp) => {
@@ -39,6 +39,14 @@ class HomePage extends React.Component {
     });
   };
 
+  renderPages = (selectedPage) => {
+    if (selectedPage.includes("page-")) {
+      return selectedPage;
+    } else {
+      return <p>Page not valid</p>;
+    }
+  };
+
   render() {
     return (
       <div>
@@ -50,8 +58,8 @@ class HomePage extends React.Component {
           <MDBContainer fluid>
             {(() => {
               switch (this.state.page) {
-                case "home":
-                  return <p>Home</p>;
+                case "dashboard":
+                  return <p>Dashboard</p>;
                 case "pages":
                   return <p>Pages</p>;
                 case "permissions":
@@ -65,7 +73,7 @@ class HomePage extends React.Component {
                 case "logout":
                   return <p>Logout</p>;
                 default:
-                  return <p>Home</p>;
+                  return this.renderPages(this.state.page);
               }
             })()}
           </MDBContainer>

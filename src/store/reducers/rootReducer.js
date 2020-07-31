@@ -6,7 +6,7 @@ import { combineReducers } from "redux";
 import connectorReducer from "./connectorReducer";
 //import dashboardReducer from "./dashboardReducer";
 import gitlabReducer from "./gitlabReducer";
-//import pageReducer from "./pageReducer";
+import pageReducer from "./pageReducer";
 import permissionReducer from "./permissionReducer";
 import pipelineReducer from "./pipelineReducer";
 
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   /* GitLabs */
   gitlabs: gitlabReducer,
   /* Pages */
-  //pages: pageReducer,
+  pages: pageReducer,
   /* Permissions */
   permissions: permissionReducer,
   /* Pipelines */

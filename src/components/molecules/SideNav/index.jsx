@@ -5,12 +5,20 @@ import React from "react";
 //> Additional modules
 // Side Navigation
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
+// Side Navigation styling
+import "@trendmicro/react-sidenav/dist/react-sidenav.css";
+//> Redux
+// Allows to React components read data from a Redux store, and dispatch actions
+// to the store to update data.
+import { connect } from "react-redux";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
 import { MDBIcon } from "mdbreact";
+
+//> Actions
+// Functions to send data from the application to the store
+import { getPageNames } from "../../../store/actions/pageActions";
 //> CSS
-// Side Navigation styling
-import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 // Basic adjustments
 import "./sidenav.scss";
 //#endregion
@@ -64,6 +72,9 @@ class SideNavbar extends React.Component {
     // Tell the parent component if expanded or not
     this.props.handleToggle(expNormalized);
 
+    // Get names of pages
+    this.props.getPageNames();
+
     // Do the actual change
     this.setState({
       expanded: expNormalized,
@@ -108,15 +119,27 @@ class SideNavbar extends React.Component {
         expanded={this.state.expanded}
       >
         <SideNav.Toggle />
-        <SideNav.Nav defaultSelected="home">
+        <SideNav.Nav defaultSelected="dashboard">
           <div className="w-100" />
           {MENU_ITEMS.map((item, i) => {
+            const handle = this.stringifyItemName(item.name);
+
             return (
-              <NavItem eventKey={this.stringifyItemName(item.name)} key={i}>
+              <NavItem eventKey={handle} key={i}>
                 <NavIcon className="flex-center d-flex">
                   <MDBIcon icon={item.icon} size="lg" fab={item.fab} />
                 </NavIcon>
                 <NavText>{item.name}</NavText>
+                {handle === "pages" &&
+                  this.props.pagenames.map((page, p) => {
+                    const handle = this.stringifyItemName(page.name);
+
+                    return (
+                      <NavItem eventKey={"page-" + handle} key={i + "-" + p}>
+                        <NavText>{page.name}</NavText>
+                      </NavItem>
+                    );
+                  })}
               </NavItem>
             );
           })}
@@ -133,8 +156,27 @@ class SideNavbar extends React.Component {
 }
 //#endregion
 
+//#region > Redux Mapping
+const mapStateToProps = (state) => ({
+  pagenames: state.pages.pagenames,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPageNames: () => dispatch(getPageNames()),
+  };
+};
+//#endregion
+
 //#region > Exports
-export default SideNavbar;
+/**
+ * Provides its connected component with the pieces of the data it needs from
+ * the store, and the functions it can use to dispatch actions to the store.
+ *
+ * Got access to the history object’s properties and the closest
+ * <Route>'s match.
+ */
+export default connect(mapStateToProps, mapDispatchToProps)(SideNavbar);
 //#endregion
 
 /**
