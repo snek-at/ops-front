@@ -1,19 +1,19 @@
 // Have initial state for when state is not ready to be passed
 const initState = {
-  pages: [],
+  page: null,
   pagenames: [],
   error: null,
 };
 
 const pageReducer = (state = initState, action) => {
   switch (action.type) {
-    case "GET_PAGES_SUCCESS":
+    case "GET_PAGE_SUCCESS":
       return {
         ...state,
-        pages: action.payload.data ? action.payload.data : [],
+        page: action.payload.data ? action.payload.data : [],
         error: null,
       };
-    case "GET_PAGES_FAIL":
+    case "GET_PAGE_FAIL":
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
@@ -22,7 +22,7 @@ const pageReducer = (state = initState, action) => {
 
       return {
         ...state,
-        pages: [],
+        page: null,
         error: action.payload.error,
       };
     case "GET_PAGENAMES_SUCCESS":

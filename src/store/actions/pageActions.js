@@ -21,7 +21,7 @@ export const getPageNames = () => {
         payload: {
           data: false,
           error: {
-            code: 720,
+            code: 740,
             message: "Could not get page names",
             origin: "pages",
           },
@@ -31,11 +31,11 @@ export const getPageNames = () => {
   };
 };
 
-// Get all pages
-export const getPages = () => {
+// Get page by handle
+export const getPageByHandle = (handle) => {
   return (dispatch, getState, { getIntel }) => {
-    // Dummy Data
-    const result = [
+    // Dummy Data - retrieve all pages
+    const results = [
       {
         milestones: [
           { date: "11.11.2017", name: "First employee", icon: "user-circle" },
@@ -165,20 +165,36 @@ export const getPages = () => {
       },
     ];
 
-    if (result) {
-      dispatch({
-        type: "GET_PAGES_SUCCESS",
-        payload: {
-          data: result,
-        },
-      });
+    if (results) {
+      const result = results.filter((page) => page.company.handle === handle);
+
+      if (result) {
+        dispatch({
+          type: "GET_PAGE_SUCCESS",
+          payload: {
+            data: result[0],
+          },
+        });
+      } else {
+        dispatch({
+          type: "GET_PAGE_FAIL",
+          payload: {
+            data: false,
+            error: {
+              code: 742,
+              message: "Could not get page by handle",
+              origin: "pages",
+            },
+          },
+        });
+      }
     } else {
       dispatch({
-        type: "GET_PAGES_FAIL",
+        type: "GET_PAGE_FAIL",
         payload: {
           data: false,
           error: {
-            code: 721,
+            code: 741,
             message: "Could not get pages",
             origin: "pages",
           },

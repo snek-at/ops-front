@@ -8,6 +8,8 @@ import { MDBContainer } from "mdbreact";
 //> Components
 // Molecules
 import { SideNav } from "../../molecules";
+// Pages
+import { Page } from "../../organisms";
 //> Images
 // Too be added
 //#endregion
@@ -41,7 +43,9 @@ class HomePage extends React.Component {
 
   renderPages = (selectedPage) => {
     if (selectedPage.includes("page-")) {
-      return selectedPage;
+      const handle = selectedPage.split("page-")[1];
+
+      return <Page handle={handle} />;
     } else {
       return <p>Page not valid</p>;
     }
