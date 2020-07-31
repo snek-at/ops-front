@@ -8,6 +8,8 @@ import { MDBContainer } from "mdbreact";
 //> Components
 // Molecules
 import { SideNav } from "../../molecules";
+// Sections
+import { Pipelines } from "../../organisms";
 //> Images
 // Too be added
 //#endregion
@@ -47,7 +49,7 @@ class HomePage extends React.Component {
           className="main-container"
           style={{ paddingLeft: this.state.containerPaddingLeft }}
         >
-          <MDBContainer fluid>
+          <MDBContainer fluid className="my-5">
             {(() => {
               switch (this.state.page) {
                 case "home":
@@ -59,7 +61,7 @@ class HomePage extends React.Component {
                 case "connectors":
                   return <p>Connectors</p>;
                 case "pipelines":
-                  return <p>Pipelines</p>;
+                  return <Pipelines />;
                 case "gitlabs":
                   return <p>GitLabs</p>;
                 case "logout":

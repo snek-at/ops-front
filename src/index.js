@@ -23,6 +23,9 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
 import "mdbreact/dist/css/mdb.css";
+//> React Time Ago
+import JavascriptTimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 
 //> CSS
 // Root SCSS file
@@ -45,6 +48,13 @@ import registerServiceWorker from "./registerServiceWorker";
 //  return INTEL;
 //};
 
+// Initialize time ago
+JavascriptTimeAgo.addLocale(en);
+
+const getIntel = () => {
+  return true;
+};
+
 const composeEnhancers =
   typeof window === "object" &&
   process.env.NODE_ENV !== "production" &&
@@ -55,7 +65,13 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(
-  applyMiddleware(loadingBarMiddleware())
+  applyMiddleware(
+    loadingBarMiddleware(),
+    thunk.withExtraArgument({
+      // Intel
+      getIntel,
+    })
+  )
   // other store enhancers if any
 );
 
