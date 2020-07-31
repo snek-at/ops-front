@@ -4,6 +4,7 @@ export const getPageNames = () => {
     const result = [
       {
         name: "Werbeagentur Christian Aichner",
+        handle: "werbeagentur-christian-aichner",
       },
     ];
 
@@ -101,6 +102,7 @@ export const getPages = () => {
         ],
         company: {
           name: "Werbeagentur Christian Aichner",
+          handle: "werbeagentur-christian-aichner",
           description:
             "Advertisement Agency based in Villach-Landskron, Carinthia, Austria. Top Open Source agency in Carinthia.",
           /* Number of employees including founder (min. value: 1) */

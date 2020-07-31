@@ -132,10 +132,11 @@ class SideNavbar extends React.Component {
                 <NavText>{item.name}</NavText>
                 {handle === "pages" &&
                   this.props.pagenames.map((page, p) => {
-                    const handle = this.stringifyItemName(page.name);
-
                     return (
-                      <NavItem eventKey={"page-" + handle} key={i + "-" + p}>
+                      <NavItem
+                        eventKey={"page-" + page.handle}
+                        key={i + "-" + p}
+                      >
                         <NavText>{page.name}</NavText>
                       </NavItem>
                     );
