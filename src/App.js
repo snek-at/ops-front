@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
  * Footer: Global Footer
  * Navbar: Global navigation bar
  */
-import { Footer, Navbar } from "./components/molecules";
+import { Footer } from "./components/molecules";
 // Starts the page on top when reloaded or redirected
 import { ScrollToTop } from "./components/atoms";
 //> Routes
@@ -36,9 +36,8 @@ function App() {
     <>
       {/*<ScrollToTop>*/}
       <div className="flyout">
-        {/*<Navbar />*/}
         <main>
-          <p>So many wow.</p>
+          <Routes />
         </main>
         {/*<Footer />*/}
       </div>
@@ -56,5 +55,5 @@ export default withRouter(App);
 
 /**
  * SPDX-License-Identifier: (EUPL-1.2)
- * Copyright © 2019-2020 Simon Prast
+ * Copyright © 2020 Simon Prast
  */
