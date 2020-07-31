@@ -71,7 +71,6 @@ class SideNavbar extends React.Component {
 
     // Tell the parent component if expanded or not
     this.props.handleToggle(expNormalized);
-
     // Get names of pages
     this.props.getPageNames();
 
