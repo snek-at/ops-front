@@ -17,6 +17,7 @@ import {
 } from "mdbreact";
 //> Additional
 import ReactTimeAgo from "react-time-ago";
+
 //> Actions
 // Functions to send data from the application to the store
 import { getPipelines } from "../../../../store/actions/pipelineActions";

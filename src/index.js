@@ -23,7 +23,6 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
 import "mdbreact/dist/css/mdb.css";
-
 //> React Time Ago
 import JavascriptTimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
