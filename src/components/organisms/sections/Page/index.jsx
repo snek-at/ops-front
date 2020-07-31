@@ -34,7 +34,6 @@ class Page extends React.Component {
   };
 
   componentDidUpdate = () => {
-    console.log(this.props.page);
     // Check if there are no current pipelines set
     if (this.props.page && !this.state.page) {
       this.setState({
