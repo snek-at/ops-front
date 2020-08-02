@@ -5,6 +5,7 @@ const initState = {
   pagenames: [],
   projects: [],
   users: [],
+  user: null,
   error: null,
 };
 
@@ -116,6 +117,24 @@ const pageReducer = (state = initState, action) => {
       return {
         ...state,
         page: action.payload.data,
+        error: action.payload.error,
+      };
+    case "GET_USER_SUCCESS":
+      return {
+        ...state,
+        user: action.payload.data,
+        error: null,
+      };
+    case "GET_USER_FAIL":
+      console.error(
+        action.payload.error.code,
+        action.payload.error.origin,
+        action.payload.error.msg
+      );
+
+      return {
+        ...state,
+        user: action.payload.data,
         error: action.payload.error,
       };
     default:

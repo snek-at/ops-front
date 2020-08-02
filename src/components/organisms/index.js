@@ -4,6 +4,7 @@
 // Sections
 import Page from "./sections/Page";
 import Pipelines from "./sections/Pipelines";
+import User from "./sections/User";
 // Tabs
 import PageOverview from "./tabs/PageOverview";
 import PageProjects from "./tabs/PageProjects";
@@ -14,7 +15,17 @@ import PageImprint from "./tabs/PageImprint";
 
 //#region > Exports
 //> Organisms
-export { Page, Pipelines, PageOverview, PageProjects, PageUsers, PageImprint };
+export {
+  /* Sections */
+  Page,
+  Pipelines,
+  User,
+  /* Tabs */
+  PageOverview,
+  PageProjects,
+  PageUsers,
+  PageImprint,
+};
 //#endregion
 
 /**
