@@ -55,7 +55,6 @@ class User extends React.Component {
   };
 
   componentDidUpdate = (prevState) => {
-    console.log(this.props.user, this.props.handle);
     // Check if there is no current user set
     if (
       this.props.users !== prevState.users ||
@@ -76,8 +75,6 @@ class User extends React.Component {
 
   render() {
     const { user } = this.state;
-
-    console.log(user);
 
     return (
       <MDBContainer id="user">
