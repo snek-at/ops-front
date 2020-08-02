@@ -19,7 +19,9 @@ import { Page, Pipelines } from "../../organisms";
 class HomePage extends React.Component {
   state = {
     containerPaddingLeft: "60px",
-    page: "dashboard",
+    page: localStorage.getItem("nav")
+      ? localStorage.getItem("nav")
+      : "dashboard",
   };
 
   navToggle = (exp) => {
@@ -36,9 +38,12 @@ class HomePage extends React.Component {
   };
 
   navSelect = (selected) => {
-    this.setState({
-      page: selected,
-    });
+    this.setState(
+      {
+        page: selected,
+      },
+      () => localStorage.setItem("nav", selected)
+    );
   };
 
   renderPages = (selectedPage) => {
@@ -54,7 +59,15 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <SideNav handleToggle={this.navToggle} handleSelect={this.navSelect} />
+        <SideNav
+          handleToggle={this.navToggle}
+          handleSelect={this.navSelect}
+          default={
+            localStorage.getItem("nav")
+              ? localStorage.getItem("nav")
+              : "dashboard"
+          }
+        />
         <div
           className="main-container"
           style={{ paddingLeft: this.state.containerPaddingLeft }}

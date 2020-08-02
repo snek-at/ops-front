@@ -118,7 +118,7 @@ class SideNavbar extends React.Component {
         expanded={this.state.expanded}
       >
         <SideNav.Toggle />
-        <SideNav.Nav defaultSelected="dashboard">
+        <SideNav.Nav defaultSelected={this.props.default}>
           <div className="w-100" />
           {MENU_ITEMS.map((item, i) => {
             const handle = this.stringifyItemName(item.name);
