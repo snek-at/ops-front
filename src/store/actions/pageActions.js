@@ -217,7 +217,7 @@ export const getActivity = () => {
         },
         action: "deployed",
         ref: { commit: "7bf03116" },
-        time: 1596034377000,
+        time: 1596034377 * 1000,
       },
       {
         author: {
@@ -234,7 +234,7 @@ export const getActivity = () => {
           },
           commit: "fad4f881",
         },
-        time: 1596024377000,
+        time: 1596024377 * 1000,
       },
     ];
 
