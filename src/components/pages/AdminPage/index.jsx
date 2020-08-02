@@ -14,6 +14,10 @@ import { Page, Pipelines } from "../../organisms";
 // Too be added
 //#endregion
 
+//#region > Config
+const DEFAULT_PAGE = "dashboard";
+//#endregion
+
 //#region > Components
 /** @class The Admin parent page component which will include all Admin pages */
 class HomePage extends React.Component {
@@ -21,7 +25,7 @@ class HomePage extends React.Component {
     containerPaddingLeft: "60px",
     page: localStorage.getItem("nav")
       ? localStorage.getItem("nav")
-      : "dashboard",
+      : DEFAULT_PAGE,
   };
 
   navToggle = (exp) => {
@@ -65,7 +69,7 @@ class HomePage extends React.Component {
           default={
             localStorage.getItem("nav")
               ? localStorage.getItem("nav")
-              : "dashboard"
+              : DEFAULT_PAGE
           }
         />
         <div
