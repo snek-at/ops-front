@@ -228,6 +228,10 @@ export const getActivity = () => {
         ref: {
           from: "implement-1",
           to: "master",
+          code: {
+            add: 302,
+            sub: 759,
+          },
           commit: "fad4f881",
         },
         time: 1596024377000,

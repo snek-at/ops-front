@@ -55,10 +55,10 @@ class PageOverview extends React.Component {
     return (
       <MDBRow id="overview">
         <MDBCol lg="4">
-          <p>Test</p>
+          <p>Code Statistics</p>
         </MDBCol>
         <MDBCol lg="4">
-          <p>Test</p>
+          <p>Chart</p>
         </MDBCol>
         <MDBCol lg="4">
           <p>Activity</p>
@@ -112,13 +112,62 @@ class PageOverview extends React.Component {
                           <code>{activity.ref.commit}</code>
                         </p>
                         {activity.action === "merged" && (
-                          <p className="mb-0 text-muted small">
-                            {activity.ref.from} <MDBIcon icon="angle-right" />{" "}
-                            {activity.ref.to}
+                          <p className="mb-0 text-muted">
+                            <small>
+                              {activity.ref.from} <MDBIcon icon="angle-right" />{" "}
+                              {activity.ref.to}
+                            </small>
+                            <code>
+                              {activity.ref.code.add - activity.ref.code.sub >
+                              0 ? (
+                                <span className="text-success">
+                                  <MDBIcon
+                                    icon="plus"
+                                    size="sm"
+                                    className="mr-1"
+                                  />
+                                  {activity.ref.code.add -
+                                    activity.ref.code.sub}
+                                </span>
+                              ) : (
+                                <span className="text-danger">
+                                  <MDBIcon
+                                    icon="minus"
+                                    size="sm"
+                                    className="mr-1"
+                                  />
+                                  {(activity.ref.code.add -
+                                    activity.ref.code.sub) *
+                                    -1}
+                                </span>
+                              )}
+                            </code>
+                          </p>
+                        )}
+                        {activity.ref.code && (
+                          <p className="mb-0">
+                            <code>
+                              <span className="text-success">
+                                <MDBIcon
+                                  icon="plus"
+                                  size="sm"
+                                  className="mr-1"
+                                />
+                                {activity.ref.code.add}
+                              </span>
+                              <span className="text-danger ml-2">
+                                <MDBIcon
+                                  icon="minus"
+                                  size="sm"
+                                  className="mr-1"
+                                />
+                                {activity.ref.code.sub}
+                              </span>
+                            </code>
                           </p>
                         )}
                         <p className="mb-0 text-muted small">
-                          {moment(activity.time).format("MMM Do [at] H:mm:ss")}
+                          {moment(activity.time).endOf("day").fromNow()}
                         </p>
                       </div>
                     </MDBListGroupItem>
