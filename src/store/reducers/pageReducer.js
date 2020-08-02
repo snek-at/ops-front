@@ -3,6 +3,7 @@ const initState = {
   page: null,
   activities: [],
   pagenames: [],
+  projects: [],
   error: null,
 };
 
@@ -60,6 +61,24 @@ const pageReducer = (state = initState, action) => {
       return {
         ...state,
         activities: [],
+        error: action.payload.error,
+      };
+    case "GET_PROJECTS_SUCCESS":
+      return {
+        ...state,
+        projects: action.payload.data ? action.payload.data : [],
+        error: null,
+      };
+    case "GET_PROJECTS_FAIL":
+      console.error(
+        action.payload.error.code,
+        action.payload.error.origin,
+        action.payload.error.msg
+      );
+
+      return {
+        ...state,
+        projects: [],
         error: action.payload.error,
       };
     default:

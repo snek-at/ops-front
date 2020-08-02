@@ -251,9 +251,54 @@ export const getActivity = () => {
         payload: {
           data: false,
           error: {
-            code: 740,
+            code: 743,
             message: "Could not get activities",
             origin: "activities",
+          },
+        },
+      });
+    }
+  };
+};
+
+export const getProjects = () => {
+  return (dispatch, getState, { getIntel }) => {
+    // Dummy Data
+    const result = [
+      {
+        title: "Looking Glass",
+        history: "Pls implement",
+      },
+      {
+        title: "SSH Auth",
+        history: "Pls implement",
+      },
+      {
+        title: "DNS Lookup",
+        history: "Pls implement",
+      },
+      {
+        title: "Netcup Website",
+        history: "Pls implement",
+      },
+    ];
+
+    if (result) {
+      dispatch({
+        type: "GET_PROJECTS_SUCCESS",
+        payload: {
+          data: result,
+        },
+      });
+    } else {
+      dispatch({
+        type: "GET_PROJECTS_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 744,
+            message: "Could not get projects",
+            origin: "projects",
           },
         },
       });

@@ -6,12 +6,13 @@ import Page from "./sections/Page";
 import Pipelines from "./sections/Pipelines";
 // Tabs
 import PageOverview from "./tabs/PageOverview";
+import PageProjects from "./tabs/PageProjects";
 // Other components
 //#endregion
 
 //#region > Exports
 //> Organisms
-export { Page, Pipelines, PageOverview };
+export { Page, Pipelines, PageOverview, PageProjects };
 //#endregion
 
 /**

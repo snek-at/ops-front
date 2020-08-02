@@ -34,7 +34,7 @@ import {
 // Functions to send data from the application to the store
 import { getPageByHandle } from "../../../../store/actions/pageActions";
 //> Components
-import { PageOverview } from "../../";
+import { PageOverview, PageProjects } from "../../";
 //> CSS
 import "./page.scss";
 //> Images
@@ -419,23 +419,38 @@ class Page extends React.Component {
               </MDBCard>
             </MDBCol>
             <MDBCol lg="12">
-              <MDBNav tabs>
-                {TAB_ITEMS.map((tab, t) => {
-                  return (
-                    <MDBNavItem key={t}>
-                      <MDBNavLink
-                        link
-                        to="#"
-                        active={this.state.activeItem === t}
-                        onClick={(e) => this.toggle(e, t)}
-                        role="tab"
-                      >
-                        <MDBIcon icon={tab.icon} />
-                        {tab.name}
-                      </MDBNavLink>
-                    </MDBNavItem>
-                  );
-                })}
+              <MDBNav tabs className="d-flex justify-content-between">
+                <div className="d-flex">
+                  {TAB_ITEMS.map((tab, t) => {
+                    return (
+                      <MDBNavItem key={t}>
+                        <MDBNavLink
+                          link
+                          to="#"
+                          active={this.state.activeItem === t}
+                          onClick={(e) => this.toggle(e, t)}
+                          role="tab"
+                        >
+                          <MDBIcon icon={tab.icon} />
+                          {tab.name}
+                        </MDBNavLink>
+                      </MDBNavItem>
+                    );
+                  })}
+                </div>
+                <div>
+                  {(this.state.activeItem === 1 ||
+                    this.state.activeItem === 2) && (
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search"
+                      onChange={(e) =>
+                        this.setState({ globalFilter: e.target.value })
+                      }
+                    />
+                  )}
+                </div>
               </MDBNav>
               <MDBTabContent
                 className="card"
@@ -445,7 +460,7 @@ class Page extends React.Component {
                   <PageOverview />
                 </MDBTabPane>
                 <MDBTabPane tabId={1} role="tabpanel">
-                  <p>Test</p>
+                  <PageProjects filter={this.state.globalFilter} />
                 </MDBTabPane>
                 <MDBTabPane tabId={2} role="tabpanel">
                   <p>Test</p>
