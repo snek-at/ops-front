@@ -33,8 +33,8 @@ import {
 //> Actions
 // Functions to send data from the application to the store
 import {
-  getUserByHandle,
-  getUsers,
+  getProjectByHandle,
+  getProjects,
 } from "../../../../store/actions/pageActions";
 //> Images
 // Too be added
@@ -42,48 +42,49 @@ import {
 
 //#region > Components
 /** @class This component displays pipelines */
-class User extends React.Component {
+class Project extends React.Component {
   state = {
-    user: null,
+    project: null,
   };
 
   componentDidMount = () => {
     // Retrieve Pipelines
-    this.props.getUsers();
+    this.props.getProjects();
   };
 
   componentDidUpdate = (prevState) => {
-    // Check if there is no current user set
+    // Check if there is no current project set
     if (
-      this.props.users !== prevState.users ||
-      (this.props.user && this.props.user.username !== this.props.handle)
+      this.props.projects !== prevState.projects ||
+      (this.props.project && this.props.project.handle !== this.props.handle)
     ) {
-      this.props.getUserByHandle(this.props.handle);
+      console.log(this.props.handle);
+      this.props.getProjectByHandle(this.props.handle);
     }
 
     if (
-      (this.props.user && !this.state.user) ||
-      (this.state.user && this.state.user.username !== this.props.handle)
+      (this.props.project && !this.state.project) ||
+      (this.state.project && this.state.project.handle !== this.props.handle)
     ) {
       this.setState({
-        user: this.props.user,
+        project: this.props.project,
       });
     }
   };
 
   render() {
-    const { user } = this.state;
+    const { project } = this.state;
 
     return (
-      <MDBContainer id="user">
-        {user ? (
+      <MDBContainer id="project">
+        {project ? (
           <div>
-            <p>{user.avatar}</p>
-            <p>{user.username}</p>
+            <p>{project.handle}</p>
+            <p>{project.title}</p>
           </div>
         ) : (
           <div>
-            <p>No user</p>
+            <p>No project</p>
           </div>
         )}
       </MDBContainer>
@@ -94,14 +95,14 @@ class User extends React.Component {
 
 //#region > Redux Mapping
 const mapStateToProps = (state) => ({
-  user: state.pages.user,
-  users: state.pages.users,
+  project: state.pages.project,
+  projects: state.pages.projects,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUserByHandle: (handle) => dispatch(getUserByHandle(handle)),
-    getUsers: () => dispatch(getUsers()),
+    getProjectByHandle: (handle) => dispatch(getProjectByHandle(handle)),
+    getProjects: () => dispatch(getProjects()),
   };
 };
 //#endregion
@@ -114,7 +115,7 @@ const mapDispatchToProps = (dispatch) => {
  * Got access to the history object’s properties and the closest
  * <Route>'s match.
  */
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default connect(mapStateToProps, mapDispatchToProps)(Project);
 //#endregion
 
 /**

@@ -463,7 +463,10 @@ class Page extends React.Component {
                   <PageOverview />
                 </MDBTabPane>
                 <MDBTabPane tabId={1} role="tabpanel">
-                  <PageProjects filter={this.state.globalFilter} />
+                  <PageProjects
+                    filter={this.state.globalFilter}
+                    navigateTo={this.props.navigateTo}
+                  />
                 </MDBTabPane>
                 <MDBTabPane tabId={2} role="tabpanel">
                   <PageUsers
