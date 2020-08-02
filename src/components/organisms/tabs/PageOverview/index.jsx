@@ -54,13 +54,31 @@ class PageOverview extends React.Component {
     return (
       <MDBRow id="pageoverview">
         <MDBCol lg="4">
-          <p>Code Statistics</p>
+          <div className="mt-3">
+            <p className="lead font-weight-bold mb-0">Code statistics</p>
+            <p className="text-muted small">
+              <MDBIcon icon="question-circle" className="mr-2" />
+              Lorem Ipsum Dolor sit amet.
+            </p>
+          </div>
         </MDBCol>
         <MDBCol lg="4">
-          <p>Chart</p>
+          <div className="mt-3">
+            <p className="lead font-weight-bold mb-0">Chart</p>
+            <p className="text-muted small">
+              <MDBIcon icon="question-circle" className="mr-2" />
+              Lorem Ipsum Dolor sit amet.
+            </p>
+          </div>
         </MDBCol>
         <MDBCol lg="4">
-          <p>Activity</p>
+          <div className="mt-3">
+            <p className="lead font-weight-bold mb-0">Activity</p>
+            <p className="text-muted small">
+              <MDBIcon icon="question-circle" className="mr-2" />
+              Lorem Ipsum Dolor sit amet.
+            </p>
+          </div>
           <MDBListGroup>
             {activities ? (
               <>
