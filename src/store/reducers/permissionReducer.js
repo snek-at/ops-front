@@ -17,7 +17,7 @@ const permissionReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       return {
@@ -35,7 +35,7 @@ const permissionReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       // Return unchanged state
@@ -53,7 +53,7 @@ const permissionReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       return {

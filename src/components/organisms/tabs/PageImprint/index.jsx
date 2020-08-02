@@ -29,89 +29,13 @@ import moment from "moment";
 //> Actions
 // Functions to send data from the application to the store
 import { editImprint } from "../../../../store/actions/pageActions";
+//> Components
+import { AIInput, AIToggle } from "../../../atoms";
 //> Images
 // Too be added
 //#endregion
 
 //#region > Components
-class AICheckbox extends React.Component {
-  render() {
-    const {
-      title,
-      description,
-      name,
-      labelLeft,
-      labelRight,
-      checked,
-    } = this.props;
-
-    return (
-      <>
-        <p className="mb-0 mt-3">{title}</p>
-        <p className="text-muted small mb-1">{description}</p>
-        <MDBSwitch
-          name={name}
-          labelLeft={labelLeft}
-          labelRight={labelRight}
-          checked={checked}
-          onChange={() => this.props.change(name)}
-        />
-      </>
-    );
-  }
-}
-
-class AIInput extends React.Component {
-  render() {
-    const { type, title, description, name, placeholder, value } = this.props;
-
-    if (type !== "textarea") {
-      return (
-        <>
-          {title && <p className="mb-0 mt-3">{title}</p>}
-          {description && (
-            <p className="text-muted small mb-1">{description}</p>
-          )}
-          <input
-            type={type ? type : "text"}
-            name={name}
-            placeholder={placeholder}
-            value={value}
-            onChange={(e) =>
-              this.props.handleChange(
-                e.target.name,
-                type === "number"
-                  ? !isNaN(e.target.value)
-                    ? parseInt(e.target.value)
-                    : e.target.value
-                  : e.target.value
-              )
-            }
-            className="form-control"
-          />
-        </>
-      );
-    } else {
-      return (
-        <>
-          <p className="mb-0 mt-3">{title}</p>
-          <p className="text-muted small mb-1">{description}</p>
-          <textarea
-            name={name}
-            placeholder={placeholder}
-            value={value}
-            rows="4"
-            onChange={(e) =>
-              this.props.handleChange(e.target.name, e.target.value)
-            }
-            className="form-control"
-          />
-        </>
-      );
-    }
-  }
-}
-
 /** @class This component displays page overview of the page section */
 class PageImprint extends React.Component {
   state = { page: null };
@@ -216,7 +140,7 @@ class PageImprint extends React.Component {
                     handleChange={this.handleChange}
                   />
                   <hr />
-                  <AICheckbox
+                  <AIToggle
                     title="VAT Number"
                     description="Is your company entitled to deduct pre-tax?"
                     checked={this.state.page.company.hasVAT}
@@ -257,7 +181,7 @@ class PageImprint extends React.Component {
               <MDBCard>
                 <MDBCardBody>
                   <p className="lead">Other information</p>
-                  <AICheckbox
+                  <AIToggle
                     title="Open Source"
                     description="Does your enterprise produce open source software?"
                     checked={this.state.page.company.isOpenSource}
@@ -284,7 +208,7 @@ class PageImprint extends React.Component {
                     </>
                   )}
                   <hr />
-                  <AICheckbox
+                  <AIToggle
                     title="Recruiting"
                     description="Is your enterprise currently recruiting?"
                     checked={this.state.page.company.isRecruiting}
