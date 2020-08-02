@@ -95,6 +95,7 @@ class GitLabs extends React.Component {
       selectedGitLab: null,
       testing: undefined,
       addGitLab: false,
+      authorizedUser: undefined,
     });
   };
 
@@ -178,7 +179,11 @@ class GitLabs extends React.Component {
                 <MDBListGroupItem
                   className="d-flex justify-content-between align-items-center clickable"
                   onClick={() =>
-                    this.setState({ modal: true, selectedGitLab: gitlab })
+                    this.setState({
+                      modal: true,
+                      selectedGitLab: gitlab,
+                      authorizedUser: gitlab.username,
+                    })
                   }
                   key={p}
                 >
@@ -315,15 +320,14 @@ class GitLabs extends React.Component {
               <hr />
               <MDBRow className="mt-3">
                 <MDBCol lg="6">
-                  {this.state.selectedGitLab.username &&
-                    !this.state.addGitLab && (
-                      <div className="mb-2">
-                        <code className="text-success">
-                          <MDBIcon icon="check-circle" className="mr-2" />
-                          Authenticated as {this.state.selectedGitLab.username}
-                        </code>
-                      </div>
-                    )}
+                  {this.state.selectedGitLab.username && !this.state.addGitLab && (
+                    <div className="mb-2">
+                      <code className="text-success">
+                        <MDBIcon icon="check-circle" className="mr-2" />
+                        Authenticated as {this.state.authorizedUser}
+                      </code>
+                    </div>
+                  )}
                   <AIInput
                     description="Enter your GitLab username"
                     name="username"
