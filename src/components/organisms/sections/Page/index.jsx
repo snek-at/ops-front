@@ -94,6 +94,7 @@ class Page extends React.Component {
   // Toggle the visible tab
   toggle = (e, tab) => {
     e.preventDefault();
+    e.stopPropagation();
 
     if (this.state.activeItem !== tab) {
       this.setState(
