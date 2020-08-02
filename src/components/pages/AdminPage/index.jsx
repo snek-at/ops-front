@@ -69,6 +69,8 @@ class HomePage extends React.Component {
     } else if (selectedPage.includes("user-")) {
       const handle = selectedPage.split("user-")[1];
 
+      console.log(handle);
+
       return <User handle={handle} navigateTo={this.navigateTo} />;
     } else {
       return <p>Page not valid</p>;

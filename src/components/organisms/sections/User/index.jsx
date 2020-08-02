@@ -55,12 +55,19 @@ class User extends React.Component {
   };
 
   componentDidUpdate = (prevState) => {
+    console.log(this.props.user, this.props.handle);
     // Check if there is no current user set
-    if (this.props.users !== prevState.users) {
+    if (
+      this.props.users !== prevState.users ||
+      (this.props.user && this.props.user.username !== this.props.handle)
+    ) {
       this.props.getUserByHandle(this.props.handle);
     }
 
-    if (this.props.user && !this.state.user) {
+    if (
+      (this.props.user && !this.state.user) ||
+      (this.state.user && this.state.user.username !== this.props.handle)
+    ) {
       this.setState({
         user: this.props.user,
       });
