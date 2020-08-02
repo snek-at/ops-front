@@ -37,6 +37,8 @@ export const getPageByHandle = (handle) => {
     // Dummy Data - retrieve all pages
     const results = [
       {
+        /* 1 = Heavy, 2 = Moderate, 3 = Light, 4 = Open */
+        restrictionLevel: 2,
         milestones: [
           { date: "11.11.2017", name: "First employee", icon: "user-circle" },
           { date: "20.09.2017", name: "Foundation", icon: "fire-alt" },
@@ -107,8 +109,9 @@ export const getPageByHandle = (handle) => {
             "Advertisement Agency based in Villach-Landskron, Carinthia, Austria. Top Open Source agency in Carinthia.",
           /* Number of employees including founder (min. value: 1) */
           employees: 3,
+          hasVAT: true,
           vat: {
-            id: "ATU72504738",
+            value: "ATU72504738",
             verified: true,
           },
           /* Company contact email */
@@ -156,11 +159,10 @@ export const getPageByHandle = (handle) => {
           ],
           /* Is this company searching for new employees */
           isRecruiting: true,
+          recruitmentUrl: "",
           /* Is the company developing open source or is some of its software open source? */
           isOpenSource: true,
-          references: {
-            github: "https://github.com/aichner",
-          },
+          openSourceUrl: "https://github.com/aichner",
         },
       },
     ];
@@ -197,6 +199,187 @@ export const getPageByHandle = (handle) => {
             code: 741,
             message: "Could not get pages",
             origin: "pages",
+          },
+        },
+      });
+    }
+  };
+};
+
+export const getActivity = () => {
+  return (dispatch, getState, { getIntel }) => {
+    // Dummy Data
+    const result = [
+      {
+        author: {
+          name: "Helmut Schmidt",
+          avatar: "https://mdbootstrap.com/img/Photos/Avatars/img%20(9).jpg",
+        },
+        action: "deployed",
+        ref: { commit: "7bf03116" },
+        time: 1596034377 * 1000,
+      },
+      {
+        author: {
+          name: "Helen Karen",
+          avatar: "https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg",
+        },
+        action: "merged",
+        ref: {
+          from: "implement-1",
+          to: "master",
+          code: {
+            add: 302,
+            sub: 759,
+          },
+          commit: "fad4f881",
+        },
+        time: 1596024377 * 1000,
+      },
+    ];
+
+    if (result) {
+      dispatch({
+        type: "GET_ACTIVITIES_SUCCESS",
+        payload: {
+          data: result,
+        },
+      });
+    } else {
+      dispatch({
+        type: "GET_ACTIVITIES_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 743,
+            message: "Could not get activities",
+            origin: "activities",
+          },
+        },
+      });
+    }
+  };
+};
+
+export const getProjects = () => {
+  return (dispatch, getState, { getIntel }) => {
+    // Dummy Data
+    const result = [
+      {
+        title: "Looking Glass",
+        history: "Pls implement uwu",
+      },
+      {
+        title: "SSH Auth",
+        history: "Pls implement uwu",
+      },
+      {
+        title: "DNS Lookup",
+        history: "Pls implement uwu",
+      },
+      {
+        title: "Netcup Website",
+        history: "Pls implement uwu",
+      },
+    ];
+
+    if (result) {
+      dispatch({
+        type: "GET_PROJECTS_SUCCESS",
+        payload: {
+          data: result,
+        },
+      });
+    } else {
+      dispatch({
+        type: "GET_PROJECTS_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 744,
+            message: "Could not get projects",
+            origin: "projects",
+          },
+        },
+      });
+    }
+  };
+};
+
+export const getUsers = () => {
+  return (dispatch, getState, { getIntel }) => {
+    // Dummy Data
+    const result = [
+      {
+        name: "Helen Karen",
+        username: "helenk",
+        avatar: "https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg",
+        history: "Pls implement uwu",
+      },
+      {
+        name: "Nico Schett",
+        username: "schettn",
+        avatar: "https://mdbootstrap.com/img/Photos/Avatars/img%20(18).jpg",
+        history: "Pls implement uwu",
+      },
+    ];
+
+    if (result) {
+      dispatch({
+        type: "GET_USERS_SUCCESS",
+        payload: {
+          data: result,
+        },
+      });
+    } else {
+      dispatch({
+        type: "GET_USERS_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 745,
+            message: "Could not get users",
+            origin: "projects",
+          },
+        },
+      });
+    }
+  };
+};
+
+export const editImprint = (newCompanyInfo) => {
+  return (dispatch, getState, { getIntel }) => {
+    /* 
+    Save changes like:
+    const page = {test: 123, test2: 456}; -> {test: 123, test2: 456}
+    const editedPage = {...foo, test:789}; -> {test: 789, test2: 456}
+    You can overwrite values in an object like that.
+    */
+
+    let page = getState().pages.page;
+    // Get current company data
+    const companyInfo = page.company;
+    // Infuse company data like marinade in a good steak
+    const infusedCompanyInfo = { ...companyInfo, ...newCompanyInfo.company };
+    // Overwrite old company info with new company info
+    page = { ...page, company: infusedCompanyInfo };
+
+    if (true === true) {
+      dispatch({
+        type: "EDIT_COMPANY_SUCCESS",
+        payload: {
+          data: page,
+        },
+      });
+    } else {
+      dispatch({
+        type: "EDIT_COMPANY_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 746,
+            message: "Could not edit imprint",
+            origin: "imprint",
           },
         },
       });

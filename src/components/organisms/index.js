@@ -4,12 +4,17 @@
 // Sections
 import Page from "./sections/Page";
 import Pipelines from "./sections/Pipelines";
+// Tabs
+import PageOverview from "./tabs/PageOverview";
+import PageProjects from "./tabs/PageProjects";
+import PageUsers from "./tabs/PageUsers";
+import PageImprint from "./tabs/PageImprint";
 // Other components
 //#endregion
 
 //#region > Exports
 //> Organisms
-export { Page, Pipelines };
+export { Page, Pipelines, PageOverview, PageProjects, PageUsers, PageImprint };
 //#endregion
 
 /**

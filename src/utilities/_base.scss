@@ -12,7 +12,7 @@
 // Buttons
 .btn {
   box-shadow: none;
-  border-radius: 0;
+  border-radius: 0.4rem;
   text-transform: initial;
 
   i {
@@ -143,9 +143,7 @@
 
 // Google icon
 .fa-google {
-  background:
-
-    conic-gradient(
+  background: conic-gradient(
       from -45deg,
       #ea4335 110deg,
       #4285f4 90deg 180deg,
