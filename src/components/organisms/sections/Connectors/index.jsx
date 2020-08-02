@@ -20,6 +20,10 @@ import {
   MDBCol,
   MDBAlert,
   MDBBtn,
+  MDBSelect,
+  MDBSelectInput,
+  MDBSelectOption,
+  MDBSelectOptions,
 } from "mdbreact";
 //> Additional
 // Everything time related
@@ -27,7 +31,14 @@ import moment from "moment";
 
 //> Actions
 // Functions to send data from the application to the store
-import { getConnectors } from "../../../../store/actions/connectorActions";
+import {
+  getConnectors,
+  testConnection,
+  alterConnector,
+  createConnector,
+  removeConnector,
+} from "../../../../store/actions/connectorActions";
+import { getGitLabs } from "../../../../store/actions/gitlabActions";
 //> Components
 import { AIInput, AIToggle } from "../../../atoms";
 //> Images
@@ -40,8 +51,10 @@ class Connectors extends React.Component {
   state = { modal: false };
 
   componentDidMount = () => {
-    // Retrieve GitLabs
+    // Retrieve Connectors
     this.props.getConnectors();
+    // Retrieve GitLabs
+    this.props.getGitLabs();
   };
 
   componentDidUpdate = () => {
@@ -93,9 +106,7 @@ class Connectors extends React.Component {
     });
   };
 
-  handleGitLabChange = (name, value) => {
-    console.log(name, value);
-
+  handleConnectorChange = (name, value) => {
     this.setState({
       selectedConnector: {
         ...this.state.selectedConnector,
@@ -104,7 +115,7 @@ class Connectors extends React.Component {
     });
   };
 
-  handleGitLabModeChange = (name) => {
+  handleConnectorModeChange = (name) => {
     this.setState({
       selectedConnector: {
         ...this.state.selectedConnector,
@@ -234,9 +245,7 @@ class Connectors extends React.Component {
               <div className="d-flex justify-content-between">
                 <p className="lead font-weight-bold">
                   {!this.state.addConnector
-                    ? this.state.selectedConnector.domain
-                      ? this.state.selectedConnector.domain
-                      : this.state.selectedConnector.ip
+                    ? this.state.selectedConnector.name
                     : "Add new Connector"}
                 </p>
                 <MDBBtn
@@ -249,13 +258,22 @@ class Connectors extends React.Component {
                   Cancel
                 </MDBBtn>
               </div>
+              <AIInput
+                title="Connector name"
+                description="Enter a name for the connector"
+                name="name"
+                placeholder="Connector Name"
+                value={this.state.selectedConnector.name}
+                handleChange={this.handleConnectorChange}
+                key="name"
+              />
               <MDBRow>
                 <MDBCol lg="6">
                   <AIToggle
                     title="Domain / IP"
                     description="Reach Connector server by domain or ip address?"
                     checked={!this.state.selectedConnector.useIP}
-                    change={this.handleGitLabModeChange}
+                    change={this.handleConnectorModeChange}
                     name="useIP"
                     labelLeft="IP"
                     labelRight="Domain"
@@ -269,7 +287,7 @@ class Connectors extends React.Component {
                       name="ip"
                       placeholder="Connector IP"
                       value={this.state.selectedConnector.ip}
-                      handleChange={this.handleGitLabChange}
+                      handleChange={this.handleConnectorChange}
                       key="ip"
                     />
                   ) : (
@@ -279,7 +297,7 @@ class Connectors extends React.Component {
                       name="domain"
                       placeholder="Connector Domain"
                       value={this.state.selectedConnector.domain}
-                      handleChange={this.handleGitLabChange}
+                      handleChange={this.handleConnectorChange}
                       key="domain"
                     />
                   )}
@@ -288,31 +306,82 @@ class Connectors extends React.Component {
               <hr />
               <MDBRow className="mt-3">
                 <MDBCol lg="6">
-                  <AIToggle
-                    title="Privacy mode"
-                    description="This determines what information is being fetched."
-                    checked={!this.state.selectedConnector.isIDC}
-                    change={this.handleGitLabModeChange}
-                    name="isIDC"
-                    labelLeft="IDC"
-                    labelRight="POLP"
-                  />
+                  {this.props.gitlabs ? (
+                    <>
+                      <MDBSelect
+                        label="Select GitLab"
+                        getValue={(value) =>
+                          this.setState({
+                            selectedConnector: {
+                              ...this.state.selectedConnector,
+                              gitlab: [{ handle: value }],
+                            },
+                          })
+                        }
+                      >
+                        <MDBSelectInput selected="Choose your GitLab" />
+                        <MDBSelectOptions>
+                          <MDBSelectOption disabled>
+                            Choose your GitLab
+                          </MDBSelectOption>
+                          {this.props.gitlabs &&
+                            this.props.gitlabs.map((gitlab) => {
+                              return (
+                                <MDBSelectOption
+                                  value={gitlab.id}
+                                  key={gitlab.id}
+                                >
+                                  {gitlab.useIP ? gitlab.ip : gitlab.domain}
+                                </MDBSelectOption>
+                              );
+                            })}
+                        </MDBSelectOptions>
+                      </MDBSelect>
+                    </>
+                  ) : (
+                    <MDBAlert color="warning">
+                      <p className="mb-0">Please connect a GitLab first.</p>
+                    </MDBAlert>
+                  )}
                 </MDBCol>
                 <MDBCol lg="6">
-                  <MDBAlert color="info" className="mb-0">
-                    <p className="mb-0">
-                      <strong>IDC</strong>
-                    </p>
-                    <p className="small">
-                      Fetch all information the user has access to.
-                    </p>
-                    <p className="mb-0">
-                      <strong>POLP</strong>
-                    </p>
-                    <p className="small mb-0">
-                      Fetch all projects the user has access to.
-                    </p>
-                  </MDBAlert>
+                  {this.props.pagenames ? (
+                    <>
+                      <MDBSelect
+                        label="Select Page"
+                        getValue={(value) =>
+                          this.setState({
+                            selectedConnector: {
+                              ...this.state.selectedConnector,
+                              page: value,
+                            },
+                          })
+                        }
+                      >
+                        <MDBSelectInput selected="Choose your Page" />
+                        <MDBSelectOptions>
+                          <MDBSelectOption disabled>
+                            Choose your Page
+                          </MDBSelectOption>
+                          {this.props.pagenames &&
+                            this.props.pagenames.map((page) => {
+                              return (
+                                <MDBSelectOption
+                                  value={page.handle}
+                                  key={page.handle}
+                                >
+                                  {page.name}
+                                </MDBSelectOption>
+                              );
+                            })}
+                        </MDBSelectOptions>
+                      </MDBSelect>
+                    </>
+                  ) : (
+                    <MDBAlert color="warning">
+                      <p className="mb-0">Please create a page first.</p>
+                    </MDBAlert>
+                  )}
                 </MDBCol>
               </MDBRow>
               <div className="d-flex justify-content-between mt-3">
@@ -321,7 +390,7 @@ class Connectors extends React.Component {
                     <MDBBtn
                       color="danger"
                       onClick={() => {
-                        this.props.removeGitlab(
+                        this.props.removeConnector(
                           this.state.selectedConnector.id
                         );
                         this.toggleModal();
@@ -381,12 +450,14 @@ class Connectors extends React.Component {
                     size="md"
                     onClick={() => {
                       if (!this.state.addConnector) {
-                        this.props.alterGitlab(
+                        this.props.alterConnector(
                           this.state.selectedConnector.id,
                           this.state.selectedConnector
                         );
                       } else {
-                        this.props.createGitlab(this.state.selectedConnector);
+                        this.props.createConnector(
+                          this.state.selectedConnector
+                        );
                       }
                       this.toggleModal();
                     }}
@@ -408,11 +479,18 @@ class Connectors extends React.Component {
 //#region > Redux Mapping
 const mapStateToProps = (state) => ({
   connectors: state.connectors.connectors,
+  pagenames: state.pages.pagenames,
+  gitlabs: state.gitlabs.gitlabs,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getConnectors: () => dispatch(getConnectors()),
+    getGitLabs: () => dispatch(getGitLabs()),
+    testConnection: (connector) => dispatch(testConnection(connector)),
+    alterConnector: (id, connector) => dispatch(alterConnector(id, connector)),
+    createConnector: (connector) => dispatch(createConnector(connector)),
+    removeConnector: (id) => dispatch(removeConnector(id)),
   };
 };
 //#endregion

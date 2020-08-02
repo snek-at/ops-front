@@ -6,6 +6,7 @@ export const getConnectors = () => {
       {
         id: "553cf7eaa7f418e0df38e37b05f67325d33485ffb0e063bf4ce679121061f5ac",
         name: "CodeShare",
+        useIP: true,
         ip: "192.168.69.1",
         domain: null,
         isActive: true,
@@ -16,21 +17,22 @@ export const getConnectors = () => {
           },
         ],
         settings: {
-          shared: {
-            projects: [{ title: "Projekt 1" }, { title: "Projekt 2" }],
-            users: [
-              { full_name: "Florian Schett" },
-              { full_name: "Nico Kleber" },
-            ],
-            companyData: {
-              legal_name: "Werbeagentur Christian Aichner",
+          settings: {
+            shared: {
+              projects: ["looking-glass"],
+              users: ["kleberf", "schettn"],
+              companyData: {
+                name: true,
+                isRecruiting: true,
+                recruitmentUrl: false,
+                description: true,
+                employees: false,
+                vat: true,
+                email: true,
+                isOpenSource: true,
+                openSourceUrl: true,
+              },
             },
-            statistics: {
-              memberOrigin: false,
-            },
-          },
-          contribData: {
-            commits: [{ total: 1 }],
           },
         },
       },
@@ -120,42 +122,21 @@ export const getConnectorById = (id) => {
   };
 };
 
-// Test connector
-export const testConnector = (connector) => {
-  return (dispatch, getState, { getIntel }) => {
+// Test Connector connection
+export const testConnection = (connector) => {
+  return async (dispatch, getState, { getIntel }) => {
     if (connector) {
       if (true === true) {
-        dispatch({
-          type: "TEST_CONNECTOR_SUCCESS",
-          payload: {
-            data: true,
-          },
-        });
+        // Wait for 2 sec to simulate connection test
+        await wait(2000);
+
+        return true;
       } else {
-        dispatch({
-          type: "TEST_CONNECTOR_FAIL",
-          payload: {
-            data: false,
-            error: {
-              code: 702,
-              message: "Connector test failed for " + connector.name,
-              origin: "connectors",
-            },
-          },
-        });
+        // Wait for 2 sec to simulate connection test
+        await wait(2000);
+
+        return false;
       }
-    } else {
-      dispatch({
-        type: "TEST_CONNECTOR_FAIL",
-        payload: {
-          data: false,
-          error: {
-            code: 703,
-            message: "No connector passed",
-            origin: "connectors",
-          },
-        },
-      });
     }
   };
 };
@@ -164,9 +145,39 @@ export const testConnector = (connector) => {
 export const createConnector = (connector) => {
   return (dispatch, getState, { getIntel }) => {
     if (connector) {
+      // Get current connectors
       let connectors = getState().connectors.connectors;
 
-      connectors = [...connectors, connector];
+      // Create connector object
+      const newConnector = {
+        domain: connector.domain ? connector.domain : null,
+        useIP: connector.useIP ? true : false,
+        id: "xxxxxx", // Auto generate unique ID in wagtail
+        ip: connector.ip ? connector.ip : null,
+        name: connector.name,
+        isActive: true, // Somehow figure this out
+        settings: {
+          shared: {
+            projects: ["looking-glass"],
+            users: ["kleberf", "schettn"],
+            companyData: {
+              name: true,
+              isRecruiting: true,
+              recruitmentUrl: false,
+              description: true,
+              employees: false,
+              vat: true,
+              email: true,
+              isOpenSource: true,
+              openSourceUrl: true,
+            },
+          },
+        },
+      };
+
+      connectors = [...connectors, newConnector];
+
+      console.log(connectors);
 
       if (true === true) {
         dispatch({
@@ -181,7 +192,7 @@ export const createConnector = (connector) => {
           payload: {
             data: false,
             error: {
-              code: 704,
+              code: 702,
               message: "Could not create connector",
               origin: "connectors",
             },
@@ -196,6 +207,7 @@ export const createConnector = (connector) => {
 export const alterConnector = (id, newConnector) => {
   return (dispatch, getState, { getIntel }) => {
     // Take current connector by id and alter its content
+    console.log(id, newConnector);
   };
 };
 
@@ -203,8 +215,13 @@ export const alterConnector = (id, newConnector) => {
 export const removeConnector = (id) => {
   return (dispatch, getState, { getIntel }) => {
     // Removes connector
+    console.log(id);
   };
 };
+
+function wait(ms) {
+  return new Promise((resolve, reject) => setTimeout(resolve, ms));
+}
 
 /**
  * SPDX-License-Identifier: (EUPL-1.2)
