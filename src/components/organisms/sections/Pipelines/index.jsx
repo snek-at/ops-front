@@ -16,7 +16,8 @@ import {
   MDBInput,
 } from "mdbreact";
 //> Additional
-import ReactTimeAgo from "react-time-ago";
+// Everything time related
+import moment from "moment";
 
 //> Actions
 // Functions to send data from the application to the store
@@ -113,10 +114,9 @@ class Pipelines extends React.Component {
                   <div className="d-flex align-items-center justify-content-center">
                     <div className="small d-inline-block mr-3 text-center">
                       <span className="text-muted">Last activity</span>
-                      <ReactTimeAgo
-                        date={pipeline.latestActivity}
-                        className="d-block"
-                      />
+                      <span className="d-block">
+                        {moment(pipeline.latestActivity).endOf("day").fromNow()}
+                      </span>
                     </div>
                     <div className="small d-inline-block text-center">
                       <span className="text-muted">Status</span>
