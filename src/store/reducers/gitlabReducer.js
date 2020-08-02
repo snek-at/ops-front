@@ -18,7 +18,7 @@ const gitlabReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       return {
@@ -37,7 +37,7 @@ const gitlabReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       return {
@@ -58,7 +58,7 @@ const gitlabReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       return {
@@ -76,12 +76,29 @@ const gitlabReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       return {
         ...state,
         selectedGitLab: null,
+        error: action.payload.error,
+      };
+    case "ALTER_GITLAB_SUCCESS":
+      return {
+        ...state,
+        gitlabs: action.payload.data,
+        error: null,
+      };
+    case "ALTER_GITLAB_FAIL":
+      console.error(
+        action.payload.error.code,
+        action.payload.error.origin,
+        action.payload.error.message
+      );
+
+      return {
+        ...state,
         error: action.payload.error,
       };
     default:

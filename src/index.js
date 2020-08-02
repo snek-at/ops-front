@@ -23,9 +23,6 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
 import "mdbreact/dist/css/mdb.css";
-//> React Time Ago
-import JavascriptTimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
 
 //> CSS
 // Root SCSS file
@@ -47,9 +44,6 @@ import registerServiceWorker from "./registerServiceWorker";
 //const getIntel = () => {
 //  return INTEL;
 //};
-
-// Initialize time ago
-JavascriptTimeAgo.addLocale(en);
 
 //#TODO
 // This is only a placeholder. Intel not required in OPS.

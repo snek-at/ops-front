@@ -5,19 +5,25 @@ export const getGitLabs = () => {
     const result = [
       {
         domain: null,
+        useIP: true,
+        id: "9bf1ebaecbc2a3d86b39b09ec3587f5da0be6f9c47820ece4709e0cf72a75eb3",
         ip: "192.168.69.5",
         user: "snekman",
-        mode: "idc",
+        isIDC: true,
         username: "schettk",
+        isActive: true,
         token:
           "1170a4b5a80ca6753f294d2cf97703c0a6639ac60748ee9b3ba0578fe6b001a4",
       },
       {
         domain: "terminus.local",
+        useIP: false,
+        id: "b4254fccdec0c00f87c66dc4292e84b90999e3cc66387e84d77fb4211ff0481b",
         ip: null,
         user: "snekman",
-        mode: "idc",
+        isIDC: false,
         username: "klebern",
+        isActive: false,
         token:
           "3daa0f0707adaa806da8a7ed2b2c10b710c91b8fe0c36c1f2ec310d2c8736886",
       },
@@ -98,9 +104,26 @@ export const getGitLabByHandle = (handle) => {
 export const createGitlab = (gitlab) => {
   return (dispatch, getState, { getIntel }) => {
     if (gitlab) {
-      let gitlabs = getState().gitlabs;
+      // Get current gitlabs
+      let gitlabs = getState().gitlabs.gitlabs;
 
-      gitlabs = [...gitlabs, gitlab];
+      // Do authy thingies
+      const username = gitlab.user;
+      const password = gitlab.password;
+
+      // Create gitlab object
+      const newGitLab = {
+        domain: gitlab.domain ? gitlab.domain : null,
+        useIP: gitlab.useIP ? true : false,
+        id: "xxxxxx", // Auto generate unique ID in wagtail
+        ip: gitlab.ip ? gitlab.ip : null,
+        username,
+        token: "xxxxx", // Use receiving token from authy thingies
+        user: "snekman", // Get type of user from authy thingies
+      };
+
+      // Append new gitlab
+      gitlabs = [...gitlabs, newGitLab];
 
       if (true === true) {
         dispatch({
@@ -127,9 +150,42 @@ export const createGitlab = (gitlab) => {
 };
 
 // Alter gitlab by handle (ip or domain)
-export const alterGitlab = (handle, newGitlab) => {
+export const alterGitlab = (handle, newGitLab) => {
   return (dispatch, getState, { getIntel }) => {
-    // Take current gitlab by handle and alter its content
+    // Get current gitlabs
+    const gitlabs = getState().gitlabs.gitlabs;
+
+    const selectedGitLab = gitlabs.filter((selected) => selected.id === handle);
+    const notSelectedGitLabs = gitlabs.filter(
+      (selected) => selected.id !== handle
+    );
+
+    if (selectedGitLab.length > 0) {
+      // Merge selected and altered GitLab data
+      const alteredGitLab = { ...selectedGitLab[0], ...newGitLab };
+
+      // Append the altered GitLab
+      const newGitLabs = [...notSelectedGitLabs, alteredGitLab];
+
+      dispatch({
+        type: "ALTER_GITLAB_SUCCESS",
+        payload: {
+          data: newGitLabs,
+        },
+      });
+    } else {
+      dispatch({
+        type: "ALTER_GITLAB_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 714,
+            message: "Could not alter gitlab with handle " + handle,
+            origin: "gitlabs",
+          },
+        },
+      });
+    }
   };
 };
 
@@ -137,20 +193,16 @@ export const alterGitlab = (handle, newGitlab) => {
 export const removeGitlab = (handle) => {
   return (dispatch, getState, { getIntel }) => {
     if (handle) {
-      let gitlabs = getState().gitlabs;
+      // Get current GitLabs
+      const gitlabs = getState().gitlabs.gitlabs;
+      // Get length of GitLabs array
       const initialLength = gitlabs.length;
 
-      console.log(gitlabs);
-
       // Remove GitLab object with handle
-      gitlabs = gitlabs.filter(
-        (obj) => obj.ip !== handle || obj.domain !== handle
-      );
-
-      console.log(gitlabs);
+      const filteredGitLabs = gitlabs.filter((obj) => obj.id !== handle);
 
       // Check if a GitLab has been removed
-      if (gitlabs.length !== initialLength) {
+      if (filteredGitLabs.length !== initialLength) {
         if (true === true) {
           dispatch({
             type: "REMOVE_GITLAB_SUCCESS",
@@ -187,6 +239,29 @@ export const removeGitlab = (handle) => {
     }
   };
 };
+
+// Test GitLab connection
+export const testConnection = (gitlab) => {
+  return async (dispatch, getState, { getIntel }) => {
+    if (gitlab) {
+      if (true === true) {
+        // Wait for 2 sec to simulate connection test
+        await wait(2000);
+
+        return true;
+      } else {
+        // Wait for 2 sec to simulate connection test
+        await wait(2000);
+
+        return false;
+      }
+    }
+  };
+};
+
+function wait(ms) {
+  return new Promise((resolve, reject) => setTimeout(resolve, ms));
+}
 
 /**
  * SPDX-License-Identifier: (EUPL-1.2)

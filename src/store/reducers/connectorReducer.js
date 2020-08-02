@@ -20,7 +20,7 @@ const connectorReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       return {
@@ -41,7 +41,7 @@ const connectorReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       return {
@@ -59,7 +59,7 @@ const connectorReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       return {
@@ -78,7 +78,7 @@ const connectorReducer = (state = initState, action) => {
       console.error(
         action.payload.error.code,
         action.payload.error.origin,
-        action.payload.error.msg
+        action.payload.error.message
       );
 
       return {
