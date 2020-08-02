@@ -387,6 +387,39 @@ export const editImprint = (newCompanyInfo) => {
   };
 };
 
+export const getUserByHandle = (handle) => {
+  return (dispatch, getState, { getIntel }) => {
+    // @TODO: Replace by function to query all users. For now it will not work on refresh.
+    const users = getState().pages.users;
+
+    const user = users.filter(
+      (user) =>
+        user.username.toLowerCase().trim() === handle.toLowerCase().trim()
+    );
+
+    if (user.length > 0) {
+      dispatch({
+        type: "GET_USER_SUCCESS",
+        payload: {
+          data: user[0],
+        },
+      });
+    } else {
+      dispatch({
+        type: "GET_USER_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 747,
+            message: "Could not get user by handle " + handle,
+            origin: "imprint",
+          },
+        },
+      });
+    }
+  };
+};
+
 /**
  * SPDX-License-Identifier: (EUPL-1.2)
  * Copyright © 2020 Simon Prast

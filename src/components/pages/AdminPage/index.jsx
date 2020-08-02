@@ -9,7 +9,7 @@ import { MDBContainer } from "mdbreact";
 // Molecules
 import { SideNav } from "../../molecules";
 // Pages
-import { Page, Pipelines } from "../../organisms";
+import { Page, Pipelines, User } from "../../organisms";
 //> Images
 // Too be added
 //#endregion
@@ -50,11 +50,26 @@ class HomePage extends React.Component {
     );
   };
 
+  navigateTo = (page, handle) => {
+    console.log(page, handle);
+
+    this.setState(
+      {
+        page: `${page}-${handle}`,
+      },
+      () => localStorage.setItem("nav", `${page}-${handle}`)
+    );
+  };
+
   renderPages = (selectedPage) => {
     if (selectedPage.includes("page-")) {
       const handle = selectedPage.split("page-")[1];
 
-      return <Page handle={handle} />;
+      return <Page handle={handle} navigateTo={this.navigateTo} />;
+    } else if (selectedPage.includes("user-")) {
+      const handle = selectedPage.split("user-")[1];
+
+      return <User handle={handle} navigateTo={this.navigateTo} />;
     } else {
       return <p>Page not valid</p>;
     }

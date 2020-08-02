@@ -101,6 +101,7 @@ class PageUsers extends React.Component {
               return (
                 <MDBListGroupItem
                   className="d-flex justify-content-between align-items-center clickable"
+                  onClick={() => this.props.navigateTo("user", user.username)}
                   key={p}
                 >
                   <div className="d-flex align-items-center">
