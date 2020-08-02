@@ -93,6 +93,9 @@ class PageProjects extends React.Component {
             projects.map((project, p) => {
               return (
                 <MDBListGroupItem
+                  onClick={() =>
+                    this.props.navigateTo("project", project.handle)
+                  }
                   className="d-flex justify-content-between align-items-center clickable"
                   key={p}
                 >

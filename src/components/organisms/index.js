@@ -5,6 +5,7 @@
 import Page from "./sections/Page";
 import Pipelines from "./sections/Pipelines";
 import User from "./sections/User";
+import Project from "./sections/Project";
 // Tabs
 import PageOverview from "./tabs/PageOverview";
 import PageProjects from "./tabs/PageProjects";
@@ -20,6 +21,7 @@ export {
   Page,
   Pipelines,
   User,
+  Project,
   /* Tabs */
   PageOverview,
   PageProjects,

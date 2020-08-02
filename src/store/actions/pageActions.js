@@ -268,18 +268,22 @@ export const getProjects = () => {
       {
         title: "Looking Glass",
         history: "Pls implement uwu",
+        handle: "looking-glass",
       },
       {
         title: "SSH Auth",
         history: "Pls implement uwu",
+        handle: "ssh-auth",
       },
       {
         title: "DNS Lookup",
         history: "Pls implement uwu",
+        handle: "dns-lookup",
       },
       {
         title: "Netcup Website",
         history: "Pls implement uwu",
+        handle: "netcup-website",
       },
     ];
 
@@ -413,6 +417,38 @@ export const getUserByHandle = (handle) => {
             code: 747,
             message: "Could not get user by handle " + handle,
             origin: "imprint",
+          },
+        },
+      });
+    }
+  };
+};
+
+export const getProjectByHandle = (handle) => {
+  return (dispatch, getState, { getIntel }) => {
+    // @TODO: Replace by function to query all users. For now it will not work on refresh.
+    const projects = getState().pages.projects;
+
+    const project = projects.filter(
+      (item) => item.handle.toLowerCase().trim() === handle.toLowerCase().trim()
+    );
+
+    if (project.length > 0) {
+      dispatch({
+        type: "GET_PROFILE_SUCCESS",
+        payload: {
+          data: project[0],
+        },
+      });
+    } else {
+      dispatch({
+        type: "GET_PROJECT_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 748,
+            message: "Could not get project by handle " + handle,
+            origin: "projects",
           },
         },
       });

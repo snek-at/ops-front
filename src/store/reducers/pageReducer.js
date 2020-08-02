@@ -137,6 +137,24 @@ const pageReducer = (state = initState, action) => {
         user: action.payload.data,
         error: action.payload.error,
       };
+    case "GET_PROFILE_SUCCESS":
+      return {
+        ...state,
+        project: action.payload.data,
+        error: null,
+      };
+    case "GET_PROFILE_FAIL":
+      console.error(
+        action.payload.error.code,
+        action.payload.error.origin,
+        action.payload.error.msg
+      );
+
+      return {
+        ...state,
+        project: action.payload.data,
+        error: action.payload.error,
+      };
     default:
       return state;
   }
