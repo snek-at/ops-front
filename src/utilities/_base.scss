@@ -102,10 +102,6 @@
   cursor: pointer !important;
 }
 
-.splitter {
-  overflow: hidden;
-}
-
 .or {
   position: relative !important;
   padding-bottom: var(--spacing-rule-text-vertical, 16px) !important;
@@ -194,7 +190,7 @@ code {
 
     .or-text {
       overflow-wrap: break-word !important;
-      margin: 0px !important;
+      margin: 0 !important;
 
       &::before {
         border-bottom-color: #e4e4e4 !important;
