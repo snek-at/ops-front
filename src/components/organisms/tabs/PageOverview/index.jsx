@@ -53,7 +53,7 @@ class PageOverview extends React.Component {
     const { activities } = this.state;
 
     return (
-      <MDBRow id="overview">
+      <MDBRow id="pageoverview">
         <MDBCol lg="4">
           <p>Code Statistics</p>
         </MDBCol>

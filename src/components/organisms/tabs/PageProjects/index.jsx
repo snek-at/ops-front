@@ -25,6 +25,8 @@ import moment from "moment";
 //> Actions
 // Functions to send data from the application to the store
 import { getProjects } from "../../../../store/actions/pageActions";
+//> CSS
+import "./pageprojects.scss";
 //> Images
 // Too be added
 //#endregion
@@ -78,7 +80,7 @@ class PageProjects extends React.Component {
     const { projects } = this.state;
 
     return (
-      <div>
+      <div id="pageprojects">
         <div className="d-flex justify-content-between">
           <div className="mt-3">
             <p className="lead font-weight-bold mb-0">Project Overview</p>
@@ -95,7 +97,7 @@ class PageProjects extends React.Component {
             projects.map((project, p) => {
               return (
                 <MDBListGroupItem
-                  className="d-flex justify-content-between align-items-center"
+                  className="d-flex justify-content-between align-items-center clickable"
                   key={p}
                 >
                   <div>
