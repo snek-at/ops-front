@@ -37,6 +37,8 @@ export const getPageByHandle = (handle) => {
     // Dummy Data - retrieve all pages
     const results = [
       {
+        /* 1 = Heavy, 2 = Moderate, 3 = Light, 4 = Open */
+        restrictionLevel: 2,
         milestones: [
           { date: "11.11.2017", name: "First employee", icon: "user-circle" },
           { date: "20.09.2017", name: "Foundation", icon: "fire-alt" },
@@ -197,6 +199,57 @@ export const getPageByHandle = (handle) => {
             code: 741,
             message: "Could not get pages",
             origin: "pages",
+          },
+        },
+      });
+    }
+  };
+};
+
+export const getActivity = () => {
+  return (dispatch, getState, { getIntel }) => {
+    // Dummy Data
+    const result = [
+      {
+        author: {
+          name: "Helmut Schmidt",
+          avatar: "https://mdbootstrap.com/img/Photos/Avatars/img%20(9).jpg",
+        },
+        action: "deployed",
+        ref: { commit: "7bf03116" },
+        time: 1596034377000,
+      },
+      {
+        author: {
+          name: "Helen Karen",
+          avatar: "https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg",
+        },
+        action: "merged",
+        ref: {
+          from: "implement-1",
+          to: "master",
+          commit: "fad4f881",
+        },
+        time: 1596024377000,
+      },
+    ];
+
+    if (result) {
+      dispatch({
+        type: "GET_ACTIVITIES_SUCCESS",
+        payload: {
+          data: result,
+        },
+      });
+    } else {
+      dispatch({
+        type: "GET_ACTIVITIES_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 740,
+            message: "Could not get activities",
+            origin: "activities",
           },
         },
       });

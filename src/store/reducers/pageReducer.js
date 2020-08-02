@@ -1,6 +1,7 @@
 // Have initial state for when state is not ready to be passed
 const initState = {
   page: null,
+  activities: [],
   pagenames: [],
   error: null,
 };
@@ -41,6 +42,24 @@ const pageReducer = (state = initState, action) => {
       return {
         ...state,
         pagenames: [],
+        error: action.payload.error,
+      };
+    case "GET_ACTIVITIES_SUCCESS":
+      return {
+        ...state,
+        activities: action.payload.data ? action.payload.data : [],
+        error: null,
+      };
+    case "GET_ACTIVITIES_FAIL":
+      console.error(
+        action.payload.error.code,
+        action.payload.error.origin,
+        action.payload.error.msg
+      );
+
+      return {
+        ...state,
+        activities: [],
         error: action.payload.error,
       };
     default:
