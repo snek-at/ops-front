@@ -14,12 +14,18 @@ import { Page, Pipelines } from "../../organisms";
 // Too be added
 //#endregion
 
+//#region > Config
+const DEFAULT_PAGE = "dashboard";
+//#endregion
+
 //#region > Components
 /** @class The Admin parent page component which will include all Admin pages */
 class HomePage extends React.Component {
   state = {
     containerPaddingLeft: "60px",
-    page: "dashboard",
+    page: localStorage.getItem("nav")
+      ? localStorage.getItem("nav")
+      : DEFAULT_PAGE,
   };
 
   navToggle = (exp) => {
@@ -36,9 +42,12 @@ class HomePage extends React.Component {
   };
 
   navSelect = (selected) => {
-    this.setState({
-      page: selected,
-    });
+    this.setState(
+      {
+        page: selected,
+      },
+      () => localStorage.setItem("nav", selected)
+    );
   };
 
   renderPages = (selectedPage) => {
@@ -54,7 +63,15 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <SideNav handleToggle={this.navToggle} handleSelect={this.navSelect} />
+        <SideNav
+          handleToggle={this.navToggle}
+          handleSelect={this.navSelect}
+          default={
+            localStorage.getItem("nav")
+              ? localStorage.getItem("nav")
+              : DEFAULT_PAGE
+          }
+        />
         <div
           className="main-container"
           style={{ paddingLeft: this.state.containerPaddingLeft }}
