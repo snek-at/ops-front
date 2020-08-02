@@ -34,7 +34,7 @@ import {
 // Functions to send data from the application to the store
 import { getPageByHandle } from "../../../../store/actions/pageActions";
 //> Components
-import { PageOverview, PageProjects } from "../../";
+import { PageOverview, PageProjects, PageUsers } from "../../";
 //> CSS
 import "./page.scss";
 //> Images
@@ -463,7 +463,7 @@ class Page extends React.Component {
                   <PageProjects filter={this.state.globalFilter} />
                 </MDBTabPane>
                 <MDBTabPane tabId={2} role="tabpanel">
-                  <p>Test</p>
+                  <PageUsers filter={this.state.globalFilter} />
                 </MDBTabPane>
               </MDBTabContent>
             </MDBCol>

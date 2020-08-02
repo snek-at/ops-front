@@ -267,19 +267,19 @@ export const getProjects = () => {
     const result = [
       {
         title: "Looking Glass",
-        history: "Pls implement",
+        history: "Pls implement uwu",
       },
       {
         title: "SSH Auth",
-        history: "Pls implement",
+        history: "Pls implement uwu",
       },
       {
         title: "DNS Lookup",
-        history: "Pls implement",
+        history: "Pls implement uwu",
       },
       {
         title: "Netcup Website",
-        history: "Pls implement",
+        history: "Pls implement uwu",
       },
     ];
 
@@ -298,6 +298,47 @@ export const getProjects = () => {
           error: {
             code: 744,
             message: "Could not get projects",
+            origin: "projects",
+          },
+        },
+      });
+    }
+  };
+};
+
+export const getUsers = () => {
+  return (dispatch, getState, { getIntel }) => {
+    // Dummy Data
+    const result = [
+      {
+        name: "Helen Karen",
+        username: "helenk",
+        avatar: "https://mdbootstrap.com/img/Photos/Avatars/img%20(20).jpg",
+        history: "Pls implement uwu",
+      },
+      {
+        name: "Nico Schett",
+        username: "schettn",
+        avatar: "https://mdbootstrap.com/img/Photos/Avatars/img%20(18).jpg",
+        history: "Pls implement uwu",
+      },
+    ];
+
+    if (result) {
+      dispatch({
+        type: "GET_USERS_SUCCESS",
+        payload: {
+          data: result,
+        },
+      });
+    } else {
+      dispatch({
+        type: "GET_USERS_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 745,
+            message: "Could not get users",
             origin: "projects",
           },
         },

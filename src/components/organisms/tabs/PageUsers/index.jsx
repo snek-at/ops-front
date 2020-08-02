@@ -24,26 +24,26 @@ import moment from "moment";
 
 //> Actions
 // Functions to send data from the application to the store
-import { getProjects } from "../../../../store/actions/pageActions";
+import { getUsers } from "../../../../store/actions/pageActions";
 //> CSS
-import "./pageprojects.scss";
+import "./pageusers.scss";
 //> Images
 // Too be added
 //#endregion
 
 //#region > Components
 /** @class This component displays page overview of the page section */
-class PageProjects extends React.Component {
-  state = { projects: null };
+class PageUsers extends React.Component {
+  state = { users: null };
 
   componentDidMount = () => {
-    this.props.getProjects();
+    this.props.getUsers();
   };
 
   componentDidUpdate = (prevProps) => {
-    if (this.props.projects && !this.state.projects) {
+    if (this.props.users && !this.state.users) {
       this.setState({
-        projects: this.props.projects,
+        users: this.props.users,
       });
     }
 
@@ -62,28 +62,31 @@ class PageProjects extends React.Component {
 
   filter = (value) => {
     // Retrieve all pipelines
-    const { projects } = this.props;
+    const { users } = this.props;
     // Unify value
     const val = this.unifyString(value);
 
     // Searches for search value in title, domain and org
-    let results = projects.filter((project) => {
-      if (this.unifyString(project.title).includes(val)) {
-        return project;
+    let results = users.filter((user) => {
+      if (
+        this.unifyString(user.name).includes(val) ||
+        this.unifyString(user.username).includes(val)
+      ) {
+        return user;
       }
     });
 
-    this.setState({ projects: results });
+    this.setState({ users: results });
   };
 
   render() {
-    const { projects } = this.state;
+    const { users } = this.state;
 
     return (
-      <div id="pageprojects">
+      <div id="pageusers">
         <div className="d-flex justify-content-between">
           <div className="mt-3">
-            <p className="lead font-weight-bold mb-0">Project Overview</p>
+            <p className="lead font-weight-bold mb-0">User Overview</p>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
               Lorem Ipsum Dolor sit amet.
@@ -93,15 +96,25 @@ class PageProjects extends React.Component {
         </div>
 
         <MDBListGroup>
-          {projects &&
-            projects.map((project, p) => {
+          {users &&
+            users.map((user, p) => {
               return (
                 <MDBListGroupItem
                   className="d-flex justify-content-between align-items-center clickable"
                   key={p}
                 >
-                  <div>
-                    <p className="lead mb-0">{project.title}</p>
+                  <div className="d-flex align-items-center">
+                    <MDBAvatar className="white mr-2">
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        className="rounded-circle img-fluid"
+                      />
+                    </MDBAvatar>
+                    <div className="d-inline">
+                      <p className="mb-0">{user.name}</p>
+                      <p className="small text-muted mb-0">{user.username}</p>
+                    </div>
                   </div>
                   <div className="d-flex align-items-center justify-content-center">
                     Chart
@@ -118,12 +131,12 @@ class PageProjects extends React.Component {
 
 //#region > Redux Mapping
 const mapStateToProps = (state) => ({
-  projects: state.pages.projects,
+  users: state.pages.users,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProjects: () => dispatch(getProjects()),
+    getUsers: () => dispatch(getUsers()),
   };
 };
 //#endregion
@@ -136,7 +149,7 @@ const mapDispatchToProps = (dispatch) => {
  * Got access to the history object’s properties and the closest
  * <Route>'s match.
  */
-export default connect(mapStateToProps, mapDispatchToProps)(PageProjects);
+export default connect(mapStateToProps, mapDispatchToProps)(PageUsers);
 //#endregion
 
 /**

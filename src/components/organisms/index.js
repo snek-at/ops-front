@@ -7,12 +7,13 @@ import Pipelines from "./sections/Pipelines";
 // Tabs
 import PageOverview from "./tabs/PageOverview";
 import PageProjects from "./tabs/PageProjects";
+import PageUsers from "./tabs/PageUsers";
 // Other components
 //#endregion
 
 //#region > Exports
 //> Organisms
-export { Page, Pipelines, PageOverview, PageProjects };
+export { Page, Pipelines, PageOverview, PageProjects, PageUsers };
 //#endregion
 
 /**
