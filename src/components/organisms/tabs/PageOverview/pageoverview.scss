@@ -1,10 +1,12 @@
 #pageoverview {
   .avatar {
     display: inline-block;
+
     img {
       max-height: 30px !important;
     }
   }
+  
   .list-group {
     .list-group-item {
       .activity-icon {

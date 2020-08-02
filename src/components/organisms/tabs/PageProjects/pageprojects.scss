@@ -1,6 +1,7 @@
 #pageprojects {
   .list-group-item {
     transition: background 0.05s ease;
+    
     &:hover {
       background: darken(white, 3%) !important;
     }

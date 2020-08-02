@@ -1,6 +1,7 @@
 #pageusers {
   .avatar {
     display: inline-block;
+
     img {
       max-height: 30px !important;
     }
@@ -8,6 +9,7 @@
 
   .list-group-item {
     transition: background 0.05s ease;
+    
     &:hover {
       background: darken(white, 3%) !important;
     }
