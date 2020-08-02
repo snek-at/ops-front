@@ -347,7 +347,7 @@ export const getUsers = () => {
   };
 };
 
-export const editImprint = (changes) => {
+export const editImprint = (newCompanyInfo) => {
   return (dispatch, getState, { getIntel }) => {
     /* 
     Save changes like:
@@ -356,16 +356,24 @@ export const editImprint = (changes) => {
     You can overwrite values in an object like that.
     */
 
+    let page = getState().pages.page;
+    // Get current company data
+    const companyInfo = page.company;
+    // Infuse company data like marinade in a good steak
+    const infusedCompanyInfo = { ...companyInfo, ...newCompanyInfo.company };
+    // Overwrite old company info with new company info
+    page = { ...page, company: infusedCompanyInfo };
+
     if (true === true) {
       dispatch({
-        type: "GET_IMPRINT_SUCCESS",
+        type: "EDIT_COMPANY_SUCCESS",
         payload: {
-          data: undefined,
+          data: page,
         },
       });
     } else {
       dispatch({
-        type: "GET_IMPRINT_FAIL",
+        type: "EDIT_COMPANY_FAIL",
         payload: {
           data: false,
           error: {

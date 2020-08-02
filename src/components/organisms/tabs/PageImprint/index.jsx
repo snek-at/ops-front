@@ -176,7 +176,10 @@ class PageImprint extends React.Component {
           </div>
           <div>
             {this.checkIfChanged() && (
-              <MDBBtn color="success">
+              <MDBBtn
+                color="success"
+                onClick={() => this.props.editImprint(this.state.page)}
+              >
                 <MDBIcon icon="check-circle" />
                 Save
               </MDBBtn>
@@ -329,7 +332,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editImprint: () => dispatch(editImprint()),
+    editImprint: (newCompanyInfo) => dispatch(editImprint(newCompanyInfo)),
   };
 };
 //#endregion

@@ -100,6 +100,24 @@ const pageReducer = (state = initState, action) => {
         users: [],
         error: action.payload.error,
       };
+    case "EDIT_COMPANY_SUCCESS":
+      return {
+        ...state,
+        page: action.payload.data,
+        error: null,
+      };
+    case "EDIT_COMPANY_FAIL":
+      console.error(
+        action.payload.error.code,
+        action.payload.error.origin,
+        action.payload.error.msg
+      );
+
+      return {
+        ...state,
+        page: action.payload.data,
+        error: action.payload.error,
+      };
     default:
       return state;
   }

@@ -83,6 +83,12 @@ class Page extends React.Component {
         page: this.props.page,
       });
     }
+
+    if (JSON.stringify(this.props.page) !== JSON.stringify(this.state.page)) {
+      this.setState({
+        page: this.props.page,
+      });
+    }
   };
 
   // Toggle the visible tab
