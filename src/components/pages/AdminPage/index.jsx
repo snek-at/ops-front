@@ -9,7 +9,14 @@ import { MDBContainer } from "mdbreact";
 // Molecules
 import { SideNav } from "../../molecules";
 // Pages
-import { Page, Pipelines, User, Project, GitLabs } from "../../organisms";
+import {
+  Page,
+  Pipelines,
+  User,
+  Project,
+  GitLabs,
+  Connectors,
+} from "../../organisms";
 //> Images
 // Too be added
 //#endregion
@@ -107,7 +114,7 @@ class HomePage extends React.Component {
                 case "permissions":
                   return <p>Permissions</p>;
                 case "connectors":
-                  return <p>Connectors</p>;
+                  return <Connectors />;
                 case "pipelines":
                   return <Pipelines />;
                 case "gitlabs":

@@ -241,9 +241,9 @@ export const removeGitlab = (handle) => {
 };
 
 // Test GitLab connection
-export const testConnection = (gitlab) => {
+export const testConnection = (connector) => {
   return async (dispatch, getState, { getIntel }) => {
-    if (gitlab) {
+    if (connector) {
       if (true === true) {
         // Wait for 2 sec to simulate connection test
         await wait(2000);

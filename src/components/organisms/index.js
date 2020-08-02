@@ -7,6 +7,7 @@ import Pipelines from "./sections/Pipelines";
 import User from "./sections/User";
 import Project from "./sections/Project";
 import GitLabs from "./sections/GitLabs";
+import Connectors from "./sections/Connectors";
 // Tabs
 import PageOverview from "./tabs/PageOverview";
 import PageProjects from "./tabs/PageProjects";
@@ -24,6 +25,7 @@ export {
   User,
   Project,
   GitLabs,
+  Connectors,
   /* Tabs */
   PageOverview,
   PageProjects,
