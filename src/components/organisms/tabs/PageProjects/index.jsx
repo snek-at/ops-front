@@ -81,17 +81,13 @@ class PageProjects extends React.Component {
 
     return (
       <div id="pageprojects">
-        <div className="d-flex justify-content-between">
-          <div className="mt-3">
-            <p className="lead font-weight-bold mb-0">Project Overview</p>
-            <p className="text-muted small">
-              <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
-            </p>
-          </div>
-          <div></div>
+        <div className="mt-3">
+          <p className="lead font-weight-bold mb-0">Project Overview</p>
+          <p className="text-muted small">
+            <MDBIcon icon="question-circle" className="mr-2" />
+            Lorem Ipsum Dolor sit amet.
+          </p>
         </div>
-
         <MDBListGroup>
           {projects &&
             projects.map((project, p) => {

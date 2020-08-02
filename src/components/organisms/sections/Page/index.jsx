@@ -34,7 +34,7 @@ import {
 // Functions to send data from the application to the store
 import { getPageByHandle } from "../../../../store/actions/pageActions";
 //> Components
-import { PageOverview, PageProjects, PageUsers } from "../../";
+import { PageOverview, PageProjects, PageUsers, PageImprint } from "../../";
 //> CSS
 import "./page.scss";
 //> Images
@@ -89,8 +89,6 @@ class Page extends React.Component {
   toggle = (e, tab) => {
     e.preventDefault();
 
-    console.log(tab);
-
     if (this.state.activeItem !== tab) {
       this.setState(
         {
@@ -122,8 +120,6 @@ class Page extends React.Component {
 
   render() {
     const { page } = this.state;
-
-    console.log(page);
 
     return (
       <MDBContainer id="company">
@@ -313,7 +309,7 @@ class Page extends React.Component {
                         )}
                         {page.company.isOpenSource && (
                           <a
-                            href={page.company.references.github}
+                            href={page.company.openSourceUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -464,6 +460,9 @@ class Page extends React.Component {
                 </MDBTabPane>
                 <MDBTabPane tabId={2} role="tabpanel">
                   <PageUsers filter={this.state.globalFilter} />
+                </MDBTabPane>
+                <MDBTabPane tabId={3} role="tabpanel">
+                  <PageImprint />
                 </MDBTabPane>
               </MDBTabContent>
             </MDBCol>

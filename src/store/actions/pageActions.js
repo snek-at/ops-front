@@ -109,8 +109,9 @@ export const getPageByHandle = (handle) => {
             "Advertisement Agency based in Villach-Landskron, Carinthia, Austria. Top Open Source agency in Carinthia.",
           /* Number of employees including founder (min. value: 1) */
           employees: 3,
+          hasVAT: true,
           vat: {
-            id: "ATU72504738",
+            value: "ATU72504738",
             verified: true,
           },
           /* Company contact email */
@@ -158,11 +159,10 @@ export const getPageByHandle = (handle) => {
           ],
           /* Is this company searching for new employees */
           isRecruiting: true,
+          recruitmentUrl: "",
           /* Is the company developing open source or is some of its software open source? */
           isOpenSource: true,
-          references: {
-            github: "https://github.com/aichner",
-          },
+          openSourceUrl: "https://github.com/aichner",
         },
       },
     ];
@@ -340,6 +340,38 @@ export const getUsers = () => {
             code: 745,
             message: "Could not get users",
             origin: "projects",
+          },
+        },
+      });
+    }
+  };
+};
+
+export const editImprint = (changes) => {
+  return (dispatch, getState, { getIntel }) => {
+    /* 
+    Save changes like:
+    const page = {test: 123, test2: 456}; -> {test: 123, test2: 456}
+    const editedPage = {...foo, test:789}; -> {test: 789, test2: 456}
+    You can overwrite values in an object like that.
+    */
+
+    if (true === true) {
+      dispatch({
+        type: "GET_IMPRINT_SUCCESS",
+        payload: {
+          data: undefined,
+        },
+      });
+    } else {
+      dispatch({
+        type: "GET_IMPRINT_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 746,
+            message: "Could not edit imprint",
+            origin: "imprint",
           },
         },
       });

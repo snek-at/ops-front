@@ -8,12 +8,13 @@ import Pipelines from "./sections/Pipelines";
 import PageOverview from "./tabs/PageOverview";
 import PageProjects from "./tabs/PageProjects";
 import PageUsers from "./tabs/PageUsers";
+import PageImprint from "./tabs/PageImprint";
 // Other components
 //#endregion
 
 //#region > Exports
 //> Organisms
-export { Page, Pipelines, PageOverview, PageProjects, PageUsers };
+export { Page, Pipelines, PageOverview, PageProjects, PageUsers, PageImprint };
 //#endregion
 
 /**

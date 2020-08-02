@@ -41,7 +41,6 @@ class PageOverview extends React.Component {
   };
 
   componentDidUpdate = () => {
-    console.log(this.props.activities);
     if (this.props.activities && !this.state.activities) {
       this.setState({
         activities: this.props.activities,
@@ -100,17 +99,17 @@ class PageOverview extends React.Component {
                         </MDBAvatar>
                       </div>
                       <div className="d-inline-block pl-2">
-                        <p className="mb-0 d-flex align-items-center">
-                          <div>
+                        <div className="mb-0 d-flex align-items-center">
+                          <span>
                             <span className="font-weight-bold">
                               {activity.author.name.split(" ").length > 0
                                 ? activity.author.name.split(" ")[0]
                                 : activity.author.name}
                             </span>{" "}
                             {activity.action}:
-                          </div>
+                          </span>
                           <code>{activity.ref.commit}</code>
-                        </p>
+                        </div>
                         {activity.action === "merged" && (
                           <p className="mb-0 text-muted">
                             <small>
