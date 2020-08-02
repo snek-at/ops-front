@@ -14,15 +14,19 @@
       .text-muted {
         color: lightgrey !important;
       }
+
       .bg-success {
         background: transparentize($color: #00c851, $amount: 0.8) !important;
       }
+
       .bg-info {
         background: transparentize($color: #33b5e5, $amount: 0.8) !important;
       }
+
       .bg-warning {
         background: transparentize($color: #fb3, $amount: 0.8) !important;
       }
+
       .bg-danger {
         background: transparentize($color: #ff3547, $amount: 0.8) !important;
       }
@@ -43,7 +47,7 @@
       }
     }
 
-    input{
+    input {
       display: inline-block;
       width: auto;
     }

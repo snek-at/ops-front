@@ -1,4 +1,4 @@
-#pageusers{
+#pageusers {
   .avatar {
     display: inline-block;
     img {
@@ -6,9 +6,9 @@
     }
   }
 
-  .list-group-item{
-    transition: background .05s ease;
-    &:hover{
+  .list-group-item {
+    transition: background 0.05s ease;
+    &:hover {
       background: darken(white, 3%) !important;
     }
   }

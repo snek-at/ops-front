@@ -29,8 +29,6 @@ import moment from "moment";
 //> Actions
 // Functions to send data from the application to the store
 import { editImprint } from "../../../../store/actions/pageActions";
-//> CSS
-import "./pageimprint.scss";
 //> Images
 // Too be added
 //#endregion
