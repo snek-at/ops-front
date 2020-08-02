@@ -426,7 +426,7 @@ export const getUserByHandle = (handle) => {
 
 export const getProjectByHandle = (handle) => {
   return (dispatch, getState, { getIntel }) => {
-    // @TODO: Replace by function to query all users. For now it will not work on refresh.
+    // @TODO: Replace by function to query all projects. For now it will not work on refresh.
     const projects = getState().pages.projects;
 
     const project = projects.filter(
