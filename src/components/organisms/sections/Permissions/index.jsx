@@ -28,6 +28,13 @@ import {
   MDBNav,
   MDBNavLink,
   MDBNavItem,
+  MDBModal,
+  MDBModalBody,
+  MDBAlert,
+  MDBSelect,
+  MDBSelectInput,
+  MDBSelectOption,
+  MDBSelectOptions,
 } from "mdbreact";
 //> Additional
 // Everything time related
@@ -38,7 +45,12 @@ import moment from "moment";
 import {
   getAllUsers,
   getAllGroups,
+  alterUser,
+  addUser,
+  removeUser,
 } from "../../../../store/actions/permissionActions";
+//> Components
+import { AIInput, AIToggle } from "../../../atoms";
 //> CSS
 import "./permissions.scss";
 //> Images
@@ -121,6 +133,7 @@ class Permissions extends React.Component {
       this.setState({ groups: results });
     }
   };
+
   // Toggle the visible tab
   toggle = (e, tab) => {
     e.preventDefault();
@@ -134,6 +147,34 @@ class Permissions extends React.Component {
         () => localStorage.setItem(this.props.handle + "-tab", tab)
       );
     }
+  };
+
+  handleUserChange = (name, value) => {
+    this.setState({
+      selectedUser: {
+        ...this.state.selectedUser,
+        [name]: value,
+      },
+    });
+  };
+
+  handleUserModeChange = (name) => {
+    this.setState({
+      selectedUser: {
+        ...this.state.selectedUser,
+        [name]: !this.state.selectedUser[name],
+      },
+    });
+  };
+
+  toggleModal = () => {
+    this.setState({
+      modal: !this.state.modal,
+      selectedUser: null,
+      selectedGroup: null,
+      addUser: false,
+      addGroup: false,
+    });
   };
 
   render() {
@@ -183,7 +224,13 @@ class Permissions extends React.Component {
                 users.map((user, p) => {
                   return (
                     <MDBListGroupItem
-                      className="d-flex justify-content-between align-items-center"
+                      className="d-flex justify-content-between align-items-center clickable"
+                      onClick={() =>
+                        this.setState({
+                          modal: true,
+                          selectedUser: user,
+                        })
+                      }
                       key={p}
                     >
                       <div>
@@ -193,8 +240,6 @@ class Permissions extends React.Component {
                             const selectedGroup = groups.filter(
                               (g) => g.id === group
                             );
-
-                            console.log(groups, group);
 
                             return (
                               <code className="text-muted">
@@ -212,9 +257,7 @@ class Permissions extends React.Component {
                               icon="circle"
                               size="lg"
                               className={
-                                user.status.active
-                                  ? "text-success"
-                                  : "text-danger"
+                                user.isActive ? "text-success" : "text-danger"
                               }
                             />
                           </span>
@@ -254,6 +297,138 @@ class Permissions extends React.Component {
             </MDBListGroup>
           </MDBTabPane>
         </MDBTabContent>
+        {this.state.modal && (
+          <MDBModal
+            isOpen={this.state.modal}
+            toggle={this.toggleModal}
+            size="md"
+          >
+            <MDBModalBody>
+              <div className="d-flex justify-content-between">
+                <p className="lead font-weight-bold">
+                  {!this.state.addConnector
+                    ? this.state.selectedUser.full_name
+                    : "Add new user"}
+                </p>
+                <MDBBtn
+                  color="danger"
+                  outline
+                  onClick={this.toggleModal}
+                  size="md"
+                >
+                  <MDBIcon icon="times-circle" />
+                  Cancel
+                </MDBBtn>
+              </div>
+              <AIInput
+                title="Full name"
+                description="Enter the full name of the user"
+                name="full_name"
+                placeholder="Connector Name"
+                value={this.state.selectedUser.full_name}
+                handleChange={this.handleUserChange}
+                key="full_name"
+              />
+              <MDBRow>
+                <MDBCol lg="6">
+                  <AIToggle
+                    title="Active"
+                    description="Activate the user?"
+                    checked={this.state.selectedUser.isActive}
+                    change={this.handleUserModeChange}
+                    name="isActive"
+                    labelLeft="Inactive"
+                    labelRight="Active"
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  {this.props.groups ? (
+                    <>
+                      <MDBSelect
+                        multiple
+                        label="Select Groups"
+                        getValue={(value) =>
+                          this.setState({
+                            selectedUser: {
+                              ...this.state.selectedUser,
+                              groups: [...value],
+                            },
+                          })
+                        }
+                      >
+                        <MDBSelectInput />
+                        <MDBSelectOptions>
+                          <MDBSelectOption disabled>
+                            Choose groups
+                          </MDBSelectOption>
+                          {this.props.groups &&
+                            this.props.groups.map((group) => {
+                              return (
+                                <MDBSelectOption
+                                  value={group.id}
+                                  key={group.id}
+                                  selected={
+                                    this.state.selectedUser.groups.includes(
+                                      group.id
+                                    )
+                                      ? true
+                                      : false
+                                  }
+                                >
+                                  {group.title}
+                                </MDBSelectOption>
+                              );
+                            })}
+                        </MDBSelectOptions>
+                      </MDBSelect>
+                    </>
+                  ) : (
+                    <MDBAlert color="warning">
+                      <p className="mb-0">Please create groups first.</p>
+                    </MDBAlert>
+                  )}
+                </MDBCol>
+              </MDBRow>
+              <div className="d-flex justify-content-between mt-3">
+                <div>
+                  {!this.state.addConnector && (
+                    <MDBBtn
+                      color="danger"
+                      onClick={() => {
+                        this.props.removeUser(this.state.selectedUser.id);
+                        this.toggleModal();
+                      }}
+                      size="md"
+                    >
+                      <MDBIcon icon="trash" />
+                      Remove
+                    </MDBBtn>
+                  )}
+                </div>
+                <div>
+                  <MDBBtn
+                    color="success"
+                    size="md"
+                    onClick={() => {
+                      if (!this.state.addConnector) {
+                        this.props.alterUser(
+                          this.state.selectedUser.id,
+                          this.state.selectedUser
+                        );
+                      } else {
+                        this.props.addUser(this.state.selectedUser);
+                      }
+                      this.toggleModal();
+                    }}
+                  >
+                    <MDBIcon icon="check-circle" />
+                    {!this.state.addConnector ? "Save" : "Create"}
+                  </MDBBtn>
+                </div>
+              </div>
+            </MDBModalBody>
+          </MDBModal>
+        )}
       </MDBContainer>
     );
   }
@@ -270,6 +445,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllUsers: () => dispatch(getAllUsers()),
     getAllGroups: () => dispatch(getAllGroups()),
+    alterUser: (id, user) => dispatch(alterUser(id, user)),
+    addUser: (user) => dispatch(addUser(user)),
+    removeUser: (id) => dispatch(removeUser(id)),
   };
 };
 //#endregion

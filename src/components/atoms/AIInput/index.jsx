@@ -18,8 +18,6 @@ class AIInput extends React.Component {
       className,
     } = this.props;
 
-    console.log(this.props);
-
     if (type !== "textarea") {
       return (
         <div className={className}>

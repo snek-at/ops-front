@@ -13,6 +13,7 @@ export const getAllUsers = () => {
           /* Moderator */
           "41bc06a11bee0f62f9ce469ebe6659f4587f9b88cfad4f3bf5c3261e4d7e5d76",
         ],
+        isActive: true,
         status: {
           /* User is enabled */
           active: true,
@@ -28,6 +29,7 @@ export const getAllUsers = () => {
           /* Moderator */
           "41bc06a11bee0f62f9ce469ebe6659f4587f9b88cfad4f3bf5c3261e4d7e5d76",
         ],
+        isActive: false,
         status: {
           /* User is enabled */
           active: true,
@@ -87,6 +89,22 @@ export const addUser = (user) => {
         },
       });
     }
+  };
+};
+
+// Removes user
+export const removeUser = (id) => {
+  return (dispatch, getState, { getIntel }) => {
+    //@TODO: Remove user by id
+    console.log(id);
+  };
+};
+
+// Alters user
+export const alterUser = (id, newData) => {
+  return (dispatch, getState, { getIntel }) => {
+    //@TODO: Alter user by id
+    console.log(id, newData);
   };
 };
 
