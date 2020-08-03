@@ -100,8 +100,6 @@ class GitLabs extends React.Component {
   };
 
   handleGitLabChange = (name, value) => {
-    console.log(name, value);
-
     this.setState({
       selectedGitLab: {
         ...this.state.selectedGitLab,

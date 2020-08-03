@@ -8,6 +8,7 @@ import User from "./sections/User";
 import Project from "./sections/Project";
 import GitLabs from "./sections/GitLabs";
 import Connectors from "./sections/Connectors";
+import Permissions from "./sections/Permissions";
 // Tabs
 import PageOverview from "./tabs/PageOverview";
 import PageProjects from "./tabs/PageProjects";
@@ -26,6 +27,7 @@ export {
   Project,
   GitLabs,
   Connectors,
+  Permissions,
   /* Tabs */
   PageOverview,
   PageProjects,
