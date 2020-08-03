@@ -16,6 +16,7 @@ import {
   Project,
   GitLabs,
   Connectors,
+  Permissions,
 } from "../../organisms";
 //> Images
 // Too be added
@@ -112,7 +113,7 @@ class HomePage extends React.Component {
                 case "pages":
                   return <p>Pages</p>;
                 case "permissions":
-                  return <p>Permissions</p>;
+                  return <Permissions />;
                 case "connectors":
                   return <Connectors />;
                 case "pipelines":

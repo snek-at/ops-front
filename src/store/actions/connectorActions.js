@@ -21,6 +21,7 @@ export const getConnectors = () => {
             shared: {
               projects: ["looking-glass"],
               users: ["kleberf", "schettn"],
+              /* @TODO Aichner: Add checkboxes in Component to determine what will be shared */
               companyData: {
                 name: true,
                 isRecruiting: true,
