@@ -28,7 +28,6 @@ The SNEK project is an attempt to create a transparent, open-source non-profit p
 -   [Status](#status)
 -   [Bugs and feature requests](#bugs-and-feature-requests)
 -   [Contributing](#contributing)
--   [Community](#community)
 -   [Versioning](#versioning)
 -   [Creators](#creators)
 -   [Thanks](#thanks)
@@ -81,12 +80,6 @@ directions for opening issues, coding standards, and notes on development.
 
 All code should conform to the [Code Guide](https://github.com/snek-at/tonic/blob/master/STYLE_GUIDE.md), maintained by
 [SNEK](https://github.com/snek-at).
-
-## [](#community)Community
-
-Get updates on our development and chat/talk with the project maintainers and community members.
-
-[![Discord][discord-badge]][discord]
 
 ## [](#versioning)Versioning
 
