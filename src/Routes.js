@@ -14,7 +14,11 @@ class Routes extends React.Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" component={(props) => <AdminPage {...props} />} />
+        <Route
+          exact
+          path="/admin"
+          component={(props) => <AdminPage {...props} />}
+        />
       </Switch>
     );
   }
