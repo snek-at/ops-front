@@ -5,7 +5,7 @@ import React from "react";
 // DOM bindings for React Router
 import { Route, Switch } from "react-router-dom";
 //> Components
-import { AdminPage } from "./components/pages";
+import { AdminPage, LoginPage } from "./components/pages";
 //#endregion
 
 //#region > Components
@@ -14,7 +14,12 @@ class Routes extends React.Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" component={(props) => <AdminPage {...props} />} />
+        <Route
+          exact
+          path="/admin"
+          component={(props) => <AdminPage {...props} />}
+        />
+        <Route exact path="/" component={(props) => <LoginPage {...props} />} />
       </Switch>
     );
   }

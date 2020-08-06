@@ -8,8 +8,8 @@ import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 // Side Navigation styling
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 //> Redux
-// Allows to React components read data from a Redux store, and dispatch actions
-// to the store to update data.
+// Allows React components to read data, update data and dispatch actions
+// from/to a Redux store.
 import { connect } from "react-redux";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
