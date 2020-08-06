@@ -2,6 +2,8 @@
 //> React
 // Contains all the functionality necessary to define React components
 import React from "react";
+// Router DOM bindings
+import { Redirect } from "react-router-dom";
 // Prop types
 import PropTypes from "prop-types";
 //> MDB
@@ -14,6 +16,7 @@ import {
   MDBCardBody,
   MDBInput,
   MDBBtn,
+  MDBAlert,
 } from "mdbreact";
 //> Redux
 // Allows to React components read data from a Redux store, and dispatch actions
@@ -40,15 +43,21 @@ import logoImg from "../../../assets/navigation/logo.png";
 // Too be added
 //#endregion
 
+//#region > Config
+const PROFILE_ROUTE = "admin";
+//#endregion
+
 //#region > Components
 /** @class The Admin parent page component which will include all Admin pages */
 class LoginPage extends React.Component {
   state = { email: "", password: "" };
 
   render() {
-    const { passwordAuth, authenticated } = this.props;
+    const { passwordAuth, authenticated, error } = this.props;
 
-    console.log(authenticated);
+    if (authenticated) {
+      return <Redirect to={PROFILE_ROUTE} />;
+    }
 
     return (
       <MDBContainer className="my-5 h-100">
@@ -60,6 +69,11 @@ class LoginPage extends React.Component {
                 {passwordAuth ? (
                   <>
                     <p className="lead">Please enter your password</p>
+                    {error && error.code === 751 && (
+                      <MDBAlert color="danger" className="mt-3">
+                        Wrong password.
+                      </MDBAlert>
+                    )}
                     <MDBInput
                       outline
                       name="password"
@@ -83,6 +97,11 @@ class LoginPage extends React.Component {
                 ) : (
                   <>
                     <p className="lead">Login to OPS</p>
+                    {error && error.code === 750 && (
+                      <MDBAlert color="danger" className="mt-3">
+                        Wrong E-Mail or password.
+                      </MDBAlert>
+                    )}
                     <MDBInput
                       outline
                       name="email"
@@ -140,6 +159,7 @@ LoginPage.defaultProps = {
 //#region > Redux Mapping
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
+  error: state.auth.error,
 });
 
 const mapDispatchToProps = (dispatch) => {
