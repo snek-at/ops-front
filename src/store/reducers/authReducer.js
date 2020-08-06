@@ -1,4 +1,4 @@
-// Have initial state for when state is not ready to be passed
+// Have initial state when state is not ready to be passed
 const initState = {
   user: null,
   authenticated: false,

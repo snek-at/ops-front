@@ -19,28 +19,18 @@ import {
   MDBAlert,
 } from "mdbreact";
 //> Redux
-// Allows to React components read data from a Redux store, and dispatch actions
-// to the store to update data.
+// Allows React components to read data, update data and dispatch actions
+// from/to a Redux store.
 import { connect } from "react-redux";
+
 //> Actions
 // Functions to send data from the application to the store
 import { loginUser, authenticate } from "../../../store/actions/authActions";
 //> Components
 // Molecules
 import { SideNav } from "../../molecules";
-// Pages
-import {
-  Page,
-  Pipelines,
-  User,
-  Project,
-  GitLabs,
-  Connectors,
-  Permissions,
-} from "../../organisms";
 //> Images
 import logoImg from "../../../assets/navigation/logo.png";
-// Too be added
 //#endregion
 
 //#region > Config
@@ -50,7 +40,7 @@ const PROFILE_ROUTE = "admin";
 //#region > Components
 /** @class The Admin parent page component which will include all Admin pages */
 class LoginPage extends React.Component {
-  state = { email: "", password: "" };
+  state = { username: "", password: "" };
 
   render() {
     const { passwordAuth, authenticated, error } = this.props;
@@ -99,15 +89,15 @@ class LoginPage extends React.Component {
                     <p className="lead">Login to OPS</p>
                     {error && error.code === 750 && (
                       <MDBAlert color="danger" className="mt-3">
-                        Wrong E-Mail or password.
+                        Wrong Username or password.
                       </MDBAlert>
                     )}
                     <MDBInput
                       outline
-                      name="email"
+                      name="username"
                       type="text"
-                      label="E-Mail"
-                      value={this.state.email}
+                      label="Username"
+                      value={this.state.username}
                       onChange={(e) =>
                         this.setState({ [e.target.name]: e.target.value })
                       }
@@ -127,7 +117,7 @@ class LoginPage extends React.Component {
                       color="indigo"
                       onClick={() =>
                         this.props.loginUser(
-                          this.state.email,
+                          this.state.username,
                           this.state.password
                         )
                       }
@@ -164,7 +154,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (email, password) => dispatch(loginUser(email, password)),
+    loginUser: (username, password) => dispatch(loginUser(username, password)),
     authenticate: (password) => dispatch(authenticate(password)),
   };
 };

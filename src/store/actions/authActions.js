@@ -1,9 +1,8 @@
 // Login user
-export const loginUser = (email, password) => {
+export const loginUser = (username, password) => {
   return (dispatch, getState, { getIntel }) => {
-    if (email === "ci@s.co" && password === "cisco") {
+    if (username === "cisco" && password === "cisco") {
       const user = {
-        email: "ci@s.co",
         username: "cisco",
       };
 
@@ -20,7 +19,7 @@ export const loginUser = (email, password) => {
           data: false,
           error: {
             code: 750,
-            message: "Login failed for user " + email,
+            message: "Login failed for user " + username,
             origin: "auth",
           },
         },
@@ -34,7 +33,7 @@ export const authenticate = (password) => {
   return (dispatch, getState, { getIntel }) => {
     if (
       getState().auth.user &&
-      getState().auth.user.email &&
+      getState().auth.user.username &&
       password === "cisco"
     ) {
       dispatch({
