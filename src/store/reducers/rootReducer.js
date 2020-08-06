@@ -9,6 +9,7 @@ import gitlabReducer from "./gitlabReducer";
 import pageReducer from "./pageReducer";
 import permissionReducer from "./permissionReducer";
 import pipelineReducer from "./pipelineReducer";
+import authReducer from "./authReducer";
 
 const rootReducer = combineReducers({
   /* Connectors */
@@ -23,6 +24,8 @@ const rootReducer = combineReducers({
   permissions: permissionReducer,
   /* Pipelines */
   pipelines: pipelineReducer,
+  /* Auth */
+  auth: authReducer,
 });
 
 export default rootReducer;

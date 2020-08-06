@@ -15,6 +15,13 @@ import {
   MDBInput,
   MDBBtn,
 } from "mdbreact";
+//> Redux
+// Allows to React components read data from a Redux store, and dispatch actions
+// to the store to update data.
+import { connect } from "react-redux";
+//> Actions
+// Functions to send data from the application to the store
+import { loginUser, authenticate } from "../../../store/actions/authActions";
 //> Components
 // Molecules
 import { SideNav } from "../../molecules";
@@ -39,7 +46,9 @@ class LoginPage extends React.Component {
   state = { email: "", password: "" };
 
   render() {
-    const { passwordAuth } = this.props;
+    const { passwordAuth, authenticated } = this.props;
+
+    console.log(authenticated);
 
     return (
       <MDBContainer className="my-5 h-100">
@@ -62,7 +71,14 @@ class LoginPage extends React.Component {
                       }
                       containerClass="mb-2"
                     />
-                    <MDBBtn color="indigo">Authenticate</MDBBtn>
+                    <MDBBtn
+                      color="indigo"
+                      onClick={() =>
+                        this.props.authenticate(this.state.password)
+                      }
+                    >
+                      Authenticate
+                    </MDBBtn>
                   </>
                 ) : (
                   <>
@@ -88,7 +104,17 @@ class LoginPage extends React.Component {
                       }
                       containerClass="mb-2"
                     />
-                    <MDBBtn color="indigo">Login</MDBBtn>
+                    <MDBBtn
+                      color="indigo"
+                      onClick={() =>
+                        this.props.loginUser(
+                          this.state.email,
+                          this.state.password
+                        )
+                      }
+                    >
+                      Login
+                    </MDBBtn>
                   </>
                 )}
               </MDBCardBody>
@@ -107,12 +133,32 @@ LoginPage.propTypes = {
 };
 
 LoginPage.defaultProps = {
-  passwordAuth: true,
+  passwordAuth: false,
+};
+//#endregion
+
+//#region > Redux Mapping
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (email, password) => dispatch(loginUser(email, password)),
+    authenticate: (password) => dispatch(authenticate(password)),
+  };
 };
 //#endregion
 
 //#region > Exports
-export default LoginPage;
+/**
+ * Provides its connected component with the pieces of the data it needs from
+ * the store, and the functions it can use to dispatch actions to the store.
+ *
+ * Got access to the history object’s properties and the closest
+ * <Route>'s match.
+ */
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
 //#endregion
 
 /**
