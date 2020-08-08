@@ -5,6 +5,7 @@ export const getConnectors = () => {
     const result = [
       {
         id: "553cf7eaa7f418e0df38e37b05f67325d33485ffb0e063bf4ce679121061f5ac",
+        token: "4tzvn3487t4z3t8z8ztr34879r834r739zc",
         name: "CodeShare",
         useIP: true,
         ip: "192.168.69.1",
@@ -66,39 +67,9 @@ export const getConnectors = () => {
 export const getConnectorById = (id) => {
   return (dispatch, getState, { getIntel }) => {
     // Dummy Data
-    const result = [
-      {
-        id: "553cf7eaa7f418e0df38e37b05f67325d33485ffb0e063bf4ce679121061f5ac",
-        name: "CodeShare",
-        ip: "192.168.69.1",
-        domain: null,
-        isActive: true,
-        gitlab: [
-          {
-            ip: null,
-            domain: "terminus.anexia.at",
-          },
-        ],
-        settings: {
-          shared: {
-            projects: [{ title: "Projekt 1" }, { title: "Projekt 2" }],
-            users: [
-              { full_name: "Florian Schett" },
-              { full_name: "Nico Kleber" },
-            ],
-            companyData: {
-              legal_name: "Werbeagentur Christian Aichner",
-            },
-            statistics: {
-              memberOrigin: false,
-            },
-          },
-          contribData: {
-            commits: [{ total: 1 }],
-          },
-        },
-      },
-    ];
+    const connectors = getState().connectors.connectors;
+
+    const result = connectors.filter((item) => item.id === id);
 
     if (result) {
       dispatch({
