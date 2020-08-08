@@ -180,6 +180,8 @@ export const alterConnector = (id, newConnector) => {
   return (dispatch, getState, { getIntel }) => {
     // Take current connector by id and alter its content
     console.log(id, newConnector);
+
+    //@TODO Error handling: 703 Could not alter connector <id>
   };
 };
 
@@ -188,6 +190,8 @@ export const removeConnector = (id) => {
   return (dispatch, getState, { getIntel }) => {
     // Removes connector
     console.log(id);
+
+    //@TODO Error handling: 704 Could not remove connector <id>
   };
 };
 
