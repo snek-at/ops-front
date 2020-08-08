@@ -117,7 +117,10 @@ class Permissions extends React.Component {
 
     if (this.state.activeItem === 0) {
       const results = users.filter((user) => {
-        if (this.unifyString(user.full_name).includes(val)) {
+        if (
+          this.unifyString(user.full_name).includes(val) ||
+          this.unifyString(user.username).includes(val)
+        ) {
           return user;
         }
       });
@@ -219,6 +222,21 @@ class Permissions extends React.Component {
         </MDBNav>
         <MDBTabContent className="card" activeItem={this.state.activeItem}>
           <MDBTabPane tabId={0} role="tabpanel">
+            <div className="text-right mb-3">
+              <MDBBtn
+                color="green"
+                className="mr-0"
+                onClick={() =>
+                  this.setState({
+                    modal: true,
+                    selectedUser: { isActive: true },
+                    addUser: true,
+                  })
+                }
+              >
+                Add user
+              </MDBBtn>
+            </div>
             <MDBListGroup>
               {users &&
                 users.map((user, p) => {
@@ -234,7 +252,8 @@ class Permissions extends React.Component {
                       key={p}
                     >
                       <div>
-                        <p className="lead mb-1">{user.full_name}</p>
+                        <p className="lead mb-0">{user.full_name}</p>
+                        <p className="small mb-1 text-muted">{user.username}</p>
                         <p className="mb-0 text-muted">
                           {user.groups.map((group, g) => {
                             const selectedGroup = groups.filter(
@@ -306,7 +325,7 @@ class Permissions extends React.Component {
             <MDBModalBody>
               <div className="d-flex justify-content-between">
                 <p className="lead font-weight-bold">
-                  {!this.state.addConnector
+                  {!this.state.addUser
                     ? this.state.selectedUser.full_name
                     : "Add new user"}
                 </p>
@@ -320,15 +339,30 @@ class Permissions extends React.Component {
                   Cancel
                 </MDBBtn>
               </div>
-              <AIInput
-                title="Full name"
-                description="Enter the full name of the user"
-                name="full_name"
-                placeholder="Connector Name"
-                value={this.state.selectedUser.full_name}
-                handleChange={this.handleUserChange}
-                key="full_name"
-              />
+              <MDBRow>
+                <MDBCol lg="6">
+                  <AIInput
+                    title="Full name"
+                    description="Enter the full name of the user"
+                    name="full_name"
+                    placeholder="Full Name"
+                    value={this.state.selectedUser.full_name}
+                    handleChange={this.handleUserChange}
+                    key="full_name"
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  <AIInput
+                    title="Username"
+                    description="Enter the full name of the user"
+                    name="username"
+                    placeholder="Username"
+                    value={this.state.selectedUser.username}
+                    handleChange={this.handleUserChange}
+                    key="username"
+                  />
+                </MDBCol>
+              </MDBRow>
               <MDBRow>
                 <MDBCol lg="6">
                   <AIToggle
@@ -368,10 +402,12 @@ class Permissions extends React.Component {
                                   value={group.id}
                                   key={group.id}
                                   selected={
-                                    this.state.selectedUser.groups.includes(
-                                      group.id
-                                    )
-                                      ? true
+                                    this.state.selectedUser.groups
+                                      ? this.state.selectedUser.groups.includes(
+                                          group.id
+                                        )
+                                        ? true
+                                        : false
                                       : false
                                   }
                                 >
@@ -391,7 +427,7 @@ class Permissions extends React.Component {
               </MDBRow>
               <div className="d-flex justify-content-between mt-3">
                 <div>
-                  {!this.state.addConnector && (
+                  {!this.state.addUser && (
                     <MDBBtn
                       color="danger"
                       onClick={() => {
@@ -410,7 +446,7 @@ class Permissions extends React.Component {
                     color="success"
                     size="md"
                     onClick={() => {
-                      if (!this.state.addConnector) {
+                      if (!this.state.addUser) {
                         this.props.alterUser(
                           this.state.selectedUser.id,
                           this.state.selectedUser
@@ -422,7 +458,7 @@ class Permissions extends React.Component {
                     }}
                   >
                     <MDBIcon icon="check-circle" />
-                    {!this.state.addConnector ? "Save" : "Create"}
+                    {!this.state.addUser ? "Save" : "Create"}
                   </MDBBtn>
                 </div>
               </div>
