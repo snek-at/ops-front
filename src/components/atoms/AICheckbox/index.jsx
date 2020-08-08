@@ -8,8 +8,8 @@ import { MDBInput } from "mdbreact";
 //#endregion
 
 //#region > Components
-/** @class Custom input */
-class AIInput extends React.Component {
+/** @class Custom checkbox input */
+class AICheckbox extends React.Component {
   render() {
     const { label, name, checked, className } = this.props;
 
@@ -28,7 +28,7 @@ class AIInput extends React.Component {
 //#endregion
 
 //#region > Exports
-export default AIInput;
+export default AICheckbox;
 //#endregion
 
 /**
