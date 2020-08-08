@@ -4,8 +4,6 @@
 // Sections
 import Page from "./sections/Page";
 import Pipelines from "./sections/Pipelines";
-import User from "./sections/User";
-import Project from "./sections/Project";
 import GitLabs from "./sections/GitLabs";
 import Connectors from "./sections/Connectors";
 import Permissions from "./sections/Permissions";
@@ -14,6 +12,9 @@ import PageOverview from "./tabs/PageOverview";
 import PageProjects from "./tabs/PageProjects";
 import PageUsers from "./tabs/PageUsers";
 import PageImprint from "./tabs/PageImprint";
+// Modals
+import UserModal from "./modals/UserModal";
+import ProjectModal from "./modals/ProjectModal";
 // Other components
 //#endregion
 
@@ -23,8 +24,6 @@ export {
   /* Sections */
   Page,
   Pipelines,
-  User,
-  Project,
   GitLabs,
   Connectors,
   Permissions,
@@ -33,6 +32,9 @@ export {
   PageProjects,
   PageUsers,
   PageImprint,
+  /* Modals */
+  UserModal,
+  ProjectModal,
 };
 //#endregion
 

@@ -262,25 +262,20 @@ class Page extends React.Component {
                             )}
                           </p>
                           {page.company.verified && (
-                            <div className="verified-badge mb-1">
+                            <div className="verified-badge mb-3">
                               <MDBBadge color="success">
                                 <MDBIcon icon="check-circle" />
                                 Verified
                               </MDBBadge>
                             </div>
                           )}
-                          <p className="text-muted mb-1">
+                          <p className="text-muted mb-3">
                             {page.company.description}
                           </p>
                         </div>
                         <div className="d-flex">
-                          <a href={`mailto:${page.company.email}`}>
-                            <MDBBtn color="indigo" size="md">
-                              Contact
-                            </MDBBtn>
-                          </a>
                           <MDBBtn color="green" size="md">
-                            Follow
+                            Nice button
                           </MDBBtn>
                         </div>
                       </div>
@@ -330,95 +325,6 @@ class Page extends React.Component {
                     </MDBCol>
                   </MDBRow>
                 </MDBCardBody>
-                <MDBCardFooter className="px-4 py-3">
-                  <div className="stats d-flex">
-                    {page.company.revenueGrowth && (
-                      <span className="d-inline-block mr-4">
-                        <MDBIcon
-                          icon="angle-double-up"
-                          size="sm"
-                          className="green-text font-weight-bold"
-                        />{" "}
-                        <span className="font-weight-bold green-text">
-                          +{page.company.revenueGrowth.value}
-                          {page.company.revenueGrowth.unit}
-                        </span>{" "}
-                        revenue
-                        <br />
-                        <small className="text-muted">
-                          compared to {page.company.revenueGrowth.comparedTo}
-                        </small>
-                      </span>
-                    )}
-                    <span className="d-inline-block mr-4">
-                      <MDBIcon
-                        icon="building"
-                        size="sm"
-                        className="blue-text font-weight-bold"
-                      />{" "}
-                      Sites
-                      <br />
-                      <small className="text-muted">
-                        {page.company.sites ? page.company.sites.length : 0}{" "}
-                        location
-                      </small>
-                    </span>
-                    <span className="d-inline-block mr-4">
-                      <MDBIcon
-                        icon="code"
-                        size="sm"
-                        className="blue-text font-weight-bold"
-                      />{" "}
-                      Contributors
-                      <br />
-                      <small className="text-muted">
-                        {page.company.contributors && (
-                          <>
-                            {page.company.contributors.map((contrib, i) => {
-                              if (contrib.url) {
-                                return (
-                                  <a
-                                    key={i}
-                                    href={contrib.url}
-                                    target="_blank"
-                                    className="text-muted"
-                                    rel="noopener noreferrer"
-                                  >
-                                    <MDBIcon
-                                      fab
-                                      icon={
-                                        contrib.platform
-                                          ? contrib.platform
-                                          : "question-circle"
-                                      }
-                                      className={i !== 0 ? "mr-1 ml-2" : "mr-1"}
-                                    />
-                                    {contrib.value ? contrib.value : 0}
-                                  </a>
-                                );
-                              } else {
-                                return (
-                                  <React.Fragment key={i}>
-                                    <MDBIcon
-                                      fab
-                                      icon={
-                                        contrib.platform
-                                          ? contrib.platform
-                                          : "question-circle"
-                                      }
-                                      className={i !== 0 ? "mr-1 ml-2" : "mr-1"}
-                                    />
-                                    {contrib.value ? contrib.value : 0}
-                                  </React.Fragment>
-                                );
-                              }
-                            })}
-                          </>
-                        )}
-                      </small>
-                    </span>
-                  </div>
-                </MDBCardFooter>
               </MDBCard>
             </MDBCol>
             <MDBCol lg="12">

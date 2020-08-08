@@ -8,27 +8,7 @@ import React from "react";
 import { connect } from "react-redux";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
-import {
-  MDBContainer,
-  MDBListGroup,
-  MDBListGroupItem,
-  MDBIcon,
-  MDBInput,
-  MDBRow,
-  MDBBadge,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBCardFooter,
-  MDBBtn,
-  MDBProgress,
-  MDBTooltip,
-  MDBTabContent,
-  MDBTabPane,
-  MDBNav,
-  MDBNavLink,
-  MDBNavItem,
-} from "mdbreact";
+import { MDBModal, MDBModalBody } from "mdbreact";
 
 //> Actions
 // Functions to send data from the application to the store
@@ -36,31 +16,18 @@ import {
   getUserByHandle,
   getUsers,
 } from "../../../../store/actions/pageActions";
-//> Images
-// Too be added
 //#endregion
 
 //#region > Components
-/** @class This component displays pipelines */
-class User extends React.Component {
-  state = {
-    user: null,
-  };
+/** @class Custom input */
+class UserModal extends React.Component {
+  state = { user: undefined };
 
   componentDidMount = () => {
-    // Retrieve Pipelines
-    this.props.getUsers();
+    this.props.getUserByHandle(this.props.handle);
   };
 
   componentDidUpdate = (prevState) => {
-    // Check if there is no current user set
-    if (
-      this.props.users !== prevState.users ||
-      (this.props.user && this.props.user.username !== this.props.handle)
-    ) {
-      this.props.getUserByHandle(this.props.handle);
-    }
-
     if (
       (this.props.user && !this.state.user) ||
       (this.state.user && this.state.user.username !== this.props.handle)
@@ -75,33 +42,31 @@ class User extends React.Component {
     const { user } = this.state;
 
     return (
-      <MDBContainer id="user">
-        {user ? (
-          <div>
-            <p>{user.avatar}</p>
-            <p>{user.username}</p>
-          </div>
-        ) : (
-          <div>
-            <p>No user</p>
-          </div>
-        )}
-      </MDBContainer>
+      <MDBModal isOpen={true} toggle={this.props.toggle} size="lg">
+        <MDBModalBody>
+          {user ? (
+            <div>
+              <p>{user.avatar}</p>
+              <p>{user.username}</p>
+            </div>
+          ) : (
+            <div>
+              <p>No user</p>
+            </div>
+          )}
+        </MDBModalBody>
+      </MDBModal>
     );
   }
 }
-//#endregion
-
 //#region > Redux Mapping
 const mapStateToProps = (state) => ({
   user: state.pages.user,
-  users: state.pages.users,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getUserByHandle: (handle) => dispatch(getUserByHandle(handle)),
-    getUsers: () => dispatch(getUsers()),
   };
 };
 //#endregion
@@ -114,7 +79,7 @@ const mapDispatchToProps = (dispatch) => {
  * Got access to the history object’s properties and the closest
  * <Route>'s match.
  */
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default connect(mapStateToProps, mapDispatchToProps)(UserModal);
 //#endregion
 
 /**

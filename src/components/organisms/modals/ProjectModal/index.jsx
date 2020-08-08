@@ -8,27 +8,7 @@ import React from "react";
 import { connect } from "react-redux";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
-import {
-  MDBContainer,
-  MDBListGroup,
-  MDBListGroupItem,
-  MDBIcon,
-  MDBInput,
-  MDBRow,
-  MDBBadge,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBCardFooter,
-  MDBBtn,
-  MDBProgress,
-  MDBTooltip,
-  MDBTabContent,
-  MDBTabPane,
-  MDBNav,
-  MDBNavLink,
-  MDBNavItem,
-} from "mdbreact";
+import { MDBModal, MDBModalBody } from "mdbreact";
 
 //> Actions
 // Functions to send data from the application to the store
@@ -36,36 +16,23 @@ import {
   getProjectByHandle,
   getProjects,
 } from "../../../../store/actions/pageActions";
-//> Images
-// Too be added
 //#endregion
 
 //#region > Components
-/** @class This component displays pipelines */
-class Project extends React.Component {
-  state = {
-    project: null,
-  };
+/** @class Custom input */
+class ProjectModal extends React.Component {
+  state = { project: undefined };
 
   componentDidMount = () => {
-    // Retrieve Pipelines
-    this.props.getProjects();
+    this.props.getProjectByHandle(this.props.handle);
   };
 
   componentDidUpdate = (prevState) => {
-    // Check if there is no current project set
-    if (
-      this.props.projects !== prevState.projects ||
-      (this.props.project && this.props.project.handle !== this.props.handle)
-    ) {
-      console.log(this.props.handle);
-      this.props.getProjectByHandle(this.props.handle);
-    }
-
     if (
       (this.props.project && !this.state.project) ||
       (this.state.project && this.state.project.handle !== this.props.handle)
     ) {
+      console.log(this.props.project);
       this.setState({
         project: this.props.project,
       });
@@ -76,33 +43,30 @@ class Project extends React.Component {
     const { project } = this.state;
 
     return (
-      <MDBContainer id="project">
-        {project ? (
-          <div>
-            <p>{project.handle}</p>
-            <p>{project.title}</p>
-          </div>
-        ) : (
-          <div>
-            <p>No project</p>
-          </div>
-        )}
-      </MDBContainer>
+      <MDBModal isOpen={true} toggle={this.props.toggle} size="lg">
+        <MDBModalBody>
+          {project ? (
+            <div>
+              <p>{project.title}</p>
+            </div>
+          ) : (
+            <div>
+              <p>No project</p>
+            </div>
+          )}
+        </MDBModalBody>
+      </MDBModal>
     );
   }
 }
-//#endregion
-
 //#region > Redux Mapping
 const mapStateToProps = (state) => ({
   project: state.pages.project,
-  projects: state.pages.projects,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getProjectByHandle: (handle) => dispatch(getProjectByHandle(handle)),
-    getProjects: () => dispatch(getProjects()),
   };
 };
 //#endregion
@@ -115,7 +79,7 @@ const mapDispatchToProps = (dispatch) => {
  * Got access to the history object’s properties and the closest
  * <Route>'s match.
  */
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectModal);
 //#endregion
 
 /**

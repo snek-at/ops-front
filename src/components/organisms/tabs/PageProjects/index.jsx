@@ -25,6 +25,8 @@ import moment from "moment";
 //> Actions
 // Functions to send data from the application to the store
 import { getProjects } from "../../../../store/actions/pageActions";
+//> Components
+import { UserModal, ProjectModal } from "../../";
 //> CSS
 import "./pageprojects.scss";
 //> Images
@@ -76,6 +78,13 @@ class PageProjects extends React.Component {
     this.setState({ projects: results });
   };
 
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal,
+      handle: undefined,
+    });
+  };
+
   render() {
     const { projects } = this.state;
 
@@ -94,7 +103,7 @@ class PageProjects extends React.Component {
               return (
                 <MDBListGroupItem
                   onClick={() =>
-                    this.props.navigateTo("project", project.handle)
+                    this.setState({ modal: true, handle: project.handle })
                   }
                   className="d-flex justify-content-between align-items-center clickable"
                   key={p}
@@ -109,6 +118,13 @@ class PageProjects extends React.Component {
               );
             })}
         </MDBListGroup>
+        {this.state.modal && this.state.handle && this.props.projects && (
+          <ProjectModal
+            toggle={this.toggle}
+            projects={this.props.projects}
+            handle={this.state.handle}
+          />
+        )}
       </div>
     );
   }

@@ -25,6 +25,8 @@ import moment from "moment";
 //> Actions
 // Functions to send data from the application to the store
 import { getUsers } from "../../../../store/actions/pageActions";
+//> Components
+import { UserModal } from "../../";
 //> CSS
 import "./pageusers.scss";
 //> Images
@@ -34,7 +36,7 @@ import "./pageusers.scss";
 //#region > Components
 /** @class This component displays page overview of the page section */
 class PageUsers extends React.Component {
-  state = { users: null };
+  state = { users: null, modal: false };
 
   componentDidMount = () => {
     this.props.getUsers();
@@ -79,6 +81,13 @@ class PageUsers extends React.Component {
     this.setState({ users: results });
   };
 
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal,
+      handle: undefined,
+    });
+  };
+
   render() {
     const { users } = this.state;
 
@@ -101,7 +110,9 @@ class PageUsers extends React.Component {
               return (
                 <MDBListGroupItem
                   className="d-flex justify-content-between align-items-center clickable"
-                  onClick={() => this.props.navigateTo("user", user.username)}
+                  onClick={() =>
+                    this.setState({ modal: true, handle: user.username })
+                  }
                   key={p}
                 >
                   <div className="d-flex align-items-center">
@@ -124,6 +135,13 @@ class PageUsers extends React.Component {
               );
             })}
         </MDBListGroup>
+        {this.state.modal && this.props.users && this.state.handle && (
+          <UserModal
+            toggle={this.toggle}
+            users={this.props.users}
+            handle={this.state.handle}
+          />
+        )}
       </div>
     );
   }
