@@ -108,8 +108,7 @@ export const createGitlab = (gitlab) => {
       let gitlabs = getState().gitlabs.gitlabs;
 
       // Do authy thingies
-      const username = gitlab.user;
-      const password = gitlab.password;
+      const token = gitlab.token;
 
       // Create gitlab object
       const newGitLab = {
@@ -117,8 +116,8 @@ export const createGitlab = (gitlab) => {
         useIP: gitlab.useIP ? true : false,
         id: "xxxxxx", // Auto generate unique ID in wagtail
         ip: gitlab.ip ? gitlab.ip : null,
-        username,
-        token: "xxxxx", // Use receiving token from authy thingies
+        username: gitlab.username,
+        token, // Use receiving token from authy thingies
         user: "snekman", // Get type of user from authy thingies
       };
 
