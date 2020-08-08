@@ -15,6 +15,7 @@ import PageImprint from "./tabs/PageImprint";
 // Modals
 import UserModal from "./modals/UserModal";
 import ProjectModal from "./modals/ProjectModal";
+import GitLabModal from "./modals/GitLabModal";
 // Other components
 //#endregion
 
@@ -35,6 +36,7 @@ export {
   /* Modals */
   UserModal,
   ProjectModal,
+  GitLabModal,
 };
 //#endregion
 

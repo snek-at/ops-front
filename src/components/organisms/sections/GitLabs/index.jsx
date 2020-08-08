@@ -14,28 +14,14 @@ import {
   MDBListGroupItem,
   MDBIcon,
   MDBInput,
-  MDBModal,
-  MDBModalBody,
-  MDBRow,
-  MDBCol,
-  MDBAlert,
   MDBBtn,
 } from "mdbreact";
-//> Additional
-// Everything time related
-import moment from "moment";
 
 //> Actions
 // Functions to send data from the application to the store
-import {
-  getGitLabs,
-  testConnection,
-  createGitlab,
-  alterGitlab,
-  removeGitlab,
-} from "../../../../store/actions/gitlabActions";
+import { getGitLabs } from "../../../../store/actions/gitlabActions";
 //> Components
-import { AIInput, AIToggle } from "../../../atoms";
+import { GitLabModal } from "../../";
 //> Images
 // Too be added
 //#endregion
@@ -93,43 +79,9 @@ class GitLabs extends React.Component {
     this.setState({
       modal: !this.state.modal,
       selectedGitLab: null,
-      testing: undefined,
       addGitLab: false,
       authorizedUser: undefined,
     });
-  };
-
-  handleGitLabChange = (name, value) => {
-    this.setState({
-      selectedGitLab: {
-        ...this.state.selectedGitLab,
-        [name]: value,
-      },
-    });
-  };
-
-  handleGitLabModeChange = (name) => {
-    this.setState({
-      selectedGitLab: {
-        ...this.state.selectedGitLab,
-        [name]: !this.state.selectedGitLab[name],
-      },
-    });
-  };
-
-  testConnection = (gitlab) => {
-    this.setState(
-      {
-        testing: "loading",
-      },
-      async () => {
-        const response = await this.props.testConnection(gitlab);
-
-        this.setState({
-          testing: response ? "success" : "fail",
-        });
-      }
-    );
   };
 
   render() {
@@ -225,232 +177,13 @@ class GitLabs extends React.Component {
             })}
         </MDBListGroup>
         {this.state.modal && (
-          <MDBModal
-            isOpen={this.state.modal}
+          <GitLabModal
+            selectedGitLab={this.state.selectedGitLab}
+            addGitLab={this.state.addGitLab}
+            authorizedUser={this.state.authorizedUser}
+            testing={this.state.testing}
             toggle={this.toggleModal}
-            size="md"
-          >
-            <MDBModalBody>
-              <div className="d-flex justify-content-between">
-                <p className="lead font-weight-bold">
-                  {!this.state.addGitLab
-                    ? this.state.selectedGitLab.domain
-                      ? this.state.selectedGitLab.domain
-                      : this.state.selectedGitLab.ip
-                    : "Add new GitLab"}
-                </p>
-                <MDBBtn
-                  color="danger"
-                  outline
-                  onClick={this.toggleModal}
-                  size="md"
-                >
-                  <MDBIcon icon="times-circle" />
-                  Cancel
-                </MDBBtn>
-              </div>
-              <MDBRow>
-                <MDBCol lg="6">
-                  <AIToggle
-                    title="Domain / IP"
-                    description="Reach GitLab server by domain or ip address?"
-                    checked={!this.state.selectedGitLab.useIP}
-                    change={this.handleGitLabModeChange}
-                    name="useIP"
-                    labelLeft="IP"
-                    labelRight="Domain"
-                  />
-                </MDBCol>
-                <MDBCol lg="6">
-                  {this.state.selectedGitLab.useIP ? (
-                    <AIInput
-                      title="IP Address"
-                      description="Enter the GitLab IP Address"
-                      name="ip"
-                      placeholder="GitLab IP"
-                      value={this.state.selectedGitLab.ip}
-                      handleChange={this.handleGitLabChange}
-                      key="ip"
-                    />
-                  ) : (
-                    <AIInput
-                      title="Domain"
-                      description="Enter the GitLab domain"
-                      name="domain"
-                      placeholder="GitLab Domain"
-                      value={this.state.selectedGitLab.domain}
-                      handleChange={this.handleGitLabChange}
-                      key="domain"
-                    />
-                  )}
-                </MDBCol>
-              </MDBRow>
-              <hr />
-              <MDBRow className="mt-3">
-                <MDBCol lg="6">
-                  <AIToggle
-                    title="Privacy mode"
-                    description="This determines what information is being fetched."
-                    checked={!this.state.selectedGitLab.isIDC}
-                    change={this.handleGitLabModeChange}
-                    name="isIDC"
-                    labelLeft="IDC"
-                    labelRight="POLP"
-                  />
-                </MDBCol>
-                <MDBCol lg="6">
-                  <MDBAlert color="info" className="mb-0">
-                    <p className="mb-0">
-                      <strong>IDC</strong>
-                    </p>
-                    <p className="small">
-                      Fetch all information the user has access to.
-                    </p>
-                    <p className="mb-0">
-                      <strong>POLP</strong>
-                    </p>
-                    <p className="small mb-0">
-                      Fetch all projects the user has access to.
-                    </p>
-                  </MDBAlert>
-                </MDBCol>
-              </MDBRow>
-              <hr />
-              <AIInput
-                title="Authentication"
-                description="Please enter the gitlab access token"
-                name="token"
-                placeholder="Token"
-                value={this.state.selectedGitLab.token}
-                handleChange={this.handleGitLabChange}
-                key="token"
-              />
-              {/*
-                <MDBRow className="mt-3">
-                  <MDBCol lg="6">
-                    {this.state.selectedGitLab.username &&
-                      !this.state.addGitLab && (
-                        <div className="mb-2">
-                          <code className="text-success">
-                            <MDBIcon icon="check-circle" className="mr-2" />
-                            Authenticated as {this.state.authorizedUser}
-                          </code>
-                        </div>
-                      )}
-                    <AIInput
-                      description="Enter your GitLab username"
-                      name="username"
-                      placeholder="GitLab username"
-                      value={this.state.selectedGitLab.username}
-                      handleChange={this.handleGitLabChange}
-                    />
-                    <AIInput
-                      type="password"
-                      description="Enter your GitLab password"
-                      name="password"
-                      placeholder="GitLab password"
-                      value={this.state.selectedGitLab.password}
-                      handleChange={this.handleGitLabChange}
-                      className="mt-2"
-                    />
-                  </MDBCol>
-                  <MDBCol lg="6">
-                    <MDBAlert color="info" className="mb-0">
-                      <p className="mb-0">
-                        <strong>Authentication</strong>
-                      </p>
-                      <p className="small">
-                        The permissions of the connected user determines the
-                        level of access you grant.
-                      </p>
-                      <p className="small mb-0">
-                        We do not store user credentials.
-                      </p>
-                    </MDBAlert>
-                  </MDBCol>
-                </MDBRow>
-              */}
-              <div className="d-flex justify-content-between mt-3">
-                <div>
-                  {!this.state.addGitLab && (
-                    <MDBBtn
-                      color="danger"
-                      onClick={() => {
-                        this.props.removeGitlab(this.state.selectedGitLab.id);
-                        this.toggleModal();
-                      }}
-                      size="md"
-                    >
-                      <MDBIcon icon="trash" />
-                      Remove
-                    </MDBBtn>
-                  )}
-                </div>
-                <div>
-                  <MDBBtn
-                    color={
-                      this.state.testing === "success"
-                        ? "success"
-                        : this.state.testing === "fail"
-                        ? "danger"
-                        : this.state.testing === "loading"
-                        ? "elegant"
-                        : "elegant"
-                    }
-                    size="md"
-                    onClick={() =>
-                      this.testConnection(this.state.selectedGitLab)
-                    }
-                    disabled={
-                      this.state.testing === "success" ||
-                      this.state.testing === "fail"
-                    }
-                  >
-                    <MDBIcon
-                      icon={
-                        this.state.testing === "success"
-                          ? "check-circle"
-                          : this.state.testing === "fail"
-                          ? "times-circle"
-                          : this.state.testing === "loading"
-                          ? "sync-alt"
-                          : "sync-alt"
-                      }
-                      className={
-                        this.state.testing === "loading" ? "fa-spin" : undefined
-                      }
-                    />
-                    Test{" "}
-                    {this.state.testing === "success"
-                      ? "completed"
-                      : this.state.testing === "fail"
-                      ? "failed"
-                      : this.state.testing === "loading"
-                      ? "connection"
-                      : "connection"}
-                  </MDBBtn>
-                  <MDBBtn
-                    color="success"
-                    size="md"
-                    onClick={() => {
-                      if (!this.state.addGitLab) {
-                        this.props.alterGitlab(
-                          this.state.selectedGitLab.id,
-                          this.state.selectedGitLab
-                        );
-                      } else {
-                        this.props.createGitlab(this.state.selectedGitLab);
-                      }
-                      this.toggleModal();
-                    }}
-                  >
-                    <MDBIcon icon="check-circle" />
-                    {!this.state.addGitLab ? "Save" : "Create"}
-                  </MDBBtn>
-                </div>
-              </div>
-            </MDBModalBody>
-          </MDBModal>
+          />
         )}
       </MDBContainer>
     );
@@ -466,10 +199,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getGitLabs: () => dispatch(getGitLabs()),
-    testConnection: (gitlab) => dispatch(testConnection(gitlab)),
-    createGitlab: (gitlab) => dispatch(createGitlab(gitlab)),
-    alterGitlab: (handle, gitlab) => dispatch(alterGitlab(handle, gitlab)),
-    removeGitlab: (handle) => dispatch(removeGitlab(handle)),
   };
 };
 //#endregion
