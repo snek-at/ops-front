@@ -1,6 +1,7 @@
 // Have initial state when state is not ready to be passed
 const initState = {
   groups: [],
+  groupPermissions: [],
   users: [],
   error: null,
 };
@@ -59,6 +60,24 @@ const permissionReducer = (state = initState, action) => {
       return {
         ...state,
         users: [],
+        error: action.payload.error,
+      };
+    case "GET_GROUP_PERMISSIONS_SUCCESS":
+      return {
+        ...state,
+        groupPermissions: action.payload.data,
+        error: null,
+      };
+    case "GET_GROUP_PERMISSIONS_FAIL":
+      console.error(
+        action.payload.error.code,
+        action.payload.error.origin,
+        action.payload.error.message
+      );
+
+      return {
+        ...state,
+        groupPermissions: [],
         error: action.payload.error,
       };
     default:

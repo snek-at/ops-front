@@ -5,11 +5,12 @@
 import ScrollToTop from "./ScrollToTop";
 import AIInput from "./AIInput";
 import AIToggle from "./AIToggle";
+import AICheckbox from "./AICheckbox";
 //#endregion
 
 //#region > Exports
 //> Atoms
-export { ScrollToTop, AIInput, AIToggle };
+export { ScrollToTop, AIInput, AIToggle, AICheckbox };
 //#endregion
 
 /**

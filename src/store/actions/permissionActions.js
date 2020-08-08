@@ -7,6 +7,7 @@ export const getAllUsers = () => {
         /* Wagtail uid */
         id: "296f9448212b537473769a5ded79fc6a658d4a3b2bcbc2cd762ea817f125ec10",
         full_name: "Florian Schett",
+        username: "schettf",
         groups: [
           /* Admin */
           "418a6dcfe4fbf7c194efac9b37cc0395241dd2590049477dc47950069fd6cb0c",
@@ -25,6 +26,7 @@ export const getAllUsers = () => {
         /* Wagtail uid */
         id: "3ae093f08af3622a290e81a33fbe50e052f12c765253d84ac85155a8f70e075d",
         full_name: "Nico Kleber",
+        username: "klebern",
         groups: [
           /* Moderator */
           "41bc06a11bee0f62f9ce469ebe6659f4587f9b88cfad4f3bf5c3261e4d7e5d76",
@@ -54,7 +56,7 @@ export const getAllUsers = () => {
           error: {
             code: 730,
             message: "Could not get users",
-            origin: "permissions",
+            origin: "user",
           },
         },
       });
@@ -84,7 +86,7 @@ export const addUser = (user) => {
           error: {
             code: 731,
             message: "Could not create user",
-            origin: "permissions",
+            origin: "user",
           },
         },
       });
@@ -131,11 +133,48 @@ export const addGroup = (group) => {
             error: {
               code: 732,
               message: "Could not create group",
-              origin: "permissions",
+              origin: "group",
             },
           },
         });
       }
+    }
+  };
+};
+
+export const getGroupPermissions = () => {
+  return (dispatch, getState, { getIntel }) => {
+    // Dummy data
+    const result = [
+      {
+        title: "Access something",
+        types: [
+          { name: "add", status: false },
+          { name: "change", status: false },
+          { name: "delete", status: false },
+        ],
+      },
+    ];
+
+    if (result) {
+      dispatch({
+        type: "GET_GROUP_PERMISSIONS_SUCCESS",
+        payload: {
+          data: result,
+        },
+      });
+    } else {
+      dispatch({
+        type: "GET_GROUP_PERMISSIONS_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 733,
+            message: "Could not get group permissions",
+            origin: "group",
+          },
+        },
+      });
     }
   };
 };
@@ -148,10 +187,30 @@ export const getAllGroups = () => {
       {
         id: "418a6dcfe4fbf7c194efac9b37cc0395241dd2590049477dc47950069fd6cb0c",
         title: "Admin",
+        permissions: [
+          {
+            title: "Access something",
+            types: [
+              { name: "add", status: true },
+              { name: "change", status: true },
+              { name: "delete", status: false },
+            ],
+          },
+        ],
       },
       {
         id: "41bc06a11bee0f62f9ce469ebe6659f4587f9b88cfad4f3bf5c3261e4d7e5d76",
         title: "Moderator",
+        permissions: [
+          {
+            title: "Access something else",
+            types: [
+              { name: "add", status: false },
+              { name: "change", status: false },
+              { name: "delete", status: false },
+            ],
+          },
+        ],
       },
     ];
 
@@ -168,13 +227,37 @@ export const getAllGroups = () => {
         payload: {
           data: false,
           error: {
-            code: 733,
+            code: 734,
             message: "Could not get groups",
-            origin: "permissions",
+            origin: "group",
           },
         },
       });
     }
+  };
+};
+
+// Alters group
+export const alterGroup = (id, newGroup) => {
+  return (dispatch, getState, { getIntel }) => {
+    //@TODO: Alter user by id
+    console.log(id, newGroup);
+  };
+};
+
+// Create group
+export const createGroup = (id, newGroup) => {
+  return (dispatch, getState, { getIntel }) => {
+    //@TODO: Alter user by id
+    console.log(id, newGroup);
+  };
+};
+
+// Removes group
+export const removeGroup = (id) => {
+  return (dispatch, getState, { getIntel }) => {
+    //@TODO: Remove user by id
+    console.log(id);
   };
 };
 
