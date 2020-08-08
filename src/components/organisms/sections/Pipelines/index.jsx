@@ -133,6 +133,24 @@ class Pipelines extends React.Component {
             />
           </div>
         </div>
+        <div className="text-right mb-3">
+          <MDBBtn
+            color="green"
+            className="mr-0"
+            onClick={() =>
+              this.setState({
+                modal: true,
+                selectedPipeline: {
+                  token: "token from Wagtail pipeline block",
+                  isActive: true,
+                },
+                addPipeline: true,
+              })
+            }
+          >
+            Create SNEK Pipeline
+          </MDBBtn>
+        </div>
         <MDBListGroup>
           {pipelines &&
             pipelines.map((pipeline, p) => {
@@ -184,7 +202,7 @@ class Pipelines extends React.Component {
             <MDBModalBody>
               <div className="d-flex justify-content-between">
                 <p className="lead font-weight-bold">
-                  {!this.state.addConnector
+                  {!this.state.addPipeline
                     ? this.state.selectedPipeline.title
                     : "Add new pipeline"}
                 </p>
@@ -209,7 +227,7 @@ class Pipelines extends React.Component {
                 <MDBCol lg="6">
                   <AIToggle
                     title="Active"
-                    description="Enable or disable the connector"
+                    description="Enable or disable the pipeline"
                     checked={this.state.selectedPipeline.isActive}
                     change={this.handlePipelineModeChange}
                     name="isActive"
@@ -220,7 +238,7 @@ class Pipelines extends React.Component {
               </MDBRow>
               <div className="d-flex justify-content-between">
                 <div>
-                  {!this.state.addConnector && (
+                  {!this.state.addPipeline && (
                     <MDBBtn
                       color="danger"
                       onClick={() => {
@@ -241,7 +259,7 @@ class Pipelines extends React.Component {
                     color="success"
                     size="md"
                     onClick={() => {
-                      if (!this.state.addConnector) {
+                      if (!this.state.addPipeline) {
                         this.props.alterPipeline(
                           this.state.selectedPipeline.token,
                           this.state.selectedPipeline
@@ -253,7 +271,7 @@ class Pipelines extends React.Component {
                     }}
                   >
                     <MDBIcon icon="check-circle" />
-                    {!this.state.addConnector ? "Save" : "Create"}
+                    {!this.state.addPipeline ? "Save" : "Create"}
                   </MDBBtn>
                 </div>
               </div>
