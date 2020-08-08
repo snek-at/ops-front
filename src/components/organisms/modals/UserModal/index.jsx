@@ -14,7 +14,7 @@ import { MDBModal, MDBModalBody } from "mdbreact";
 // Functions to send data from the application to the store
 import {
   getUserByHandle,
-  getUsers,
+  clearSelection,
 } from "../../../../store/actions/pageActions";
 //#endregion
 
@@ -24,10 +24,16 @@ class UserModal extends React.Component {
   state = { user: undefined };
 
   componentDidMount = () => {
+    console.log("MOUNT");
+    console.log(this.props.handle);
     this.props.getUserByHandle(this.props.handle);
   };
 
-  componentDidUpdate = (prevState) => {
+  componentWillUnmount = () => {
+    this.props.clearSelection();
+  };
+
+  componentDidUpdate = () => {
     if (
       (this.props.user && !this.state.user) ||
       (this.state.user && this.state.user.username !== this.props.handle)
@@ -67,6 +73,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getUserByHandle: (handle) => dispatch(getUserByHandle(handle)),
+    clearSelection: () => dispatch(clearSelection()),
   };
 };
 //#endregion

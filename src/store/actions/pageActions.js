@@ -456,6 +456,17 @@ export const getProjectByHandle = (handle) => {
   };
 };
 
+export const clearSelection = (handle) => {
+  return (dispatch, getState, { getIntel }) => {
+    dispatch({
+      type: "CLEAR_SELECTION",
+      payload: {
+        data: null,
+      },
+    });
+  };
+};
+
 /**
  * SPDX-License-Identifier: (EUPL-1.2)
  * Copyright © 2020 Simon Prast

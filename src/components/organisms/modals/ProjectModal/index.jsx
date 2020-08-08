@@ -14,7 +14,7 @@ import { MDBModal, MDBModalBody } from "mdbreact";
 // Functions to send data from the application to the store
 import {
   getProjectByHandle,
-  getProjects,
+  clearSelection,
 } from "../../../../store/actions/pageActions";
 //#endregion
 
@@ -25,6 +25,10 @@ class ProjectModal extends React.Component {
 
   componentDidMount = () => {
     this.props.getProjectByHandle(this.props.handle);
+  };
+
+  componentWillUnmount = () => {
+    this.props.clearSelection();
   };
 
   componentDidUpdate = (prevState) => {
@@ -67,6 +71,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getProjectByHandle: (handle) => dispatch(getProjectByHandle(handle)),
+    clearSelection: () => dispatch(clearSelection()),
   };
 };
 //#endregion

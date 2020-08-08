@@ -155,6 +155,12 @@ const pageReducer = (state = initState, action) => {
         project: action.payload.data,
         error: action.payload.error,
       };
+    case "CLEAR_SELECTION":
+      return {
+        ...state,
+        user: null,
+        project: null,
+      };
     default:
       return state;
   }
