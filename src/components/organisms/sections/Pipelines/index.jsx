@@ -14,6 +14,11 @@ import {
   MDBListGroupItem,
   MDBIcon,
   MDBInput,
+  MDBModal,
+  MDBModalBody,
+  MDBBtn,
+  MDBRow,
+  MDBCol,
 } from "mdbreact";
 //> Additional
 // Everything time related
@@ -21,7 +26,14 @@ import moment from "moment";
 
 //> Actions
 // Functions to send data from the application to the store
-import { getPipelines } from "../../../../store/actions/pipelineActions";
+import {
+  getPipelines,
+  alterPipeline,
+  createPipeline,
+  removePipeline,
+} from "../../../../store/actions/pipelineActions";
+//> Components
+import { AIInput, AIToggle } from "../../../atoms";
 //> Images
 // Too be added
 //#endregion
@@ -29,7 +41,7 @@ import { getPipelines } from "../../../../store/actions/pipelineActions";
 //#region > Components
 /** @class This component displays pipelines */
 class Pipelines extends React.Component {
-  state = {};
+  state = { modal: false };
 
   componentDidMount = () => {
     // Retrieve Pipelines
@@ -73,6 +85,32 @@ class Pipelines extends React.Component {
     this.setState({ pipelines: results });
   };
 
+  toggleModal = () => {
+    this.setState({
+      modal: !this.state.modal,
+      selectedPipeline: null,
+      addPipeline: false,
+    });
+  };
+
+  handlePipelineChange = (name, value) => {
+    this.setState({
+      selectedPipeline: {
+        ...this.state.selectedPipeline,
+        [name]: value,
+      },
+    });
+  };
+
+  handlePipelineModeChange = (name) => {
+    this.setState({
+      selectedPipeline: {
+        ...this.state.selectedPipeline,
+        [name]: !this.state.selectedPipeline[name],
+      },
+    });
+  };
+
   render() {
     const { pipelines } = this.state;
 
@@ -95,14 +133,34 @@ class Pipelines extends React.Component {
             />
           </div>
         </div>
-
+        <div className="text-right mb-3">
+          <MDBBtn
+            color="green"
+            className="mr-0"
+            onClick={() =>
+              this.setState({
+                modal: true,
+                selectedPipeline: {
+                  token: "token from Wagtail pipeline block",
+                  isActive: true,
+                },
+                addPipeline: true,
+              })
+            }
+          >
+            Create SNEK Pipeline
+          </MDBBtn>
+        </div>
         <MDBListGroup>
           {pipelines &&
             pipelines.map((pipeline, p) => {
               return (
                 <MDBListGroupItem
-                  className="d-flex justify-content-between align-items-center"
+                  className="d-flex justify-content-between align-items-center clickable"
                   key={p}
+                  onClick={() =>
+                    this.setState({ modal: true, selectedPipeline: pipeline })
+                  }
                 >
                   <div>
                     <p className="lead mb-2">{pipeline.title}</p>
@@ -135,6 +193,91 @@ class Pipelines extends React.Component {
               );
             })}
         </MDBListGroup>
+        {this.state.modal && this.state.selectedPipeline && (
+          <MDBModal
+            isOpen={this.state.modal}
+            toggle={this.toggleModal}
+            size="md"
+          >
+            <MDBModalBody>
+              <div className="d-flex justify-content-between">
+                <p className="lead font-weight-bold">
+                  {!this.state.addPipeline
+                    ? this.state.selectedPipeline.title
+                    : "Add new pipeline"}
+                </p>
+                <MDBBtn
+                  color="danger"
+                  outline
+                  onClick={this.toggleModal}
+                  size="md"
+                >
+                  <MDBIcon icon="times-circle" />
+                  Cancel
+                </MDBBtn>
+              </div>
+              <p className="mb-1 text-muted small">Token</p>
+              <input
+                type="text"
+                disabled
+                className="form-control"
+                value={this.state.selectedPipeline.token}
+              />
+              <MDBRow>
+                <MDBCol lg="6">
+                  <AIToggle
+                    title="Active"
+                    description="Enable or disable the pipeline"
+                    checked={this.state.selectedPipeline.isActive}
+                    change={this.handlePipelineModeChange}
+                    name="isActive"
+                    labelLeft="Off"
+                    labelRight="On"
+                  />
+                </MDBCol>
+              </MDBRow>
+              <div className="d-flex justify-content-between">
+                <div>
+                  {!this.state.addPipeline && (
+                    <MDBBtn
+                      color="danger"
+                      onClick={() => {
+                        this.props.removePipeline(
+                          this.state.selectedPipeline.token
+                        );
+                        this.toggleModal();
+                      }}
+                      size="md"
+                    >
+                      <MDBIcon icon="trash" />
+                      Remove
+                    </MDBBtn>
+                  )}
+                </div>
+                <div>
+                  <MDBBtn
+                    color="success"
+                    size="md"
+                    onClick={() => {
+                      if (!this.state.addPipeline) {
+                        this.props.alterPipeline(
+                          this.state.selectedPipeline.token,
+                          this.state.selectedPipeline
+                        );
+                      } else {
+                        this.props.createPipeline(this.state.selectedPipeline);
+                      }
+                      this.toggleModal();
+                    }}
+                  >
+                    <MDBIcon icon="check-circle" />
+                    {!this.state.addPipeline ? "Save" : "Create"}
+                  </MDBBtn>
+                </div>
+              </div>
+            </MDBModalBody>
+          </MDBModal>
+        )}
       </MDBContainer>
     );
   }
@@ -149,6 +292,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getPipelines: () => dispatch(getPipelines()),
+    alterPipeline: (token, pipeline) =>
+      dispatch(alterPipeline(token, pipeline)),
+    createPipeline: (pipeline) => dispatch(createPipeline(pipeline)),
+    removePipeline: (token) => dispatch(removePipeline(token)),
   };
 };
 //#endregion
