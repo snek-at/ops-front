@@ -316,48 +316,60 @@ class GitLabs extends React.Component {
                 </MDBCol>
               </MDBRow>
               <hr />
-              <MDBRow className="mt-3">
-                <MDBCol lg="6">
-                  {this.state.selectedGitLab.username && !this.state.addGitLab && (
-                    <div className="mb-2">
-                      <code className="text-success">
-                        <MDBIcon icon="check-circle" className="mr-2" />
-                        Authenticated as {this.state.authorizedUser}
-                      </code>
-                    </div>
-                  )}
-                  <AIInput
-                    description="Enter your GitLab username"
-                    name="username"
-                    placeholder="GitLab username"
-                    value={this.state.selectedGitLab.username}
-                    handleChange={this.handleGitLabChange}
-                  />
-                  <AIInput
-                    type="password"
-                    description="Enter your GitLab password"
-                    name="password"
-                    placeholder="GitLab password"
-                    value={this.state.selectedGitLab.password}
-                    handleChange={this.handleGitLabChange}
-                    className="mt-2"
-                  />
-                </MDBCol>
-                <MDBCol lg="6">
-                  <MDBAlert color="info" className="mb-0">
-                    <p className="mb-0">
-                      <strong>Authentication</strong>
-                    </p>
-                    <p className="small">
-                      The permissions of the connected user determines the level
-                      of access you grant.
-                    </p>
-                    <p className="small mb-0">
-                      We do not store user credentials.
-                    </p>
-                  </MDBAlert>
-                </MDBCol>
-              </MDBRow>
+              <AIInput
+                title="Authentication"
+                description="Please enter the gitlab access token"
+                name="token"
+                placeholder="Token"
+                value={this.state.selectedGitLab.token}
+                handleChange={this.handleGitLabChange}
+                key="token"
+              />
+              {/*
+                <MDBRow className="mt-3">
+                  <MDBCol lg="6">
+                    {this.state.selectedGitLab.username &&
+                      !this.state.addGitLab && (
+                        <div className="mb-2">
+                          <code className="text-success">
+                            <MDBIcon icon="check-circle" className="mr-2" />
+                            Authenticated as {this.state.authorizedUser}
+                          </code>
+                        </div>
+                      )}
+                    <AIInput
+                      description="Enter your GitLab username"
+                      name="username"
+                      placeholder="GitLab username"
+                      value={this.state.selectedGitLab.username}
+                      handleChange={this.handleGitLabChange}
+                    />
+                    <AIInput
+                      type="password"
+                      description="Enter your GitLab password"
+                      name="password"
+                      placeholder="GitLab password"
+                      value={this.state.selectedGitLab.password}
+                      handleChange={this.handleGitLabChange}
+                      className="mt-2"
+                    />
+                  </MDBCol>
+                  <MDBCol lg="6">
+                    <MDBAlert color="info" className="mb-0">
+                      <p className="mb-0">
+                        <strong>Authentication</strong>
+                      </p>
+                      <p className="small">
+                        The permissions of the connected user determines the
+                        level of access you grant.
+                      </p>
+                      <p className="small mb-0">
+                        We do not store user credentials.
+                      </p>
+                    </MDBAlert>
+                  </MDBCol>
+                </MDBRow>
+              */}
               <div className="d-flex justify-content-between mt-3">
                 <div>
                   {!this.state.addGitLab && (
