@@ -321,7 +321,7 @@ class Permissions extends React.Component {
                             );
 
                             return (
-                              <code className="text-muted">
+                              <code className="text-muted" key={g}>
                                 {selectedGroup[0].title}
                               </code>
                             );
