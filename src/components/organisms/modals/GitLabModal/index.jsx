@@ -34,11 +34,12 @@ import { AIInput, AIToggle } from "../../../atoms";
 //#endregion
 
 //#region > Components
-/** @class Custom input */
+/** @class GitLab Modal */
 class ProjectModal extends React.Component {
   state = { testing: undefined };
 
   componentDidMount = () => {
+    // Get currently selected GitLab from GitLabs page
     this.setState({
       selectedGitLab: this.props.selectedGitLab,
     });
@@ -78,7 +79,7 @@ class ProjectModal extends React.Component {
   };
 
   render() {
-    const { addGitLab, authorizedUser } = this.props;
+    const { addGitLab } = this.props;
     const { selectedGitLab } = this.state;
 
     return (
@@ -190,7 +191,7 @@ class ProjectModal extends React.Component {
                         <div className="mb-2">
                           <code className="text-success">
                             <MDBIcon icon="check-circle" className="mr-2" />
-                            Authenticated as {this.state.authorizedUser}
+                            Authenticated as {authorizedUser} >>> Import from props
                           </code>
                         </div>
                       )}
