@@ -48,9 +48,10 @@ import {
   alterUser,
   addUser,
   removeUser,
+  getGroupPermissions,
 } from "../../../../store/actions/permissionActions";
 //> Components
-import { AIInput, AIToggle } from "../../../atoms";
+import { AIInput, AIToggle, AICheckbox } from "../../../atoms";
 //> CSS
 import "./permissions.scss";
 //> Images
@@ -84,6 +85,8 @@ class Permissions extends React.Component {
     this.props.getAllUsers();
     // Retrieve all wagtail groups
     this.props.getAllGroups();
+    // Retrieve all possible group permissions
+    this.props.getGroupPermissions();
   };
 
   componentDidUpdate = () => {
@@ -170,6 +173,42 @@ class Permissions extends React.Component {
     });
   };
 
+  handleGroupPermissionsChange = (val, permission, type) => {
+    // Get all permissions
+    let allPermissions = this.state.selectedGroup.permissions;
+    // Remove item to change from permissions
+    let otherPermissions = allPermissions.filter(
+      (item) =>
+        this.unifyString(item.title) !== this.unifyString(permission.title)
+    );
+    // Get current permission
+    let currentPermission = this.state.selectedGroup.permissions.filter(
+      (item) =>
+        this.unifyString(item.title) === this.unifyString(permission.title)
+    );
+
+    // Remove type to change from permission types
+    let otherTypes = currentPermission[0].types.filter(
+      (item) => this.unifyString(item.name) !== this.unifyString(type.name)
+    );
+
+    // Readd updated item to change
+    allPermissions = [
+      ...otherPermissions,
+      {
+        ...permission,
+        types: [...otherTypes, { name: type.name, status: val }],
+      },
+    ];
+
+    this.setState({
+      selectedGroup: {
+        ...this.state.selectedGroup,
+        permissions: allPermissions,
+      },
+    });
+  };
+
   toggleModal = () => {
     this.setState({
       modal: !this.state.modal,
@@ -177,6 +216,7 @@ class Permissions extends React.Component {
       selectedGroup: null,
       addUser: false,
       addGroup: false,
+      type: undefined,
     });
   };
 
@@ -231,6 +271,7 @@ class Permissions extends React.Component {
                     modal: true,
                     selectedUser: { isActive: true },
                     addUser: true,
+                    type: "user",
                   })
                 }
               >
@@ -288,13 +329,37 @@ class Permissions extends React.Component {
             </MDBListGroup>
           </MDBTabPane>
           <MDBTabPane tabId={1} role="tabpanel">
+            <div className="text-right mb-3">
+              <MDBBtn
+                color="green"
+                className="mr-0"
+                onClick={() =>
+                  this.setState({
+                    modal: true,
+                    selectedGroup: {},
+                    addGroup: true,
+                    type: "group",
+                  })
+                }
+              >
+                Add group
+              </MDBBtn>
+            </div>
             <MDBListGroup>
               {groups &&
                 groups.map((group, p) => {
                   return (
                     <MDBListGroupItem
-                      className="d-flex justify-content-between align-items-center"
+                      className="d-flex justify-content-between align-items-center clickable"
                       key={p}
+                      onClick={() =>
+                        this.setState({
+                          modal: true,
+                          selectedGroup: group,
+                          addGroup: false,
+                          type: "group",
+                        })
+                      }
                     >
                       <div>
                         <p className="lead mb-0">{group.title}</p>
@@ -322,147 +387,268 @@ class Permissions extends React.Component {
             toggle={this.toggleModal}
             size="md"
           >
-            <MDBModalBody>
-              <div className="d-flex justify-content-between">
-                <p className="lead font-weight-bold">
-                  {!this.state.addUser
-                    ? this.state.selectedUser.full_name
-                    : "Add new user"}
-                </p>
-                <MDBBtn
-                  color="danger"
-                  outline
-                  onClick={this.toggleModal}
-                  size="md"
-                >
-                  <MDBIcon icon="times-circle" />
-                  Cancel
-                </MDBBtn>
-              </div>
-              <MDBRow>
-                <MDBCol lg="6">
-                  <AIInput
-                    title="Full name"
-                    description="Enter the full name of the user"
-                    name="full_name"
-                    placeholder="Full Name"
-                    value={this.state.selectedUser.full_name}
-                    handleChange={this.handleUserChange}
-                    key="full_name"
-                  />
-                </MDBCol>
-                <MDBCol lg="6">
-                  <AIInput
-                    title="Username"
-                    description="Enter the full name of the user"
-                    name="username"
-                    placeholder="Username"
-                    value={this.state.selectedUser.username}
-                    handleChange={this.handleUserChange}
-                    key="username"
-                  />
-                </MDBCol>
-              </MDBRow>
-              <MDBRow>
-                <MDBCol lg="6">
-                  <AIToggle
-                    title="Active"
-                    description="Activate the user?"
-                    checked={this.state.selectedUser.isActive}
-                    change={this.handleUserModeChange}
-                    name="isActive"
-                    labelLeft="Inactive"
-                    labelRight="Active"
-                  />
-                </MDBCol>
-                <MDBCol lg="6">
-                  {this.props.groups ? (
-                    <>
-                      <MDBSelect
-                        multiple
-                        label="Select Groups"
-                        getValue={(value) =>
-                          this.setState({
-                            selectedUser: {
-                              ...this.state.selectedUser,
-                              groups: [...value],
-                            },
-                          })
-                        }
-                      >
-                        <MDBSelectInput />
-                        <MDBSelectOptions>
-                          <MDBSelectOption disabled>
-                            Choose groups
-                          </MDBSelectOption>
-                          {this.props.groups &&
-                            this.props.groups.map((group) => {
-                              return (
-                                <MDBSelectOption
-                                  value={group.id}
-                                  key={group.id}
-                                  selected={
-                                    this.state.selectedUser.groups
-                                      ? this.state.selectedUser.groups.includes(
-                                          group.id
-                                        )
-                                        ? true
-                                        : false
-                                      : false
-                                  }
-                                >
-                                  {group.title}
-                                </MDBSelectOption>
-                              );
-                            })}
-                        </MDBSelectOptions>
-                      </MDBSelect>
-                    </>
-                  ) : (
-                    <MDBAlert color="warning">
-                      <p className="mb-0">Please create groups first.</p>
-                    </MDBAlert>
-                  )}
-                </MDBCol>
-              </MDBRow>
-              <div className="d-flex justify-content-between mt-3">
-                <div>
-                  {!this.state.addUser && (
-                    <MDBBtn
-                      color="danger"
-                      onClick={() => {
-                        this.props.removeUser(this.state.selectedUser.id);
-                        this.toggleModal();
-                      }}
-                      size="md"
-                    >
-                      <MDBIcon icon="trash" />
-                      Remove
-                    </MDBBtn>
-                  )}
-                </div>
-                <div>
+            {this.state.type === "user" ? (
+              <MDBModalBody>
+                <div className="d-flex justify-content-between">
+                  <p className="lead font-weight-bold">
+                    {!this.state.addUser
+                      ? this.state.selectedUser.full_name
+                      : "Add new user"}
+                  </p>
                   <MDBBtn
-                    color="success"
+                    color="danger"
+                    outline
+                    onClick={this.toggleModal}
                     size="md"
-                    onClick={() => {
-                      if (!this.state.addUser) {
-                        this.props.alterUser(
-                          this.state.selectedUser.id,
-                          this.state.selectedUser
-                        );
-                      } else {
-                        this.props.addUser(this.state.selectedUser);
-                      }
-                      this.toggleModal();
-                    }}
                   >
-                    <MDBIcon icon="check-circle" />
-                    {!this.state.addUser ? "Save" : "Create"}
+                    <MDBIcon icon="times-circle" />
+                    Cancel
                   </MDBBtn>
                 </div>
-              </div>
-            </MDBModalBody>
+                <MDBRow>
+                  <MDBCol lg="6">
+                    <AIInput
+                      title="Full name"
+                      description="Enter the full name of the user"
+                      name="full_name"
+                      placeholder="Full Name"
+                      value={this.state.selectedUser.full_name}
+                      handleChange={this.handleUserChange}
+                      key="full_name"
+                    />
+                  </MDBCol>
+                  <MDBCol lg="6">
+                    <AIInput
+                      title="Username"
+                      description="Enter the full name of the user"
+                      name="username"
+                      placeholder="Username"
+                      value={this.state.selectedUser.username}
+                      handleChange={this.handleUserChange}
+                      key="username"
+                    />
+                  </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                  <MDBCol lg="6">
+                    <AIToggle
+                      title="Active"
+                      description="Activate the user?"
+                      checked={this.state.selectedUser.isActive}
+                      change={this.handleUserModeChange}
+                      name="isActive"
+                      labelLeft="Inactive"
+                      labelRight="Active"
+                    />
+                  </MDBCol>
+                  <MDBCol lg="6">
+                    {this.props.groups ? (
+                      <>
+                        <MDBSelect
+                          multiple
+                          label="Select Groups"
+                          getValue={(value) =>
+                            this.setState({
+                              selectedUser: {
+                                ...this.state.selectedUser,
+                                groups: [...value],
+                              },
+                            })
+                          }
+                        >
+                          <MDBSelectInput />
+                          <MDBSelectOptions>
+                            <MDBSelectOption disabled>
+                              Choose groups
+                            </MDBSelectOption>
+                            {this.props.groups &&
+                              this.props.groups.map((group) => {
+                                return (
+                                  <MDBSelectOption
+                                    value={group.id}
+                                    key={group.id}
+                                    selected={
+                                      this.state.selectedUser.groups
+                                        ? this.state.selectedUser.groups.includes(
+                                            group.id
+                                          )
+                                          ? true
+                                          : false
+                                        : false
+                                    }
+                                  >
+                                    {group.title}
+                                  </MDBSelectOption>
+                                );
+                              })}
+                          </MDBSelectOptions>
+                        </MDBSelect>
+                      </>
+                    ) : (
+                      <MDBAlert color="warning">
+                        <p className="mb-0">Please create groups first.</p>
+                      </MDBAlert>
+                    )}
+                  </MDBCol>
+                </MDBRow>
+                <div className="d-flex justify-content-between mt-3">
+                  <div>
+                    {!this.state.addUser && (
+                      <MDBBtn
+                        color="danger"
+                        onClick={() => {
+                          this.props.removeUser(this.state.selectedUser.id);
+                          this.toggleModal();
+                        }}
+                        size="md"
+                      >
+                        <MDBIcon icon="trash" />
+                        Remove
+                      </MDBBtn>
+                    )}
+                  </div>
+                  <div>
+                    <MDBBtn
+                      color="success"
+                      size="md"
+                      onClick={() => {
+                        if (!this.state.addUser) {
+                          this.props.alterUser(
+                            this.state.selectedUser.id,
+                            this.state.selectedUser
+                          );
+                        } else {
+                          this.props.addUser(this.state.selectedUser);
+                        }
+                        this.toggleModal();
+                      }}
+                    >
+                      <MDBIcon icon="check-circle" />
+                      {!this.state.addUser ? "Save" : "Create"}
+                    </MDBBtn>
+                  </div>
+                </div>
+              </MDBModalBody>
+            ) : (
+              <MDBModalBody>
+                <div className="d-flex justify-content-between">
+                  <p className="lead font-weight-bold">
+                    {!this.state.addGroup
+                      ? this.state.selectedGroup.full_name
+                      : "Add new group"}
+                  </p>
+                  <MDBBtn
+                    color="danger"
+                    outline
+                    onClick={this.toggleModal}
+                    size="md"
+                  >
+                    <MDBIcon icon="times-circle" />
+                    Cancel
+                  </MDBBtn>
+                </div>
+                <MDBRow className="mb-3">
+                  <MDBCol lg="6">
+                    <AIInput
+                      description="Enter the name of the group"
+                      name="name"
+                      placeholder="Group name"
+                      value={this.state.selectedGroup.name}
+                      handleChange={this.handleUserChange}
+                      key="name"
+                    />
+                  </MDBCol>
+                </MDBRow>
+                {this.props.groupPermissions.map((permission, p) => {
+                  const selectedGroupPermission =
+                    this.state.selectedGroup.permissions &&
+                    this.state.selectedGroup.permissions.filter(
+                      (item) =>
+                        this.unifyString(item.title) ===
+                        this.unifyString(permission.title)
+                    );
+
+                  return (
+                    <MDBRow key={p} className="align-items-center">
+                      <MDBCol lg="6">
+                        <small>{permission.title}</small>
+                      </MDBCol>
+                      {permission.types.map((type, t) => {
+                        const selectedGroupPermissionType = selectedGroupPermission[0]
+                          ? selectedGroupPermission[0].types.filter(
+                              (item) =>
+                                this.unifyString(item.name) ===
+                                this.unifyString(type.name)
+                            )
+                          : [];
+
+                        return (
+                          <MDBCol
+                            lg="2"
+                            key={p + "-" + t}
+                            className="text-center"
+                          >
+                            <p className="small text-muted mb-0">{type.name}</p>
+                            <AICheckbox
+                              name={permission.title + "-" + type.name}
+                              checked={
+                                selectedGroupPermissionType[0]
+                                  ? selectedGroupPermissionType[0].status
+                                  : false
+                              }
+                              handleChange={(val) =>
+                                this.handleGroupPermissionsChange(
+                                  val,
+                                  permission,
+                                  type
+                                )
+                              }
+                            />
+                          </MDBCol>
+                        );
+                      })}
+                    </MDBRow>
+                  );
+                })}
+                <div className="d-flex justify-content-between mt-3">
+                  <div>
+                    {!this.state.addGroup && (
+                      <MDBBtn
+                        color="danger"
+                        onClick={() => {
+                          this.props.removeGroup(this.state.selectedGroup.id);
+                          this.toggleModal();
+                        }}
+                        size="md"
+                      >
+                        <MDBIcon icon="trash" />
+                        Remove
+                      </MDBBtn>
+                    )}
+                  </div>
+                  <div>
+                    <MDBBtn
+                      color="success"
+                      size="md"
+                      onClick={() => {
+                        if (!this.state.addGroup) {
+                          this.props.alterGroup(
+                            this.state.selectedGroup.id,
+                            this.state.selectedGroup
+                          );
+                        } else {
+                          this.props.addGroup(this.state.selectedGroup);
+                        }
+                        this.toggleModal();
+                      }}
+                    >
+                      <MDBIcon icon="check-circle" />
+                      {!this.state.addGroup ? "Save" : "Create"}
+                    </MDBBtn>
+                  </div>
+                </div>
+              </MDBModalBody>
+            )}
           </MDBModal>
         )}
       </MDBContainer>
@@ -475,12 +661,14 @@ class Permissions extends React.Component {
 const mapStateToProps = (state) => ({
   users: state.permissions.users,
   groups: state.permissions.groups,
+  groupPermissions: state.permissions.groupPermissions,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllUsers: () => dispatch(getAllUsers()),
     getAllGroups: () => dispatch(getAllGroups()),
+    getGroupPermissions: () => dispatch(getGroupPermissions()),
     alterUser: (id, user) => dispatch(alterUser(id, user)),
     addUser: (user) => dispatch(addUser(user)),
     removeUser: (id) => dispatch(removeUser(id)),
