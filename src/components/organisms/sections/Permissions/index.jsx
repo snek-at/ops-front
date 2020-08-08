@@ -189,20 +189,26 @@ class Permissions extends React.Component {
     // Get all permissions
     let allPermissions = this.state.selectedGroup.permissions;
     // Remove item to change from permissions
-    let otherPermissions = allPermissions.filter(
-      (item) =>
-        this.unifyString(item.title) !== this.unifyString(permission.title)
-    );
+    let otherPermissions = allPermissions
+      ? allPermissions.filter(
+          (item) =>
+            this.unifyString(item.title) !== this.unifyString(permission.title)
+        )
+      : [];
     // Get current permission
-    let currentPermission = this.state.selectedGroup.permissions.filter(
-      (item) =>
-        this.unifyString(item.title) === this.unifyString(permission.title)
-    );
+    let currentPermission = allPermissions
+      ? allPermissions.filter(
+          (item) =>
+            this.unifyString(item.title) === this.unifyString(permission.title)
+        )
+      : [];
 
     // Remove type to change from permission types
-    let otherTypes = currentPermission[0].types.filter(
-      (item) => this.unifyString(item.name) !== this.unifyString(type.name)
-    );
+    let otherTypes = currentPermission[0]
+      ? currentPermission[0].types.filter(
+          (item) => this.unifyString(item.name) !== this.unifyString(type.name)
+        )
+      : [];
 
     // Readd updated item to change
     allPermissions = [
@@ -586,12 +592,14 @@ class Permissions extends React.Component {
                         <small>{permission.title}</small>
                       </MDBCol>
                       {permission.types.map((type, t) => {
-                        const selectedGroupPermissionType = selectedGroupPermission[0]
-                          ? selectedGroupPermission[0].types.filter(
-                              (item) =>
-                                this.unifyString(item.name) ===
-                                this.unifyString(type.name)
-                            )
+                        const selectedGroupPermissionType = selectedGroupPermission
+                          ? selectedGroupPermission[0]
+                            ? selectedGroupPermission[0].types.filter(
+                                (item) =>
+                                  this.unifyString(item.name) ===
+                                  this.unifyString(type.name)
+                              )
+                            : []
                           : [];
 
                         return (
@@ -649,7 +657,7 @@ class Permissions extends React.Component {
                             this.state.selectedGroup
                           );
                         } else {
-                          this.props.addGroup(this.state.selectedGroup);
+                          this.props.createGroup(this.state.selectedGroup);
                         }
                         this.toggleModal();
                       }}
