@@ -306,6 +306,7 @@ class Permissions extends React.Component {
                         this.setState({
                           modal: true,
                           selectedUser: user,
+                          type: "user",
                         })
                       }
                       key={p}
