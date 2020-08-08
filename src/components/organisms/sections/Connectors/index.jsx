@@ -267,6 +267,15 @@ class Connectors extends React.Component {
                 handleChange={this.handleConnectorChange}
                 key="name"
               />
+              <AIInput
+                title="Authentication"
+                description="Please enter the connector token"
+                name="token"
+                placeholder="Token"
+                value={this.state.selectedConnector.token}
+                handleChange={this.handleConnectorChange}
+                key="token"
+              />
               <MDBRow>
                 <MDBCol lg="6">
                   <AIToggle
