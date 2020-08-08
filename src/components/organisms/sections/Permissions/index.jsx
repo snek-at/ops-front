@@ -210,7 +210,7 @@ class Permissions extends React.Component {
         )
       : [];
 
-    // Readd updated item to change
+    // Read updated item to change
     allPermissions = [
       ...otherPermissions,
       {
