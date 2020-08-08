@@ -237,6 +237,30 @@ export const getAllGroups = () => {
   };
 };
 
+// Alters group
+export const alterGroup = (id, newGroup) => {
+  return (dispatch, getState, { getIntel }) => {
+    //@TODO: Alter user by id
+    console.log(id, newGroup);
+  };
+};
+
+// Create group
+export const createGroup = (id, newGroup) => {
+  return (dispatch, getState, { getIntel }) => {
+    //@TODO: Alter user by id
+    console.log(id, newGroup);
+  };
+};
+
+// Removes group
+export const removeGroup = (id) => {
+  return (dispatch, getState, { getIntel }) => {
+    //@TODO: Remove user by id
+    console.log(id);
+  };
+};
+
 /**
  * SPDX-License-Identifier: (EUPL-1.2)
  * Copyright © 2020 Simon Prast

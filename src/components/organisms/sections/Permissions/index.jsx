@@ -49,6 +49,9 @@ import {
   addUser,
   removeUser,
   getGroupPermissions,
+  alterGroup,
+  createGroup,
+  removeGroup,
 } from "../../../../store/actions/permissionActions";
 //> Components
 import { AIInput, AIToggle, AICheckbox } from "../../../atoms";
@@ -159,6 +162,15 @@ class Permissions extends React.Component {
     this.setState({
       selectedUser: {
         ...this.state.selectedUser,
+        [name]: value,
+      },
+    });
+  };
+
+  handleGroupChange = (name, value) => {
+    this.setState({
+      selectedGroup: {
+        ...this.state.selectedGroup,
         [name]: value,
       },
     });
@@ -534,7 +546,7 @@ class Permissions extends React.Component {
                 <div className="d-flex justify-content-between">
                   <p className="lead font-weight-bold">
                     {!this.state.addGroup
-                      ? this.state.selectedGroup.full_name
+                      ? this.state.selectedGroup.title
                       : "Add new group"}
                   </p>
                   <MDBBtn
@@ -551,11 +563,11 @@ class Permissions extends React.Component {
                   <MDBCol lg="6">
                     <AIInput
                       description="Enter the name of the group"
-                      name="name"
+                      name="title"
                       placeholder="Group name"
-                      value={this.state.selectedGroup.name}
-                      handleChange={this.handleUserChange}
-                      key="name"
+                      value={this.state.selectedGroup.title}
+                      handleChange={this.handleGroupChange}
+                      key="title"
                     />
                   </MDBCol>
                 </MDBRow>
@@ -672,6 +684,9 @@ const mapDispatchToProps = (dispatch) => {
     alterUser: (id, user) => dispatch(alterUser(id, user)),
     addUser: (user) => dispatch(addUser(user)),
     removeUser: (id) => dispatch(removeUser(id)),
+    alterGroup: (id, group) => dispatch(alterGroup(id, group)),
+    createGroup: (group) => dispatch(createGroup(group)),
+    removeGroup: (id) => dispatch(removeGroup(id)),
   };
 };
 //#endregion
