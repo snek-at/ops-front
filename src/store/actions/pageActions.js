@@ -391,15 +391,12 @@ export const editImprint = (newCompanyInfo) => {
   };
 };
 
-export const getUserByHandle = (handle) => {
+export const getUserByHandle = (id) => {
   return (dispatch, getState, { getIntel }) => {
     // @TODO: Replace by function to query all users. For now it will not work on refresh.
     const users = getState().pages.users;
 
-    const user = users.filter(
-      (user) =>
-        user.username.toLowerCase().trim() === handle.toLowerCase().trim()
-    );
+    const user = users.filter((user) => user.id === id);
 
     if (user.length > 0) {
       dispatch({
@@ -415,7 +412,7 @@ export const getUserByHandle = (handle) => {
           data: false,
           error: {
             code: 747,
-            message: "Could not get user by handle " + handle,
+            message: "Could not get user by id " + id,
             origin: "imprint",
           },
         },
@@ -424,14 +421,12 @@ export const getUserByHandle = (handle) => {
   };
 };
 
-export const getProjectByHandle = (handle) => {
+export const getProjectById = (id) => {
   return (dispatch, getState, { getIntel }) => {
     // @TODO: Replace by function to query all projects. For now it will not work on refresh.
     const projects = getState().pages.projects;
 
-    const project = projects.filter(
-      (item) => item.handle.toLowerCase().trim() === handle.toLowerCase().trim()
-    );
+    const project = projects.filter((item) => item.id === id);
 
     if (project.length > 0) {
       dispatch({
@@ -447,7 +442,7 @@ export const getProjectByHandle = (handle) => {
           data: false,
           error: {
             code: 748,
-            message: "Could not get project by handle " + handle,
+            message: "Could not get project by id " + id,
             origin: "projects",
           },
         },

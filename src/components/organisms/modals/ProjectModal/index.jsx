@@ -13,7 +13,7 @@ import { MDBModal, MDBModalBody } from "mdbreact";
 //> Actions
 // Functions to send data from the application to the store
 import {
-  getProjectByHandle,
+  getProjectById,
   clearSelection,
 } from "../../../../store/actions/pageActions";
 //#endregion
@@ -24,7 +24,7 @@ class ProjectModal extends React.Component {
   state = { project: undefined };
 
   componentDidMount = () => {
-    this.props.getProjectByHandle(this.props.handle);
+    this.props.getProjectById(this.props.id);
   };
 
   componentWillUnmount = () => {
@@ -34,7 +34,7 @@ class ProjectModal extends React.Component {
   componentDidUpdate = (prevState) => {
     if (
       (this.props.project && !this.state.project) ||
-      (this.state.project && this.state.project.handle !== this.props.handle)
+      (this.state.project && this.state.project.id !== this.props.id)
     ) {
       console.log(this.props.project);
       this.setState({
@@ -70,7 +70,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProjectByHandle: (handle) => dispatch(getProjectByHandle(handle)),
+    getProjectById: (id) => dispatch(getProjectById(id)),
     clearSelection: () => dispatch(clearSelection()),
   };
 };

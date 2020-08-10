@@ -81,7 +81,7 @@ class PageProjects extends React.Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
-      handle: undefined,
+      id: undefined,
     });
   };
 
@@ -102,9 +102,7 @@ class PageProjects extends React.Component {
             projects.map((project, p) => {
               return (
                 <MDBListGroupItem
-                  onClick={() =>
-                    this.setState({ modal: true, handle: project.handle })
-                  }
+                  onClick={() => this.setState({ modal: true, id: project.id })}
                   className="d-flex justify-content-between align-items-center clickable"
                   key={p}
                 >
@@ -118,11 +116,11 @@ class PageProjects extends React.Component {
               );
             })}
         </MDBListGroup>
-        {this.state.modal && this.state.handle && this.props.projects && (
+        {this.state.modal && this.state.id && this.props.projects && (
           <ProjectModal
             toggle={this.toggle}
             projects={this.props.projects}
-            handle={this.state.handle}
+            id={this.state.id}
           />
         )}
       </div>
