@@ -60,15 +60,12 @@ class GitLabs extends React.Component {
     const val = this.unifyString(value);
 
     // Searches for search value in title, domain and org
-    let results = gitlabs.filter((pipe) => {
+    let results = gitlabs.filter((gitlab) => {
       if (
-        this.unifyString(pipe.ip).includes(val) ||
-        this.unifyString(pipe.domain).includes(val) ||
-        this.unifyString(pipe.username).includes(val) ||
-        this.unifyString(pipe.mode).includes(val) ||
-        this.unifyString(pipe.user).includes(val)
+        this.unifyString(gitlab.url).includes(val) ||
+        this.unifyString(gitlab.mode).includes(val)
       ) {
-        return pipe;
+        return gitlab;
       }
     });
 
