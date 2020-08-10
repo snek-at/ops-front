@@ -9,7 +9,7 @@ export const getGitLabs = () => {
           return {
             url: entry.url,
             id: entry.id,
-            isIDC: entry.privilegiesMode === "idc" ? true : false,
+            isIDC: entry.privilegesMode === "idc" ? true : false,
             isActive: entry.active,
             token: entry.token,
             enterprisePage: {
@@ -47,9 +47,7 @@ export const getGitLabByHandle = (handle) => {
     let gitlabs = getState().gitlabs;
 
     // Returns only matches
-    gitlabs = gitlabs.filter(
-      (obj) => obj.ip !== handle || obj.domain !== handle
-    );
+    gitlabs = gitlabs.filter((obj) => obj.ip !== handle || obj.url !== handle);
 
     // Check if GitLabs have been found
     if (gitlabs.length > 0) {
@@ -93,51 +91,69 @@ export const getGitLabByHandle = (handle) => {
 export const createGitlab = (gitlab) => {
   return (dispatch, getState, { getIntel }) => {
     if (gitlab) {
+      const intel = getIntel();
       // Get current gitlabs
       let gitlabs = getState().gitlabs.gitlabs;
 
       // Do authy thingies
       const token = gitlab.token;
 
-      // Create gitlab object
-      const newGitLab = {
-        domain: gitlab.domain ? gitlab.domain : null,
-        useIP: gitlab.useIP ? true : false,
-        id: "xxxxxx", // Auto generate unique ID in wagtail
-        ip: gitlab.ip ? gitlab.ip : null,
-        username: gitlab.username,
-        token, // Use receiving token from authy thingies
-        user: "snekman", // Get type of user from authy thingies
-      };
-
-      // Append new gitlab
-      gitlabs = [...gitlabs, newGitLab];
-
-      if (true === true) {
-        dispatch({
-          type: "CREATE_GITLAB_SUCCESS",
-          payload: {
-            data: { gitlabs, selected: gitlab },
-          },
-        });
-      } else {
-        dispatch({
-          type: "CREATE_GITLAB_FAIL",
-          payload: {
-            data: false,
-            error: {
-              code: 713,
-              message: "Could not create gitlab",
-              origin: "gitlabs",
+      intel
+        .addGitlab(
+          true,
+          "description",
+          gitlab.companyPage.handle,
+          gitlab.token,
+          gitlab.name ? gitlab.name : "",
+          gitlab.isIDC ? "idc" : "polp",
+          gitlab.url
+        )
+        .then((result) => {
+          console.log(result);
+          // Create gitlab object
+          const newGitLab = {
+            isActive: true,
+            description: "",
+            companyPage: {
+              title: "sneklab",
+              handle: "e-sneklab",
             },
-          },
+            url: gitlab.url ? gitlab.url : null,
+            id: result.id, // Auto generate ID in wagtail
+            username: gitlab.username,
+            token: gitlab.token,
+            user: "snekman",
+          };
+
+          // Append new gitlab
+          gitlabs = [...gitlabs, newGitLab];
+
+          if (true === true) {
+            dispatch({
+              type: "CREATE_GITLAB_SUCCESS",
+              payload: {
+                data: { gitlabs, selected: gitlab },
+              },
+            });
+          } else {
+            dispatch({
+              type: "CREATE_GITLAB_FAIL",
+              payload: {
+                data: false,
+                error: {
+                  code: 713,
+                  message: "Could not create gitlab",
+                  origin: "gitlabs",
+                },
+              },
+            });
+          }
         });
-      }
     }
   };
 };
 
-// Alter gitlab by handle (ip or domain)
+// Alter gitlab by handle (ip or url)
 export const alterGitlab = (handle, newGitLab) => {
   return (dispatch, getState, { getIntel }) => {
     // Get current gitlabs
@@ -177,7 +193,7 @@ export const alterGitlab = (handle, newGitLab) => {
   };
 };
 
-// Remove gitlab by handle (ip or domain)
+// Remove gitlab by handle (ip or url)
 export const removeGitlab = (handle) => {
   return (dispatch, getState, { getIntel }) => {
     if (handle) {

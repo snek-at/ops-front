@@ -7,7 +7,7 @@ export const getPipelines = () => {
       if (result) {
         result = result.map((entry) => {
           return {
-            domain: entry.url,
+            url: entry.url,
             org: "demo",
             title: entry.name,
             token: entry.id,
@@ -51,7 +51,17 @@ export const alterPipeline = (token, newPipeline) => {
 
 export const createPipeline = (newPipeline) => {
   return (dispatch, getState, { getIntel }) => {
+    const intel = getIntel();
     console.log(newPipeline);
+    intel
+      .addPipeline(
+        newPipeline.companyPage.handle,
+        newPipeline.isActive,
+        newPipeline.title
+      )
+      .then((result) => {
+        console.log(result);
+      });
   };
 };
 

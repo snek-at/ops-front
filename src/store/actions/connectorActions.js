@@ -113,86 +113,114 @@ export const testConnection = (connector) => {
 export const createConnector = (connector) => {
   return (dispatch, getState, { getIntel }) => {
     if (connector) {
+      const intel = getIntel();
       // Get current connectors
       let connectors = getState().connectors.connectors;
 
-      // Create connector object
-      const newConnector = {
-        domain: connector.domain ? connector.domain : null,
-        useIP: connector.useIP ? true : false,
-        id: "xxxxxx", // Auto generate unique ID in wagtail
-        ip: connector.ip ? connector.ip : null,
-        name: connector.name,
-        isActive: true, // Somehow figure this out
-        settings: {
-          shared: {
-            projects: connector.settings?.shared?.companyData?.projects
-              ? connector.settings.shared.companyData.projects
+      const settings = {
+        shared: {
+          projects: connector.settings?.shared?.companyData?.projects
+            ? connector.settings.shared.companyData.projects
+            : false,
+          users: connector.settings?.shared?.companyData?.users
+            ? connector.settings.shared.companyData.users
+            : false,
+          companyData: {
+            name: connector.settings?.shared?.companyData?.name
+              ? connector.settings.shared.companyData.name
               : false,
-            users: connector.settings?.shared?.companyData?.users
-              ? connector.settings.shared.companyData.users
+            isRecruiting: connector.settings?.shared?.companyData?.isRecruiting
+              ? connector.settings.shared.companyData.isRecruiting
               : false,
-            companyData: {
-              name: connector.settings?.shared?.companyData?.name
-                ? connector.settings.shared.companyData.name
-                : false,
-              isRecruiting: connector.settings?.shared?.companyData
-                ?.isRecruiting
-                ? connector.settings.shared.companyData.isRecruiting
-                : false,
-              recruitmentUrl: connector.settings?.shared?.companyData
-                ?.recruitmentUrl
-                ? connector.settings.shared.companyData.recruitmentUrl
-                : false,
-              description: connector.settings?.shared?.companyData?.description
-                ? connector.settings.shared.companyData.description
-                : false,
-              employees: connector.settings?.shared?.companyData?.employees
-                ? connector.settings.shared.companyData.employees
-                : false,
-              vat: connector.settings?.shared?.companyData?.vat
-                ? connector.settings.shared.companyData.vat
-                : false,
-              email: connector.settings?.shared?.companyData?.email
-                ? connector.settings.shared.companyData.email
-                : false,
-              isOpenSource: connector.settings?.shared?.companyData
-                ?.isOpenSource
-                ? connector.settings.shared.companyData.isOpenSource
-                : false,
-              openSourceUrl: connector.settings?.shared?.companyData
-                ?.openSourceUrl
-                ? connector.settings.shared.companyData.openSourceUrl
-                : false,
-            },
+            recruitmentUrl: connector.settings?.shared?.companyData
+              ?.recruitmentUrl
+              ? connector.settings.shared.companyData.recruitmentUrl
+              : false,
+            description: connector.settings?.shared?.companyData?.description
+              ? connector.settings.shared.companyData.description
+              : false,
+            employees: connector.settings?.shared?.companyData?.employees
+              ? connector.settings.shared.companyData.employees
+              : false,
+            vat: connector.settings?.shared?.companyData?.vat
+              ? connector.settings.shared.companyData.vat
+              : false,
+            email: connector.settings?.shared?.companyData?.email
+              ? connector.settings.shared.companyData.email
+              : false,
+            isOpenSource: connector.settings?.shared?.companyData?.isOpenSource
+              ? connector.settings.shared.companyData.isOpenSource
+              : false,
+            openSourceUrl: connector.settings?.shared?.companyData
+              ?.openSourceUrl
+              ? connector.settings.shared.companyData.openSourceUrl
+              : false,
           },
         },
       };
 
-      connectors = [...connectors, newConnector];
-
-      console.log(connectors);
-
-      if (true === true) {
-        dispatch({
-          type: "CREATE_CONNECTOR_SUCCESS",
-          payload: {
-            data: connectors,
+      console.log(connector);
+      intel
+        .addConnector(
+          true,
+          connector.url,
+          connector.name ? connector.name : "",
+          connector.token,
+          "description",
+          connector.companyPage.handle,
+          "polp",
+          {
+            share_projects: settings.shared.projects,
+            share_users: settings.shared.users,
+            share_company_name: settings.shared.companyData.name,
+            share_company_recruement_url:
+              settings.shared.companyData.recruitmentUrl,
+            share_company_description: settings.shared.companyData.description,
+            share_company_employees_count:
+              settings.shared.companyData.employees,
+            share_company_vat: settings.shared.companyData.vat,
+            share_company_email: settings.shared.companyData.email,
+            share_company_opensource_status:
+              settings.shared.companyData.isOpenSource,
+            share_company_opensource_url:
+              settings.shared.companyData.openSourceUrl,
           },
+          "open"
+        )
+        .then((result) => {
+          if (result) {
+            // Create connector object
+            const newConnector = {
+              url: connector.url ? connector.url : null,
+              useIP: connector.useIP ? true : false,
+              id: "xxxxxx", // Auto generate unique ID in wagtail
+              ip: connector.ip ? connector.ip : null,
+              name: connector.name,
+              isActive: true, // Somehow figure this out
+            };
+
+            connectors = [...connectors, newConnector];
+
+            dispatch({
+              type: "CREATE_CONNECTOR_SUCCESS",
+              payload: {
+                data: connectors,
+              },
+            });
+          } else {
+            dispatch({
+              type: "CREATE_CONNECTOR_FAIL",
+              payload: {
+                data: false,
+                error: {
+                  code: 702,
+                  message: "Could not create connector",
+                  origin: "connectors",
+                },
+              },
+            });
+          }
         });
-      } else {
-        dispatch({
-          type: "CREATE_CONNECTOR_FAIL",
-          payload: {
-            data: false,
-            error: {
-              code: 702,
-              message: "Could not create connector",
-              origin: "connectors",
-            },
-          },
-        });
-      }
     }
   };
 };
