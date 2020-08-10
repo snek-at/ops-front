@@ -1,46 +1,45 @@
 // Get all pipelines
 export const getPipelines = () => {
   return (dispatch, getState, { getIntel }) => {
-    // Dummy Data
-    const result = [
-      {
-        domain: "gitlab.local",
-        org: "anexia",
-        title: "Skynet",
-        token: "ahjfgiadzfg789453htiahv8dfaf9",
-        latestActivity: 1596034377000,
-        isActive: true,
+    const intel = getIntel();
+
+    intel.getPipelines().then((result) => {
+      if (result) {
+        result = result.map((entry) => {
+          return {
+            domain: entry.url,
+            org: "demo",
+            title: entry.name,
+            token: entry.id,
+            latestActivity: 1596034377000,
+            isActive: entry.active,
       },
       {
         domain: "share.local",
-        org: "anexia",
-        title: "Lookingglass",
-        token: "34tuzh3879tvz4587t4hwt984zt84",
-        latestActivity: 1591034377000,
-        isActive: false,
       },
-    ];
+          };
+        });
 
-    if (result) {
-      dispatch({
-        type: "GET_PIPELINES_SUCCESS",
-        payload: {
-          data: result,
-        },
-      });
-    } else {
-      dispatch({
-        type: "GET_PIPELINES_FAIL",
-        payload: {
-          data: false,
-          error: {
-            code: 720,
-            message: "Could not get pipelines",
-            origin: "pipelines",
+        dispatch({
+          type: "GET_PIPELINES_SUCCESS",
+          payload: {
+            data: result,
           },
-        },
-      });
-    }
+        });
+      } else {
+        dispatch({
+          type: "GET_PIPELINES_FAIL",
+          payload: {
+            data: false,
+            error: {
+              code: 720,
+              message: "Could not get pipelines",
+              origin: "pipelines",
+            },
+          },
+        });
+      }
+    });
   };
 };
 
