@@ -130,7 +130,7 @@ class Page extends React.Component {
 
     return (
       <MDBContainer id="company">
-        {page && page.length > 0 ? (
+        {page ? (
           <MDBRow>
             <MDBCol lg="12">
               <MDBCard>
