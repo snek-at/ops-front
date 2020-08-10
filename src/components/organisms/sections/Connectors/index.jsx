@@ -279,7 +279,9 @@ class Connectors extends React.Component {
                       this.setState({
                         selectedConnector: {
                           ...this.state.selectedConnector,
-                          page: value,
+                          companyPage: {
+                            handle: value,
+                          },
                         },
                       })
                     }
