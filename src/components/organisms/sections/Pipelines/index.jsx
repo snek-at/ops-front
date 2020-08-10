@@ -50,10 +50,21 @@ class Pipelines extends React.Component {
 
   componentDidUpdate = () => {
     // Check if there are no current pipelines set
-    if (this.props.pipelines && !this.state.pipelines) {
+    if (this.props.pipelines && !this.state.pipelines && !this.state.refetch) {
       this.setState({
         pipelines: this.props.pipelines,
       });
+    } else if (
+      this.props.pipelines &&
+      !this.state.pipelines &&
+      this.state.refetch
+    ) {
+      this.setState(
+        {
+          refetch: false,
+        },
+        () => this.props.getPipelines()
+      );
     }
   };
 
@@ -265,7 +276,16 @@ class Pipelines extends React.Component {
                           this.state.selectedPipeline
                         );
                       } else {
-                        this.props.createPipeline(this.state.selectedPipeline);
+                        this.setState(
+                          {
+                            pipelines: undefined,
+                            refetch: true,
+                          },
+                          () =>
+                            this.props.createPipeline(
+                              this.state.selectedPipeline
+                            )
+                        );
                       }
                       this.toggleModal();
                     }}
