@@ -13,7 +13,7 @@ import { Provider } from "react-redux";
 // Thunk
 import thunk from "redux-thunk";
 //> Intel
-//import { Intel } from "snek-intel";
+import { OpsIntel } from "snek-intel";
 
 //> Font Awesome
 // Font Awesome is an awesome icon library
@@ -37,7 +37,7 @@ import registerServiceWorker from "./registerServiceWorker";
 //#endregion
 
 //#region > Redux Store Initialization
-//const INTEL = new Intel();
+const INTEL = new OpsIntel();
 
 //#TODO
 // Must be moved to INTEL in future?
@@ -48,7 +48,7 @@ import registerServiceWorker from "./registerServiceWorker";
 //#TODO
 // This is only a placeholder. Intel not required in OPS.
 const getIntel = () => {
-  return true;
+  return INTEL;
 };
 
 const composeEnhancers =
