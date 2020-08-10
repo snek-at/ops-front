@@ -1,57 +1,59 @@
 // Get all connectors
 export const getConnectors = () => {
   return (dispatch, getState, { getIntel }) => {
-    // Dummy Data
-    const result = [
-      {
-        id: "553cf7eaa7f418e0df38e37b05f67325d33485ffb0e063bf4ce679121061f5ac",
-        token: "4tzvn3487t4z3t8z8ztr34879r834r739zc",
-        name: "CodeShare",
-        url: "192.168.1.66",
-        isActive: true,
-        settings: {
-          settings: {
-            shared: {
-              projects: ["looking-glass"],
-              users: ["kleberf", "schettn"],
-              /* @TODO Aichner: Add checkboxes in Component to determine what will be shared */
-              companyData: {
-                name: true,
-                isRecruiting: true,
-                recruitmentUrl: false,
-                description: true,
-                employees: false,
-                vat: true,
-                email: true,
-                isOpenSource: true,
-                openSourceUrl: true,
+    const intel = getIntel();
+
+    intel.getConnectors().then((result) => {
+      if (result) {
+        result = result.map((entry) => {
+          return {
+            id: entry.id,
+            token: entry.token,
+            name: entry.name,
+            url: entry.url,
+            isActive: entry.active,
+            settings: {
+              settings: {
+                shared: {
+                  projects: entry.shareProjects,
+                  users: entry.shareUsers,
+                  /* @TODO Aichner: Add checkboxes in Component to determine what will be shared */
+                  companyData: {
+                    name: entry.shareCompanyName,
+                    isRecruiting: entry.shareCompanyRecruementUrl,
+                    description: entry.shareCompanyDescription,
+                    employees: entry.shareCompanyEmplyeesCount,
+                    vat: entry.shareCompanyVat,
+                    email: entry.shareCompanyEmail,
+                    isOpenSource: entry.shareCompanyOpensourceStatus,
+                    openSourceUrl: entry.shareCompanyOpensourceUrl,
+                  },
+                },
               },
             },
-          },
-        },
-      },
-    ];
+          };
+        });
 
-    if (result) {
-      dispatch({
-        type: "GET_CONNECTORS_SUCCESS",
-        payload: {
-          data: result,
-        },
-      });
-    } else {
-      dispatch({
-        type: "GET_CONNECTORS_FAIL",
-        payload: {
-          data: false,
-          error: {
-            code: 700,
-            message: "Could not retrieve connectors",
-            origin: "connectors",
+        dispatch({
+          type: "GET_CONNECTORS_SUCCESS",
+          payload: {
+            data: result,
           },
-        },
-      });
-    }
+        });
+      } else {
+        dispatch({
+          type: "GET_CONNECTORS_FAIL",
+          payload: {
+            data: false,
+            error: {
+              code: 700,
+              message: "Could not retrieve connectors",
+              origin: "connectors",
+            },
+          },
+        });
+      }
+    });
   };
 };
 
