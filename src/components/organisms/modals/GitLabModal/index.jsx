@@ -19,6 +19,10 @@ import {
   MDBAlert,
   MDBBtn,
   MDBSpinner,
+  MDBSelect,
+  MDBSelectInput,
+  MDBSelectOptions,
+  MDBSelectOption,
 } from "mdbreact";
 
 //> Actions
@@ -150,6 +154,50 @@ class ProjectModal extends React.Component {
                       Fetch all projects the user has access to.
                     </p>
                   </MDBAlert>
+                </MDBCol>
+              </MDBRow>
+              <MDBRow className="my-3">
+                <MDBCol lg="12">
+                  {this.props.pagenames ? (
+                    <>
+                      <MDBSelect
+                        label="Select Page"
+                        getValue={(value) =>
+                          this.setState({
+                            selectedGitLab: {
+                              ...this.state.selectedGitLab,
+                              companyPage: {
+                                title: value.name,
+                                handle: value.handle,
+                              },
+                            },
+                          })
+                        }
+                      >
+                        <MDBSelectInput selected="Choose your Page" />
+                        <MDBSelectOptions>
+                          <MDBSelectOption disabled>
+                            Choose your Page
+                          </MDBSelectOption>
+                          {this.props.pagenames &&
+                            this.props.pagenames.map((page) => {
+                              return (
+                                <MDBSelectOption
+                                  value={page.handle}
+                                  key={page.handle}
+                                >
+                                  {page.name}
+                                </MDBSelectOption>
+                              );
+                            })}
+                        </MDBSelectOptions>
+                      </MDBSelect>
+                    </>
+                  ) : (
+                    <MDBAlert color="warning">
+                      <p className="mb-0">Please create a page first.</p>
+                    </MDBAlert>
+                  )}
                 </MDBCol>
               </MDBRow>
               {/*
@@ -284,6 +332,7 @@ class ProjectModal extends React.Component {
 //#region > Redux Mapping
 const mapStateToProps = (state) => ({
   project: state.pages.project,
+  pagenames: state.pages.pagenames,
 });
 
 const mapDispatchToProps = (dispatch) => {
