@@ -332,16 +332,12 @@ class Pipelines extends React.Component {
                           this.state.selectedPipeline
                         );
                       } else {
-                        this.setState(
-                          {
-                            pipelines: undefined,
-                            refetch: true,
-                          },
-                          () =>
-                            this.props.createPipeline(
-                              this.state.selectedPipeline
-                            )
-                        );
+                        this.props.createPipeline(this.state.selectedPipeline);
+
+                        this.setState({
+                          pipelines: undefined,
+                          refetch: true,
+                        });
                       }
                       this.toggleModal();
                     }}
