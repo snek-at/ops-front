@@ -19,6 +19,11 @@ import {
   MDBBtn,
   MDBRow,
   MDBCol,
+  MDBSelect,
+  MDBSelectInput,
+  MDBSelectOptions,
+  MDBSelectOption,
+  MDBAlert,
 } from "mdbreact";
 //> Additional
 // Everything time related
@@ -227,14 +232,23 @@ class Pipelines extends React.Component {
                   Cancel
                 </MDBBtn>
               </div>
-              <p className="mb-1 text-muted small">Token</p>
+              <AIInput
+                title="Title"
+                description="Name the pipeline"
+                name="title"
+                placeholder="Pipeline title"
+                value={this.state.selectedPipeline.title}
+                handleChange={this.handlePipelineChange}
+                key="title"
+              />
+              <p className="mb-1 text-muted small mt-3">Token</p>
               <input
                 type="text"
                 disabled
                 className="form-control"
                 value={this.state.selectedPipeline.token}
               />
-              <MDBRow>
+              <MDBRow className="mb-3 mt-2">
                 <MDBCol lg="6">
                   <AIToggle
                     title="Active"
@@ -245,6 +259,45 @@ class Pipelines extends React.Component {
                     labelLeft="Off"
                     labelRight="On"
                   />
+                </MDBCol>
+                <MDBCol lg="6">
+                  {this.props.pagenames ? (
+                    <>
+                      <MDBSelect
+                        label="Select Page"
+                        getValue={(value) =>
+                          this.setState({
+                            selectedConnector: {
+                              ...this.state.selectedConnector,
+                              page: value,
+                            },
+                          })
+                        }
+                      >
+                        <MDBSelectInput selected="Choose your Page" />
+                        <MDBSelectOptions>
+                          <MDBSelectOption disabled>
+                            Choose your Page
+                          </MDBSelectOption>
+                          {this.props.pagenames &&
+                            this.props.pagenames.map((page) => {
+                              return (
+                                <MDBSelectOption
+                                  value={page.handle}
+                                  key={page.handle}
+                                >
+                                  {page.name}
+                                </MDBSelectOption>
+                              );
+                            })}
+                        </MDBSelectOptions>
+                      </MDBSelect>
+                    </>
+                  ) : (
+                    <MDBAlert color="warning">
+                      <p className="mb-0">Please create a page first.</p>
+                    </MDBAlert>
+                  )}
                 </MDBCol>
               </MDBRow>
               <div className="d-flex justify-content-between">
@@ -307,6 +360,7 @@ class Pipelines extends React.Component {
 //#region > Redux Mapping
 const mapStateToProps = (state) => ({
   pipelines: state.pipelines.pipelines,
+  pagenames: state.pages.pagenames,
 });
 
 const mapDispatchToProps = (dispatch) => {
