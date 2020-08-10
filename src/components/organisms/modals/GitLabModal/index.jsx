@@ -91,11 +91,7 @@ class ProjectModal extends React.Component {
             <>
               <div className="d-flex justify-content-between">
                 <p className="lead font-weight-bold">
-                  {!addGitLab
-                    ? selectedGitLab.domain
-                      ? selectedGitLab.domain
-                      : selectedGitLab.ip
-                    : "Add new GitLab"}
+                  {!addGitLab ? selectedGitLab.url : "Add new GitLab"}
                 </p>
                 <MDBBtn
                   color="danger"
@@ -107,42 +103,25 @@ class ProjectModal extends React.Component {
                   Cancel
                 </MDBBtn>
               </div>
-              <MDBRow>
-                <MDBCol lg="6">
-                  <AIToggle
-                    title="Domain / IP"
-                    description="Reach GitLab server by domain or ip address?"
-                    checked={!selectedGitLab.useIP}
-                    change={this.handleGitLabModeChange}
-                    name="useIP"
-                    labelLeft="IP"
-                    labelRight="Domain"
-                  />
-                </MDBCol>
-                <MDBCol lg="6">
-                  {selectedGitLab.useIP ? (
-                    <AIInput
-                      title="IP Address"
-                      description="Enter the GitLab IP Address"
-                      name="ip"
-                      placeholder="GitLab IP"
-                      value={selectedGitLab.ip}
-                      handleChange={this.handleGitLabChange}
-                      key="ip"
-                    />
-                  ) : (
-                    <AIInput
-                      title="Domain"
-                      description="Enter the GitLab domain"
-                      name="domain"
-                      placeholder="GitLab Domain"
-                      value={selectedGitLab.domain}
-                      handleChange={this.handleGitLabChange}
-                      key="domain"
-                    />
-                  )}
-                </MDBCol>
-              </MDBRow>
+              <AIInput
+                title="URL"
+                description="Enter the GitLab IP or domain."
+                name="url"
+                placeholder="GitLab URL"
+                value={selectedGitLab.url}
+                handleChange={this.handleGitLabChange}
+                key="url"
+              />
+              <hr />
+              <AIInput
+                title="Authentication"
+                description="Please enter the gitlab access token"
+                name="token"
+                placeholder="Token"
+                value={this.state.selectedGitLab.token}
+                handleChange={this.handleGitLabChange}
+                key="token"
+              />
               <hr />
               <MDBRow className="mt-3">
                 <MDBCol lg="6">
@@ -173,16 +152,6 @@ class ProjectModal extends React.Component {
                   </MDBAlert>
                 </MDBCol>
               </MDBRow>
-              <hr />
-              <AIInput
-                title="Authentication"
-                description="Please enter the gitlab access token"
-                name="token"
-                placeholder="Token"
-                value={this.state.selectedGitLab.token}
-                handleChange={this.handleGitLabChange}
-                key="token"
-              />
               {/*
                 <MDBRow className="mt-3">
                   <MDBCol lg="6">

@@ -60,15 +60,12 @@ class GitLabs extends React.Component {
     const val = this.unifyString(value);
 
     // Searches for search value in title, domain and org
-    let results = gitlabs.filter((pipe) => {
+    let results = gitlabs.filter((gitlab) => {
       if (
-        this.unifyString(pipe.ip).includes(val) ||
-        this.unifyString(pipe.domain).includes(val) ||
-        this.unifyString(pipe.username).includes(val) ||
-        this.unifyString(pipe.mode).includes(val) ||
-        this.unifyString(pipe.user).includes(val)
+        this.unifyString(gitlab.url).includes(val) ||
+        this.unifyString(gitlab.mode).includes(val)
       ) {
-        return pipe;
+        return gitlab;
       }
     });
 
@@ -138,21 +135,17 @@ class GitLabs extends React.Component {
                   key={p}
                 >
                   <div>
-                    <p className="lead mb-0">
-                      {gitlab.domain ? gitlab.domain : gitlab.ip}
-                    </p>
-                    <p className="text-muted mb-0">
-                      <code className="text-success">
-                        <MDBIcon icon="check-circle" className="mr-2" />
-                        Authenticated as {gitlab.username}
-                      </code>
-                    </p>
+                    <p className="lead mb-0">{gitlab.url}</p>
+                    {gitlab.token && (
+                      <p className="text-muted mb-0">
+                        <code className="text-success">
+                          <MDBIcon icon="check-circle" className="mr-2" />
+                          Authenticated
+                        </code>
+                      </p>
+                    )}
                   </div>
                   <div className="d-flex align-items-center justify-content-center">
-                    <div className="small d-inline-block text-center px-2">
-                      <span className="text-muted">Usertype</span>
-                      <span className="d-block">{gitlab.user}</span>
-                    </div>
                     <div className="small d-inline-block text-center px-2">
                       <span className="text-muted">Mode</span>
                       <span className="d-block">

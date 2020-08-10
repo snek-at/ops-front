@@ -4,25 +4,18 @@ export const getGitLabs = () => {
     // Dummy Data
     const result = [
       {
-        domain: null,
-        useIP: true,
+        url: "192.168.69.5",
         id: "9bf1ebaecbc2a3d86b39b09ec3587f5da0be6f9c47820ece4709e0cf72a75eb3",
-        ip: "192.168.69.5",
-        user: "snekman",
         isIDC: true,
-        username: "schettk",
         isActive: true,
         token:
           "1170a4b5a80ca6753f294d2cf97703c0a6639ac60748ee9b3ba0578fe6b001a4",
       },
       {
-        domain: "terminus.local",
+        url: "terminus.local",
         useIP: false,
         id: "b4254fccdec0c00f87c66dc4292e84b90999e3cc66387e84d77fb4211ff0481b",
-        ip: null,
-        user: "snekman",
         isIDC: false,
-        username: "klebern",
         isActive: false,
         token:
           "3daa0f0707adaa806da8a7ed2b2c10b710c91b8fe0c36c1f2ec310d2c8736886",
