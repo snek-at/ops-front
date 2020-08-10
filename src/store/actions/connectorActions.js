@@ -128,8 +128,12 @@ export const createConnector = (connector) => {
         isActive: true, // Somehow figure this out
         settings: {
           shared: {
-            projects: ["looking-glass"],
-            users: ["kleberf", "schettn"],
+            projects: connector.settings?.shared?.companyData?.projects
+              ? connector.settings.shared.companyData.projects
+              : false,
+            users: connector.settings?.shared?.companyData?.users
+              ? connector.settings.shared.companyData.users
+              : false,
             companyData: {
               name: connector.settings?.shared?.companyData?.name
                 ? connector.settings.shared.companyData.name

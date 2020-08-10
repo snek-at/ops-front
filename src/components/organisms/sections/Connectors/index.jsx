@@ -485,6 +485,38 @@ class Connectors extends React.Component {
                   />
                 </MDBCol>
               </MDBRow>
+              <MDBRow className="mt-3">
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="users"
+                    label="Share all users"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.users
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("users", val)
+                    }
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="projects"
+                    label="Share all projects"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.projects
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("projects", val)
+                    }
+                  />
+                </MDBCol>
+              </MDBRow>
               <div className="d-flex justify-content-between mt-5">
                 <div>
                   {!this.state.addConnector && (
