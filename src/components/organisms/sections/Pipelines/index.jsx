@@ -249,7 +249,7 @@ class Pipelines extends React.Component {
                 value={this.state.selectedPipeline.token}
               />
               <MDBRow className="mb-3 mt-2">
-                <MDBCol lg="6">
+                <MDBCol lg="5">
                   <AIToggle
                     title="Active"
                     description="Enable or disable the pipeline"
@@ -260,7 +260,7 @@ class Pipelines extends React.Component {
                     labelRight="On"
                   />
                 </MDBCol>
-                <MDBCol lg="6">
+                <MDBCol lg="7">
                   {this.props.pagenames ? (
                     <>
                       <MDBSelect
