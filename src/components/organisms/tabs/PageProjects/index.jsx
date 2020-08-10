@@ -27,6 +27,7 @@ import moment from "moment";
 import { getProjects } from "../../../../store/actions/pageActions";
 //> Components
 import { UserModal, ProjectModal } from "../../";
+import { AIBarChart } from "../../../atoms";
 //> CSS
 import "./pageprojects.scss";
 //> Images
@@ -85,6 +86,22 @@ class PageProjects extends React.Component {
     });
   };
 
+  generateRandomChart = () => {
+    let array = [...new Array(200)].map(() =>
+      Math.round(Math.random() * (Math.random() < 0.2 ? -100 : 100))
+    );
+
+    // Decrease number of values
+    for (let i = array.length - 1; i >= 0; i--) {
+      if (Math.random() * 100 > 70) {
+        array[i] = 0;
+        array[i - 1] = 0;
+      }
+    }
+
+    return array;
+  };
+
   render() {
     const { projects } = this.state;
 
@@ -112,7 +129,7 @@ class PageProjects extends React.Component {
                     <p className="lead mb-0">{project.title}</p>
                   </div>
                   <div className="d-flex align-items-center justify-content-center">
-                    Chart
+                    <AIBarChart data={this.generateRandomChart()} />
                   </div>
                 </MDBListGroupItem>
               );
