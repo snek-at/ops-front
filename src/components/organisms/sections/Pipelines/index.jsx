@@ -87,11 +87,11 @@ class Pipelines extends React.Component {
     // Unify value
     const val = this.unifyString(value);
 
-    // Searches for search value in title, domain and org
+    // Searches for search value in title, url and org
     let results = pipelines.filter((pipe) => {
       if (
         this.unifyString(pipe.title).includes(val) ||
-        this.unifyString(pipe.domain).includes(val) ||
+        this.unifyString(pipe.url).includes(val) ||
         this.unifyString(pipe.org).includes(val)
       ) {
         return pipe;
@@ -181,7 +181,7 @@ class Pipelines extends React.Component {
                   <div>
                     <p className="lead mb-2">{pipeline.title}</p>
                     <p className="mb-0 text-muted">
-                      {pipeline.domain}/{pipeline.org}/
+                      {pipeline.url}/{pipeline.org}/
                       {pipeline.title.toLowerCase()}
                     </p>
                   </div>
