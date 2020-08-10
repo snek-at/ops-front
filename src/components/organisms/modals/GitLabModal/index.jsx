@@ -104,7 +104,7 @@ class ProjectModal extends React.Component {
                 </MDBBtn>
               </div>
               <AIInput
-                title="Domain"
+                title="URL"
                 description="Enter the GitLab IP or domain."
                 name="url"
                 placeholder="GitLab URL"
