@@ -138,21 +138,17 @@ class GitLabs extends React.Component {
                   key={p}
                 >
                   <div>
-                    <p className="lead mb-0">
-                      {gitlab.domain ? gitlab.domain : gitlab.ip}
-                    </p>
-                    <p className="text-muted mb-0">
-                      <code className="text-success">
-                        <MDBIcon icon="check-circle" className="mr-2" />
-                        Authenticated as {gitlab.username}
-                      </code>
-                    </p>
+                    <p className="lead mb-0">{gitlab.url}</p>
+                    {gitlab.token && (
+                      <p className="text-muted mb-0">
+                        <code className="text-success">
+                          <MDBIcon icon="check-circle" className="mr-2" />
+                          Authenticated
+                        </code>
+                      </p>
+                    )}
                   </div>
                   <div className="d-flex align-items-center justify-content-center">
-                    <div className="small d-inline-block text-center px-2">
-                      <span className="text-muted">Usertype</span>
-                      <span className="d-block">{gitlab.user}</span>
-                    </div>
                     <div className="small d-inline-block text-center px-2">
                       <span className="text-muted">Mode</span>
                       <span className="d-block">
