@@ -179,7 +179,7 @@ class ProjectModal extends React.Component {
                             Choose your Page
                           </MDBSelectOption>
                           {this.props.pagenames &&
-                            this.props.pagenames.map((page) => {
+                            this.props.pagenames.map((page, p) => {
                               return (
                                 <MDBSelectOption
                                   value={page.handle}
