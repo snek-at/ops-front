@@ -13,21 +13,19 @@ export const getConnectors = () => {
             url: entry.url,
             isActive: entry.active,
             settings: {
-              settings: {
-                shared: {
-                  projects: entry.shareProjects,
-                  users: entry.shareUsers,
-                  /* @TODO Aichner: Add checkboxes in Component to determine what will be shared */
-                  companyData: {
-                    name: entry.shareCompanyName,
-                    isRecruiting: entry.shareCompanyRecruementUrl,
-                    description: entry.shareCompanyDescription,
-                    employees: entry.shareCompanyEmplyeesCount,
-                    vat: entry.shareCompanyVat,
-                    email: entry.shareCompanyEmail,
-                    isOpenSource: entry.shareCompanyOpensourceStatus,
-                    openSourceUrl: entry.shareCompanyOpensourceUrl,
-                  },
+              shared: {
+                projects: entry.shareProjects,
+                users: entry.shareUsers,
+                /* @TODO Aichner: Add checkboxes in Component to determine what will be shared */
+                companyData: {
+                  name: entry.shareCompanyName,
+                  isRecruiting: entry.shareCompanyRecruementUrl,
+                  description: entry.shareCompanyDescription,
+                  employees: entry.shareCompanyEmployeesCount,
+                  vat: entry.shareCompanyVat,
+                  email: entry.shareCompanyEmail,
+                  isOpenSource: entry.shareCompanyOpensourceStatus,
+                  openSourceUrl: entry.shareCompanyOpensourceUrl,
                 },
               },
             },
