@@ -184,6 +184,7 @@ class ProjectModal extends React.Component {
                                 <MDBSelectOption
                                   value={page.handle}
                                   key={page.handle}
+                                  selected={p === 0 ? true : false}
                                 >
                                   {page.name}
                                 </MDBSelectOption>
