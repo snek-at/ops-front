@@ -1,30 +1,45 @@
 // Login user
 export const loginUser = (username, password) => {
   return (dispatch, getState, { getIntel }) => {
-    if (username === "cisco" && password === "cisco") {
-      const user = {
-        username: "cisco",
-      };
+    const intel = getIntel();
+    const session = intel.snekclient.session;
 
-      dispatch({
-        type: "LOGIN_SUCCESS",
-        payload: {
-          data: user,
-        },
-      });
-    } else {
-      dispatch({
-        type: "LOGIN_FAIL",
-        payload: {
-          data: false,
-          error: {
-            code: 750,
-            message: "Login failed for user " + username,
-            origin: "auth",
+    return session
+      .begin({ username, password })
+      .then((whoami) => {
+        if (whoami?.__typename !== "SNEKUser") {
+          throw Error("Login Failed");
+        }
+        if (whoami?.anonymous === false) {
+          console.log(whoami);
+          dispatch({
+            type: "LOGIN_SUCCESS",
+            payload: {
+              data: {
+                username: whoami.username,
+              },
+            },
+          });
+        } else {
+          dispatch({
+            type: "LOGIN_ANON_SUCCESS",
+            payload: {},
+          });
+        }
+      })
+      .catch((ex) =>
+        dispatch({
+          type: "LOGIN_FAIL",
+          payload: {
+            data: false,
+            error: {
+              code: 750,
+              message: "Login failed for user " + username,
+              origin: "auth",
+            },
           },
-        },
-      });
-    }
+        })
+      );
   };
 };
 
