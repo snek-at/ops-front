@@ -40,7 +40,7 @@ import {
 } from "../../../../store/actions/connectorActions";
 import { getGitLabs } from "../../../../store/actions/gitlabActions";
 //> Components
-import { AIInput, AIToggle } from "../../../atoms";
+import { AIInput, AICheckbox } from "../../../atoms";
 //> Images
 // Too be added
 //#endregion
@@ -136,8 +136,43 @@ class Connectors extends React.Component {
     );
   };
 
+  handleSettingsChange = (name, val) => {
+    this.setState({
+      selectedConnector: {
+        ...this.state.selectedConnector,
+        settings: this.state.selectedConnector.settings
+          ? {
+              ...this.state.selectedConnector.settings,
+              shared: this.state.selectedConnector.settings.shared
+                ? {
+                    ...this.state.selectedConnector.settings.shared,
+                    companyData: {
+                      ...this.state.selectedConnector.settings.shared
+                        .companyData,
+                      [name]: val,
+                    },
+                  }
+                : {
+                    companyData: {
+                      [name]: val,
+                    },
+                  },
+            }
+          : {
+              shared: {
+                companyData: {
+                  [name]: val,
+                },
+              },
+            },
+      },
+    });
+  };
+
   render() {
     const { connectors } = this.state;
+
+    console.log(this.state.selectedConnector);
 
     return (
       <MDBContainer>
@@ -311,6 +346,145 @@ class Connectors extends React.Component {
                   <p className="mb-0">Please create a page first.</p>
                 </MDBAlert>
               )}
+              <hr />
+              <p className="lead font-weight-bold">You decide what you share</p>
+              <MDBRow>
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="name"
+                    label="Company name"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.name
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("name", val)
+                    }
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="isRecruiting"
+                    label="Recruitment status"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.isRecruiting
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("isRecruiting", val)
+                    }
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="recruitmentUrl"
+                    label="Recruitment URL"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.recruitmentUrl
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("recruitmentUrl", val)
+                    }
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="description"
+                    label="Company description"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.description
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("description", val)
+                    }
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="employees"
+                    label="Employee count"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.employees
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("employees", val)
+                    }
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="vat"
+                    label="VAT number"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.vat
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("vat", val)
+                    }
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="email"
+                    label="Company E-Mail"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.email
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("email", val)
+                    }
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="isOpenSource"
+                    label="Open Source status"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.isOpenSource
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("isOpenSource", val)
+                    }
+                  />
+                </MDBCol>
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="openSourceUrl"
+                    label="Open Source URL"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared
+                            .companyData.openSourceUrl
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("openSourceUrl", val)
+                    }
+                  />
+                </MDBCol>
+              </MDBRow>
               <div className="d-flex justify-content-between mt-5">
                 <div>
                   {!this.state.addConnector && (

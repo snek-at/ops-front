@@ -131,15 +131,37 @@ export const createConnector = (connector) => {
             projects: ["looking-glass"],
             users: ["kleberf", "schettn"],
             companyData: {
-              name: true,
-              isRecruiting: true,
-              recruitmentUrl: false,
-              description: true,
-              employees: false,
-              vat: true,
-              email: true,
-              isOpenSource: true,
-              openSourceUrl: true,
+              name: connector.settings?.shared?.companyData?.name
+                ? connector.settings.shared.companyData.name
+                : false,
+              isRecruiting: connector.settings?.shared?.companyData
+                ?.isRecruiting
+                ? connector.settings.shared.companyData.isRecruiting
+                : false,
+              recruitmentUrl: connector.settings?.shared?.companyData
+                ?.recruitmentUrl
+                ? connector.settings.shared.companyData.recruitmentUrl
+                : false,
+              description: connector.settings?.shared?.companyData?.description
+                ? connector.settings.shared.companyData.description
+                : false,
+              employees: connector.settings?.shared?.companyData?.employees
+                ? connector.settings.shared.companyData.employees
+                : false,
+              vat: connector.settings?.shared?.companyData?.vat
+                ? connector.settings.shared.companyData.vat
+                : false,
+              email: connector.settings?.shared?.companyData?.email
+                ? connector.settings.shared.companyData.email
+                : false,
+              isOpenSource: connector.settings?.shared?.companyData
+                ?.isOpenSource
+                ? connector.settings.shared.companyData.isOpenSource
+                : false,
+              openSourceUrl: connector.settings?.shared?.companyData
+                ?.openSourceUrl
+                ? connector.settings.shared.companyData.openSourceUrl
+                : false,
             },
           },
         },
