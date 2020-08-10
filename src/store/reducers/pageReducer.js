@@ -14,7 +14,7 @@ const pageReducer = (state = initState, action) => {
     case "GET_PAGE_SUCCESS":
       return {
         ...state,
-        page: action.payload.data ? action.payload.data : [],
+        page: action.payload.data ? action.payload.data : null,
         error: null,
       };
     case "GET_PAGE_FAIL":
