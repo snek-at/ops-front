@@ -6,6 +6,7 @@ export const getConnectors = () => {
     intel.getConnectors().then((result) => {
       if (result) {
         result = result.map((entry) => {
+          console.log(entry);
           return {
             id: entry.id,
             token: entry.token,
@@ -19,7 +20,8 @@ export const getConnectors = () => {
                 /* @TODO Aichner: Add checkboxes in Component to determine what will be shared */
                 companyData: {
                   name: entry.shareCompanyName,
-                  isRecruiting: entry.shareCompanyRecruementUrl,
+                  isRecruiting: entry.shareCompanyRecruiting,
+                  recruitmentUrl: entry.shareCompanyRecruementUrl,
                   description: entry.shareCompanyDescription,
                   employees: entry.shareCompanyEmployeesCount,
                   vat: entry.shareCompanyVat,
@@ -173,6 +175,7 @@ export const createConnector = (connector) => {
             share_projects: settings.shared.projects,
             share_users: settings.shared.users,
             share_company_name: settings.shared.companyData.name,
+            share_company_recruiting: settings.shared.companyData.isRecruiting,
             share_company_recruement_url:
               settings.shared.companyData.recruitmentUrl,
             share_company_description: settings.shared.companyData.description,

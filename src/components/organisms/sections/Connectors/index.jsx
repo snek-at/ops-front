@@ -492,8 +492,7 @@ class Connectors extends React.Component {
                     label="Share all users"
                     checked={
                       this.state.selectedConnector.settings
-                        ? this.state.selectedConnector.settings.shared
-                            .companyData.users
+                        ? this.state.selectedConnector.settings.shared.users
                         : false
                     }
                     handleChange={(val) =>
@@ -507,8 +506,7 @@ class Connectors extends React.Component {
                     label="Share all projects"
                     checked={
                       this.state.selectedConnector.settings
-                        ? this.state.selectedConnector.settings.shared
-                            .companyData.projects
+                        ? this.state.selectedConnector.settings.shared.projects
                         : false
                     }
                     handleChange={(val) =>
