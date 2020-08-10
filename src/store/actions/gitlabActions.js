@@ -1,47 +1,39 @@
 // Get all GitLabs
 export const getGitLabs = () => {
   return (dispatch, getState, { getIntel }) => {
-    // Dummy Data
-    const result = [
-      {
-        url: "192.168.69.5",
-        id: "9bf1ebaecbc2a3d86b39b09ec3587f5da0be6f9c47820ece4709e0cf72a75eb3",
-        isIDC: true,
-        isActive: true,
-        token:
-          "1170a4b5a80ca6753f294d2cf97703c0a6639ac60748ee9b3ba0578fe6b001a4",
-      },
-      {
-        url: "terminus.local",
-        useIP: false,
-        id: "b4254fccdec0c00f87c66dc4292e84b90999e3cc66387e84d77fb4211ff0481b",
-        isIDC: false,
-        isActive: false,
-        token:
-          "3daa0f0707adaa806da8a7ed2b2c10b710c91b8fe0c36c1f2ec310d2c8736886",
-      },
-    ];
+    const intel = getIntel();
 
-    if (result) {
-      dispatch({
-        type: "GET_GITLABS_SUCCESS",
-        payload: {
-          data: result,
-        },
-      });
-    } else {
-      dispatch({
-        type: "GET_GITLABS_FAIL",
-        payload: {
-          data: false,
-          error: {
-            code: 710,
-            message: "Could not get gitlabs",
-            origin: "gitlabs",
+    intel.getGitlabs().then((result) => {
+      if (result) {
+        result = result.map((entry) => {
+          return {
+            url: entry.url,
+            id: entry.id,
+            isIDC: entry.privilegiesMode === "idc" ? true : false,
+            isActive: entry.active,
+            token: entry.token,
+          };
+        });
+        dispatch({
+          type: "GET_GITLABS_SUCCESS",
+          payload: {
+            data: result,
           },
-        },
-      });
-    }
+        });
+      } else {
+        dispatch({
+          type: "GET_GITLABS_FAIL",
+          payload: {
+            data: false,
+            error: {
+              code: 710,
+              message: "Could not get gitlabs",
+              origin: "gitlabs",
+            },
+          },
+        });
+      }
+    });
   };
 };
 
