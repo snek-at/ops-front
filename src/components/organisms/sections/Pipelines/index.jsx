@@ -267,9 +267,12 @@ class Pipelines extends React.Component {
                         label="Select Page"
                         getValue={(value) =>
                           this.setState({
-                            selectedConnector: {
-                              ...this.state.selectedConnector,
-                              page: value,
+                            selectedPipeline: {
+                              ...this.state.selectedPipeline,
+                              companyPage: {
+                                title: value.name,
+                                handle: value.handle,
+                              },
                             },
                           })
                         }
