@@ -97,16 +97,18 @@ export const addUser = (user) => {
 // Removes user
 export const removeUser = (id) => {
   return (dispatch, getState, { getIntel }) => {
-    //@TODO: Remove user by id
     console.log(id);
+
+    //@TODO Error handling: 738 Could not remove user <id>
   };
 };
 
 // Alters user
 export const alterUser = (id, newData) => {
   return (dispatch, getState, { getIntel }) => {
-    //@TODO: Alter user by id
     console.log(id, newData);
+
+    //@TODO Error handling: 739 Could not alter user <id>
   };
 };
 
@@ -240,24 +242,27 @@ export const getAllGroups = () => {
 // Alters group
 export const alterGroup = (id, newGroup) => {
   return (dispatch, getState, { getIntel }) => {
-    //@TODO: Alter user by id
     console.log(id, newGroup);
+
+    //@TODO Error handling: 735 Could not alter group <id>
   };
 };
 
 // Create group
-export const createGroup = (id, newGroup) => {
+export const createGroup = (newGroup) => {
   return (dispatch, getState, { getIntel }) => {
-    //@TODO: Alter user by id
-    console.log(id, newGroup);
+    console.log(newGroup);
+
+    //@TODO Error handling: 736 Could not create group
   };
 };
 
 // Removes group
 export const removeGroup = (id) => {
   return (dispatch, getState, { getIntel }) => {
-    //@TODO: Remove user by id
     console.log(id);
+
+    //@TODO Error handling: 737 Could not remove group <id>
   };
 };
 
