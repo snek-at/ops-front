@@ -270,7 +270,7 @@ class Pipelines extends React.Component {
                             selectedPipeline: {
                               ...this.state.selectedPipeline,
                               companyPage: {
-                                handle: value,
+                                handle: value[0],
                               },
                             },
                           })

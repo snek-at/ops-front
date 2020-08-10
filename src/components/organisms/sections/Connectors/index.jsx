@@ -280,7 +280,7 @@ class Connectors extends React.Component {
                         selectedConnector: {
                           ...this.state.selectedConnector,
                           companyPage: {
-                            handle: value,
+                            handle: value[0],
                           },
                         },
                       })
