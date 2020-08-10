@@ -12,6 +12,10 @@ export const getGitLabs = () => {
             isIDC: entry.privilegiesMode === "idc" ? true : false,
             isActive: entry.active,
             token: entry.token,
+            enterprisePage: {
+              name: entry.enterprisePage.title,
+              handle: entry.enterprisePage.slug,
+            },
           };
         });
         dispatch({

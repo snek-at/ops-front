@@ -31,6 +31,10 @@ export const getConnectors = () => {
                 },
               },
             },
+            enterprisePage: {
+              name: entry.enterprisePage.title,
+              handle: entry.enterprisePage.slug,
+            },
           };
         });
 

@@ -13,10 +13,10 @@ export const getPipelines = () => {
             token: entry.id,
             latestActivity: 1596034377000,
             isActive: entry.active,
-      },
-      {
-        domain: "share.local",
-      },
+            enterprisePage: {
+              name: entry.enterprisePage.title,
+              handle: entry.enterprisePage.slug,
+            },
           };
         });
 
