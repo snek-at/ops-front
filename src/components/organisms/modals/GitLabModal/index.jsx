@@ -166,8 +166,10 @@ class ProjectModal extends React.Component {
                           this.setState({
                             selectedGitLab: {
                               ...this.state.selectedGitLab,
-                              title: value.name,
-                              handle: value.handle,
+                              companyPage: {
+                                title: value.name,
+                                handle: value.handle,
+                              },
                             },
                           })
                         }
