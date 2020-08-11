@@ -169,27 +169,43 @@ export const alterGitlab = (handle, newGitLab) => {
       // Merge selected and altered GitLab data
       const alteredGitLab = { ...selectedGitLab[0], ...newGitLab };
 
-      // Append the altered GitLab
-      const newGitLabs = [...notSelectedGitLabs, alteredGitLab];
+      console.log("ALTER GITLAB", alteredGitLab);
+      intel
+        .updateGitlab(
+          alteredGitLab.id,
+          alteredGitLab.isActive,
+          alteredGitLab.description ? alterGitlab.alteredGitLab : "description",
+          alteredGitLab.enterprisePage.handle,
+          alteredGitLab.token,
+          alteredGitLab.name ? alteredGitLab.name : "not set",
+          alteredGitLab.isIDC ? "IDC" : "POLP",
+          alteredGitLab.url
+        )
+        .then((result) => {
+          if (result) {
+            // Append the altered GitLab
+            const newGitLabs = [...notSelectedGitLabs, alteredGitLab];
 
-      dispatch({
-        type: "ALTER_GITLAB_SUCCESS",
-        payload: {
-          data: newGitLabs,
-        },
-      });
-    } else {
-      dispatch({
-        type: "ALTER_GITLAB_FAIL",
-        payload: {
-          data: false,
-          error: {
-            code: 714,
-            message: "Could not alter gitlab with handle " + handle,
-            origin: "gitlabs",
-          },
-        },
-      });
+            dispatch({
+              type: "ALTER_GITLAB_SUCCESS",
+              payload: {
+                data: newGitLabs,
+              },
+            });
+          } else {
+            dispatch({
+              type: "ALTER_GITLAB_FAIL",
+              payload: {
+                data: false,
+                error: {
+                  code: 714,
+                  message: "Could not alter gitlab with handle " + handle,
+                  origin: "gitlabs",
+                },
+              },
+            });
+          }
+        });
     }
   };
 };

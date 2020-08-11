@@ -45,7 +45,37 @@ export const getPipelines = () => {
 
 export const alterPipeline = (token, newPipeline) => {
   return (dispatch, getState, { getIntel }) => {
-    console.log(token, newPipeline);
+    // get intel instance
+    const intel = getIntel();
+    // Get current pipelines
+    const pipelines = getState().pipelines.pipelines;
+    // console.log(pipelines);
+    // console.log(token, ...newPipeline);
+    const selectedPipelineIndex = pipelines.indexOf(
+      pipelines.find((selected) => selected.token === token)
+    );
+
+    console.log(newPipeline);
+    console.log({ ...newPipeline });
+
+    pipelines[selectedPipelineIndex] = {
+      ...pipelines[selectedPipelineIndex],
+      ...newPipeline,
+    };
+
+    const alteredPipeline = pipelines[selectedPipelineIndex];
+
+    if (alteredPipeline) {
+      intel.updatePipeline(
+        alteredPipeline.token,
+        alteredPipeline.isActive,
+        alteredPipeline.description
+          ? alteredPipeline.description
+          : "description",
+        alteredPipeline.enterprisePage.handle,
+        alteredPipeline.title
+      );
+    }
   };
 };
 

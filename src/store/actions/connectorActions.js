@@ -232,8 +232,59 @@ export const createConnector = (connector) => {
 // Create connector
 export const alterConnector = (id, newConnector) => {
   return (dispatch, getState, { getIntel }) => {
-    // Take current connector by id and alter its content
-    console.log(id, newConnector);
+    // get intel instance
+    const intel = getIntel();
+    // Get current connectors
+    const connectors = getState().connectors.connectors;
+
+    const selectedConnectorIndex = connectors.indexOf(
+      connectors.find((selected) => selected.id === id)
+    );
+
+    connectors[selectedConnectorIndex] = {
+      ...connectors[selectedConnectorIndex],
+      ...newConnector,
+    };
+
+    const alteredConnector = connectors[selectedConnectorIndex];
+
+    console.log(alteredConnector);
+
+    if (alteredConnector) {
+      intel.updateConnector(
+        alteredConnector.id,
+        alteredConnector.isActive,
+        alteredConnector.token,
+        alteredConnector.description
+          ? alteredConnector.description
+          : "description",
+        alteredConnector.enterprisePage.handle,
+        alteredConnector.name,
+        alteredConnector.isIDC ? "IDC" : "POLP",
+        {
+          share_projects: alteredConnector.settings.shared.projects,
+          share_users: alteredConnector.settings.shared.users,
+          share_company_name: alteredConnector.settings.shared.companyData.name,
+          share_company_recruiting:
+            alteredConnector.settings.shared.companyData.isRecruiting,
+          share_company_recruement_url:
+            alteredConnector.settings.shared.companyData.recruitmentUrl,
+          share_company_description:
+            alteredConnector.settings.shared.companyData.description,
+          share_company_employees_count:
+            alteredConnector.settings.shared.companyData.employees,
+          share_company_vat: alteredConnector.settings.shared.companyData.vat,
+          share_company_email:
+            alteredConnector.settings.shared.companyData.email,
+          share_company_opensource_status:
+            alteredConnector.settings.shared.companyData.isOpenSource,
+          share_company_opensource_url:
+            alteredConnector.settings.shared.companyData.openSourceUrl,
+        },
+        alteredConnector.settings.shared.mode,
+        alteredConnector.url
+      );
+    }
 
     //@TODO Error handling: 703 Could not alter connector <id>
   };
