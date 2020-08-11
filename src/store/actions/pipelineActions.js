@@ -147,7 +147,20 @@ export const createPipeline = (newPipeline) => {
 
 export const removePipeline = (id) => {
   return (dispatch, getState, { getIntel }) => {
-    console.log(id);
+    if (id) {
+      // Get current connectors
+      const pipelines = getState().pipelines.pipelines;
+
+      // get intel instance
+      const intel = getIntel();
+      // Removes connector
+      intel.deletePipeline(id).then((res) => {
+        if (res.success) {
+          // remove connector from current connectors
+          const leftovers = pipelines.filter((selected) => selected.id !== id);
+        }
+      });
+    }
   };
 };
 

@@ -209,24 +209,24 @@ export const alterGitlab = (handle, newGitLab) => {
 };
 
 // Remove gitlab by handle (ip or url)
-export const removeGitlab = (handle) => {
+export const removeGitlab = (id) => {
   return (dispatch, getState, { getIntel }) => {
-    if (handle) {
+    if (id) {
       // Get current GitLabs
       const gitlabs = getState().gitlabs.gitlabs;
-      // Get length of GitLabs array
-      const initialLength = gitlabs.length;
 
-      // Remove GitLab object with handle
-      const filteredGitLabs = gitlabs.filter((obj) => obj.id !== handle);
+      // get intel instance
+      const intel = getIntel();
+      // Removes connector
+      intel.deleteConnector(id).then((res) => {
+        if (res.success) {
+          // remove connector from current connectors
+          const leftovers = gitlabs.filter((obj) => obj.id !== id);
 
-      // Check if a GitLab has been removed
-      if (filteredGitLabs.length !== initialLength) {
-        if (true === true) {
           dispatch({
             type: "REMOVE_GITLAB_SUCCESS",
             payload: {
-              data: gitlabs,
+              data: leftovers,
             },
           });
         } else {
@@ -236,25 +236,13 @@ export const removeGitlab = (handle) => {
               data: false,
               error: {
                 code: 715,
-                message: "Could not remove gitlab with handle " + handle,
+                message: "Could not remove gitlab with handle " + id,
                 origin: "gitlabs",
               },
             },
           });
         }
-      } else {
-        dispatch({
-          type: "REMOVE_GITLAB_FAIL",
-          payload: {
-            data: false,
-            error: {
-              code: 716,
-              message: "No gitlab found with handle " + handle,
-              origin: "gitlabs",
-            },
-          },
-        });
-      }
+      });
     }
   };
 };

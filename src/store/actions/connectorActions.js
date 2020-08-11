@@ -293,8 +293,20 @@ export const alterConnector = (id, newConnector) => {
 // Remove connector
 export const removeConnector = (id) => {
   return (dispatch, getState, { getIntel }) => {
-    // Removes connector
-    console.log(id);
+    if (id) {
+      // Get current connectors
+      const connectors = getState().connectors.connectors;
+
+      // get intel instance
+      const intel = getIntel();
+      // Removes connector
+      intel.deleteConnector(id).then((res) => {
+        if (res.success) {
+          // remove connector from current connectors
+          const leftovers = connectors.filter((selected) => selected.id !== id);
+        }
+      });
+    }
 
     //@TODO Error handling: 704 Could not remove connector <id>
   };
