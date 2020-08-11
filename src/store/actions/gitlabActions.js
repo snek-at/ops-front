@@ -99,7 +99,7 @@ export const createGitlab = (gitlab) => {
         .addGitlab(
           true,
           "description",
-          gitlab.companyPage.handle,
+          gitlab.enterprisePage.handle,
           gitlab.token,
           gitlab.name ? gitlab.name : "",
           gitlab.isIDC ? "IDC" : "POLP",
@@ -111,8 +111,7 @@ export const createGitlab = (gitlab) => {
           const newGitLab = {
             isActive: true,
             description: "",
-            companyPage: {
-              title: "sneklab",
+            enterprisePage: {
               handle: "e-sneklab",
             },
             url: gitlab.url ? gitlab.url : null,

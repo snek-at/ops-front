@@ -189,7 +189,6 @@ class GitLabs extends React.Component {
 
 //#region > Redux Mapping
 const mapStateToProps = (state) => {
-  console.log("STATE", state);
   return { gitlabs: state.gitlabs.gitlabs };
 };
 
