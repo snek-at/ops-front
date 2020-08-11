@@ -1,11 +1,11 @@
 // Login user
-export const loginUser = (username, password) => {
+export const loginUser = (user) => {
   return (dispatch, getState, { getIntel }) => {
     const intel = getIntel();
     const session = intel.snekclient.session;
 
     return session
-      .begin({ username, password })
+      .begin(user)
       .then((whoami) => {
         if (whoami?.__typename !== "SNEKUser") {
           throw Error("Login Failed");
@@ -34,7 +34,7 @@ export const loginUser = (username, password) => {
             data: false,
             error: {
               code: 750,
-              message: "Login failed for user " + username,
+              message: "Login failed for user " + user,
               origin: "auth",
             },
           },
