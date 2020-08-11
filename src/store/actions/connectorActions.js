@@ -170,7 +170,7 @@ export const createConnector = (connector) => {
           connector.name ? connector.name : "",
           connector.token,
           "description",
-          connector.companyPage.handle,
+          connector.enterprisePage.handle,
           "POLP",
           {
             share_projects: settings.shared.projects,
