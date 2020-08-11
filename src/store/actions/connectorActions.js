@@ -168,8 +168,8 @@ export const createConnector = (connector) => {
           true,
           connector.url,
           connector.name ? connector.name : "",
-          connector.token,
           "description",
+          connector.token,
           connector.enterprisePage.handle,
           "POLP",
           {
