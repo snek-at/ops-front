@@ -13,7 +13,7 @@ import { Provider } from "react-redux";
 // Thunk
 import thunk from "redux-thunk";
 //> Intel
-import { OpsIntel } from "snek-intel";
+import OpsProvider from "snek-intel/lib/utils/ops";
 
 //> Font Awesome
 // Font Awesome is an awesome icon library
@@ -37,7 +37,7 @@ import registerServiceWorker from "./registerServiceWorker";
 //#endregion
 
 //#region > Redux Store Initialization
-const INTEL = new OpsIntel();
+const OPS_PROVIDER = new OpsProvider("http://localhost:8000/graphql");
 
 //#TODO
 // Must be moved to INTEL in future?
@@ -48,7 +48,7 @@ const INTEL = new OpsIntel();
 //#TODO
 // This is only a placeholder. Intel not required in OPS.
 const getIntel = () => {
-  return INTEL;
+  return OPS_PROVIDER;
 };
 
 const composeEnhancers =

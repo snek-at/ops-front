@@ -96,15 +96,15 @@ export const createGitlab = (gitlab) => {
       let gitlabs = getState().gitlabs.gitlabs;
 
       intel
-        .addGitlab(
-          true,
-          "description",
-          gitlab.enterprisePage.handle,
-          gitlab.token,
-          gitlab.name ? gitlab.name : "",
-          gitlab.isIDC ? "IDC" : "POLP",
-          gitlab.url
-        )
+        .addGitlab({
+          active: true,
+          description: "description",
+          enterprisePageSlug: gitlab.enterprisePage.handle,
+          gitlabToken: gitlab.token,
+          name: gitlab.name ? gitlab.name : "",
+          privilegesMode: gitlab.isIDC ? "IDC" : "POLP",
+          url: gitlab.url,
+        })
         .then((result) => {
           console.log(result);
           // Create gitlab object
@@ -169,16 +169,18 @@ export const alterGitlab = (handle, newGitLab) => {
 
       console.log("ALTER GITLAB", alteredGitLab);
       intel
-        .updateGitlab(
-          alteredGitLab.id,
-          alteredGitLab.isActive,
-          alteredGitLab.description ? alterGitlab.alteredGitLab : "description",
-          alteredGitLab.enterprisePage.handle,
-          alteredGitLab.token,
-          alteredGitLab.name ? alteredGitLab.name : "not set",
-          alteredGitLab.isIDC ? "IDC" : "POLP",
-          alteredGitLab.url
-        )
+        .updateGitlab({
+          id: alteredGitLab.id,
+          active: alteredGitLab.isActive,
+          description: alteredGitLab.description
+            ? alterGitlab.alteredGitLab
+            : "description",
+          enterprisePageSlug: alteredGitLab.enterprisePage.handle,
+          gitlabToken: alteredGitLab.token,
+          name: alteredGitLab.name ? alteredGitLab.name : "not set",
+          privilegesMode: alteredGitLab.isIDC ? "IDC" : "POLP",
+          url: alteredGitLab.url,
+        })
         .then((result) => {
           if (result) {
             // Append the altered GitLab
@@ -218,7 +220,7 @@ export const removeGitlab = (id) => {
       // get intel instance
       const intel = getIntel();
       // Removes connector
-      intel.deleteConnector(id).then((res) => {
+      intel.deleteConnector({ id }).then((res) => {
         if (res.success) {
           // remove connector from current connectors
           const leftovers = gitlabs.filter((obj) => obj.id !== id);

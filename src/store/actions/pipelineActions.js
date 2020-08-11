@@ -57,13 +57,15 @@ export const alterPipeline = (token, newPipeline) => {
 
     if (newPipelines) {
       intel
-        .updatePipeline(
-          newPipeline.token,
-          newPipeline.isActive,
-          newPipeline.description ? newPipeline.description : "description",
-          newPipeline.enterprisePage.handle,
-          newPipeline.title
-        )
+        .updatePipeline({
+          id: newPipeline.token,
+          active: newPipeline.isActive,
+          description: newPipeline.description
+            ? newPipeline.description
+            : "description",
+          enterprisePageSlug: newPipeline.enterprisePage.handle,
+          name: newPipeline.title,
+        })
         .then((result) => {
           if (result) {
             dispatch({
@@ -97,11 +99,11 @@ export const createPipeline = (newPipeline) => {
     console.log(newPipeline);
 
     intel
-      .addPipeline(
-        newPipeline.enterprisePage.handle,
-        newPipeline.isActive,
-        newPipeline.title
-      )
+      .addPipeline({
+        enterprisePageSlug: newPipeline.enterprisePage.handle,
+        active: newPipeline.isActive,
+        name: newPipeline.title,
+      })
       .then((result) => {
         const newPipelineObj = {
           token: newPipeline.token,
@@ -154,7 +156,7 @@ export const removePipeline = (id) => {
       // get intel instance
       const intel = getIntel();
       // Removes connector
-      intel.deletePipeline(id).then((res) => {
+      intel.deletePipeline({ id }).then((res) => {
         if (res.success) {
           // remove connector from current connectors
           const leftovers = pipelines.filter((selected) => selected.id !== id);

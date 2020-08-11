@@ -164,15 +164,15 @@ export const createConnector = (connector) => {
 
       console.log(connector);
       intel
-        .addConnector(
-          true,
-          connector.url,
-          connector.name ? connector.name : "",
-          "description",
-          connector.token,
-          connector.enterprisePage.handle,
-          "POLP",
-          {
+        .addConnector({
+          active: true,
+          url: connector.url,
+          name: connector.name ? connector.name : "",
+          description: "description",
+          connectorToken: connector.token,
+          enterprisePageSlug: connector.enterprisePage.handle,
+          privilegesMode: "POLP",
+          settings: {
             share_projects: settings.shared.projects,
             share_users: settings.shared.users,
             share_company_name: settings.shared.companyData.name,
@@ -189,8 +189,8 @@ export const createConnector = (connector) => {
             share_company_opensource_url:
               settings.shared.companyData.openSourceUrl,
           },
-          "OPEN"
-        )
+          shareMode: "OPEN",
+        })
         .then((result) => {
           if (result) {
             // Create connector object
@@ -251,17 +251,17 @@ export const alterConnector = (id, newConnector) => {
     console.log(alteredConnector);
 
     if (alteredConnector) {
-      intel.updateConnector(
-        alteredConnector.id,
-        alteredConnector.isActive,
-        alteredConnector.token,
-        alteredConnector.description
+      intel.updateConnector({
+        id: alteredConnector.id,
+        active: alteredConnector.isActive,
+        connectorToken: alteredConnector.token,
+        description: alteredConnector.description
           ? alteredConnector.description
           : "description",
-        alteredConnector.enterprisePage.handle,
-        alteredConnector.name,
-        alteredConnector.isIDC ? "IDC" : "POLP",
-        {
+        enterprisePageSlug: alteredConnector.enterprisePage.handle,
+        name: alteredConnector.name,
+        privilegesMode: alteredConnector.isIDC ? "IDC" : "POLP",
+        settings: {
           share_projects: alteredConnector.settings.shared.projects,
           share_users: alteredConnector.settings.shared.users,
           share_company_name: alteredConnector.settings.shared.companyData.name,
@@ -281,9 +281,9 @@ export const alterConnector = (id, newConnector) => {
           share_company_opensource_url:
             alteredConnector.settings.shared.companyData.openSourceUrl,
         },
-        alteredConnector.settings.shared.mode,
-        alteredConnector.url
-      );
+        shareMode: alteredConnector.settings.shared.mode,
+        url: alteredConnector.url,
+      });
     }
 
     //@TODO Error handling: 703 Could not alter connector <id>
@@ -300,7 +300,7 @@ export const removeConnector = (id) => {
       // get intel instance
       const intel = getIntel();
       // Removes connector
-      intel.deleteConnector(id).then((res) => {
+      intel.deleteConnector({ id }).then((res) => {
         if (res.success) {
           // remove connector from current connectors
           const leftovers = connectors.filter((selected) => selected.id !== id);
