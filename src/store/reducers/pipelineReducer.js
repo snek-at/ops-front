@@ -24,6 +24,40 @@ const pipelineReducer = (state = initState, action) => {
         pipelines: [],
         error: action.payload.error,
       };
+    case "CREATE_PIPELINE_SUCCESS":
+      return {
+        ...state,
+        pipelines: action.payload.data,
+        error: null,
+      };
+    case "CREATE_PIPELINE_FAIL":
+      console.error(
+        action.payload.error.code,
+        action.payload.error.origin,
+        action.payload.error.message
+      );
+
+      return {
+        ...state,
+        error: action.payload.error,
+      };
+    case "ALTER_PIPELINE_SUCCESS":
+      return {
+        ...state,
+        pipelines: action.payload.data,
+        error: null,
+      };
+    case "ALTER_PIPELINE_FAIL":
+      console.error(
+        action.payload.error.code,
+        action.payload.error.origin,
+        action.payload.error.message
+      );
+
+      return {
+        ...state,
+        error: action.payload.error,
+      };
     default:
       return state;
   }
