@@ -9,7 +9,7 @@ export const getGitLabs = () => {
           return {
             url: entry.url,
             id: entry.id,
-            isIDC: entry.privilegesMode === "idc" ? true : false,
+            isIDC: entry.privilegesMode === "IDC" ? true : false,
             isActive: entry.active,
             token: entry.token,
             enterprisePage: {
@@ -105,7 +105,7 @@ export const createGitlab = (gitlab) => {
           gitlab.companyPage.handle,
           gitlab.token,
           gitlab.name ? gitlab.name : "",
-          gitlab.isIDC ? "idc" : "polp",
+          gitlab.isIDC ? "IDC" : "POLP",
           gitlab.url
         )
         .then((result) => {
@@ -158,6 +158,7 @@ export const alterGitlab = (handle, newGitLab) => {
   return (dispatch, getState, { getIntel }) => {
     // Get current gitlabs
     const gitlabs = getState().gitlabs.gitlabs;
+    const intel = getIntel();
 
     const selectedGitLab = gitlabs.filter((selected) => selected.id === handle);
     const notSelectedGitLabs = gitlabs.filter(

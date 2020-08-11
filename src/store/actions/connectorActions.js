@@ -17,6 +17,7 @@ export const getConnectors = () => {
               shared: {
                 projects: entry.shareProjects,
                 users: entry.shareUsers,
+                mode: entry.shareMode,
                 /* @TODO Aichner: Add checkboxes in Component to determine what will be shared */
                 companyData: {
                   name: entry.shareCompanyName,
@@ -170,7 +171,7 @@ export const createConnector = (connector) => {
           connector.token,
           "description",
           connector.companyPage.handle,
-          "polp",
+          "POLP",
           {
             share_projects: settings.shared.projects,
             share_users: settings.shared.users,
@@ -188,7 +189,7 @@ export const createConnector = (connector) => {
             share_company_opensource_url:
               settings.shared.companyData.openSourceUrl,
           },
-          "open"
+          "OPEN"
         )
         .then((result) => {
           if (result) {

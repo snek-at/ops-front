@@ -65,9 +65,9 @@ export const createPipeline = (newPipeline) => {
   };
 };
 
-export const removePipeline = (token) => {
+export const removePipeline = (id) => {
   return (dispatch, getState, { getIntel }) => {
-    console.log(token);
+    console.log(id);
   };
 };
 
