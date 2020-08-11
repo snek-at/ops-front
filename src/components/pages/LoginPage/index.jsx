@@ -116,10 +116,10 @@ class LoginPage extends React.Component {
                     <MDBBtn
                       color="indigo"
                       onClick={() =>
-                        this.props.loginUser(
-                          this.state.username,
-                          this.state.password
-                        )
+                        this.props.loginUser({
+                          username: this.state.username,
+                          password: this.state.password,
+                        })
                       }
                     >
                       Login
@@ -154,7 +154,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (username, password) => dispatch(loginUser(username, password)),
+    loginUser: (user) => dispatch(loginUser(user)),
     authenticate: (password) => dispatch(authenticate(password)),
   };
 };

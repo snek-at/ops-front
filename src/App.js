@@ -19,6 +19,8 @@ import { Footer } from "./components/molecules";
 import { ScrollToTop } from "./components/atoms";
 //> Routes
 import Routes from "./Routes";
+//> Actions
+import { loginUser } from "./store/actions/authActions";
 //#endregion
 
 //#region > Components
@@ -26,11 +28,11 @@ import Routes from "./Routes";
  * @class Root component which loads all other components
  */
 function App() {
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  //useEffect(() => {
-  //  dispatch(loginAction());
-  //}, []);
+  useEffect(() => {
+    dispatch(loginUser());
+  }, []);
 
   return (
     <>
