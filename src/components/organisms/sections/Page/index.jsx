@@ -128,6 +128,8 @@ class Page extends React.Component {
   render() {
     const { page } = this.state;
 
+    console.log(page);
+
     return (
       <MDBContainer id="company">
         {page ? (
@@ -247,28 +249,7 @@ class Page extends React.Component {
                         <div>
                           <p className="lead font-weight-bold mb-1">
                             {page.company.name}
-                            {page.company.growth !== 0 && (
-                              <MDBTooltip
-                                domElement
-                                tag="span"
-                                material
-                                placement="top"
-                              >
-                                <span className="ml-2">
-                                  {this.getGrowth(page.company.growth)}
-                                </span>
-                                <span>Company growth</span>
-                              </MDBTooltip>
-                            )}
                           </p>
-                          {page.company.verified && (
-                            <div className="verified-badge mb-3">
-                              <MDBBadge color="success">
-                                <MDBIcon icon="check-circle" />
-                                Verified
-                              </MDBBadge>
-                            </div>
-                          )}
                           <p className="text-muted mb-3">
                             {page.company.description}
                           </p>
@@ -302,12 +283,6 @@ class Page extends React.Component {
                           )}
                         {page.company.employees >= 100 && (
                           <MDBBadge color="primary">100+ Employees</MDBBadge>
-                        )}
-                        {page.company.localRelevance && (
-                          <MDBBadge color="primary">
-                            <MDBIcon icon="map-marker" />
-                            Local relevance
-                          </MDBBadge>
                         )}
                         {page.company.isOpenSource && (
                           <a
