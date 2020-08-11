@@ -49,7 +49,7 @@ const gitlabReducer = (state = initState, action) => {
       return {
         ...state,
         gitlabs: action.payload.data.gitlabs
-          ? action.payload.datagitlabs
+          ? action.payload.data.gitlabs
           : state.gitlabs,
         selectedGitLab: action.payload.data.selected,
         error: null,

@@ -36,9 +36,12 @@ class GitLabs extends React.Component {
     this.props.getGitLabs();
   };
 
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps) => {
     // Check if there are no current gitlabs set
-    if (this.props.gitlabs && !this.state.gitlabs) {
+    if (
+      (this.props.gitlabs && !this.state.gitlabs) ||
+      JSON.stringify(prevProps.gitlabs) !== JSON.stringify(this.props.gitlabs)
+    ) {
       this.setState({
         gitlabs: this.props.gitlabs,
       });
@@ -185,9 +188,10 @@ class GitLabs extends React.Component {
 //#endregion
 
 //#region > Redux Mapping
-const mapStateToProps = (state) => ({
-  gitlabs: state.gitlabs.gitlabs,
-});
+const mapStateToProps = (state) => {
+  console.log("STATE", state);
+  return { gitlabs: state.gitlabs.gitlabs };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

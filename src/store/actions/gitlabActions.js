@@ -95,9 +95,6 @@ export const createGitlab = (gitlab) => {
       // Get current gitlabs
       let gitlabs = getState().gitlabs.gitlabs;
 
-      // Do authy thingies
-      const token = gitlab.token;
-
       intel
         .addGitlab(
           true,
@@ -127,6 +124,8 @@ export const createGitlab = (gitlab) => {
 
           // Append new gitlab
           gitlabs = [...gitlabs, newGitLab];
+
+          console.log(gitlabs);
 
           if (true === true) {
             dispatch({
