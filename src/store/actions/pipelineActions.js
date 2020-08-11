@@ -14,7 +14,6 @@ export const getPipelines = () => {
             latestActivity: 1596034377000,
             isActive: entry.active,
             enterprisePage: {
-              name: entry.enterprisePage.title,
               handle: entry.enterprisePage.slug,
             },
           };
@@ -49,32 +48,44 @@ export const alterPipeline = (token, newPipeline) => {
     const intel = getIntel();
     // Get current pipelines
     const pipelines = getState().pipelines.pipelines;
-    // console.log(pipelines);
-    // console.log(token, ...newPipeline);
-    const selectedPipelineIndex = pipelines.indexOf(
-      pipelines.find((selected) => selected.token === token)
-    );
+    // Get all pipelines but the one to alter
+    const otherPipelines = pipelines.filter((pipe) => pipe.token !== token);
+    // Add new pipeline
+    const newPipelines = [...otherPipelines, newPipeline];
 
-    console.log(newPipeline);
-    console.log({ ...newPipeline });
+    console.log(newPipelines);
 
-    pipelines[selectedPipelineIndex] = {
-      ...pipelines[selectedPipelineIndex],
-      ...newPipeline,
-    };
-
-    const alteredPipeline = pipelines[selectedPipelineIndex];
-
-    if (alteredPipeline) {
-      intel.updatePipeline(
-        alteredPipeline.token,
-        alteredPipeline.isActive,
-        alteredPipeline.description
-          ? alteredPipeline.description
-          : "description",
-        alteredPipeline.enterprisePage.handle,
-        alteredPipeline.title
-      );
+    if (newPipelines) {
+      intel
+        .updatePipeline(
+          newPipeline.token,
+          newPipeline.isActive,
+          newPipeline.description ? newPipeline.description : "description",
+          newPipeline.enterprisePage.handle,
+          newPipeline.title
+        )
+        .then((result) => {
+          if (result) {
+            dispatch({
+              type: "ALTER_PIPELINE_SUCCESS",
+              payload: {
+                data: newPipelines,
+              },
+            });
+          } else {
+            dispatch({
+              type: "ALTER_PIPELINE_FAIL",
+              payload: {
+                data: false,
+                error: {
+                  code: 722,
+                  message: "Could not alter pipeline with token " + token,
+                  origin: "pipelines",
+                },
+              },
+            });
+          }
+        });
     }
   };
 };
@@ -82,15 +93,54 @@ export const alterPipeline = (token, newPipeline) => {
 export const createPipeline = (newPipeline) => {
   return (dispatch, getState, { getIntel }) => {
     const intel = getIntel();
+
     console.log(newPipeline);
+
     intel
       .addPipeline(
-        newPipeline.companyPage.handle,
+        newPipeline.enterprisePage.handle,
         newPipeline.isActive,
         newPipeline.title
       )
       .then((result) => {
-        console.log(result);
+        const newPipelineObj = {
+          token: newPipeline.token,
+          isActive: newPipeline.isActive,
+          enterprisePage: {
+            handle: newPipeline.enterprisePage.handle,
+          },
+          id: result.id,
+          title: newPipeline.title,
+        };
+
+        let pipelines = getState().pipelines.pipelines;
+        const initialLength = pipelines.length;
+
+        // Append new pipeline
+        pipelines = [...pipelines, newPipelineObj];
+
+        console.log(pipelines);
+
+        if (initialLength !== pipelines.length) {
+          dispatch({
+            type: "CREATE_PIPELINE_SUCCESS",
+            payload: {
+              data: pipelines,
+            },
+          });
+        } else {
+          dispatch({
+            type: "CREATE_PIPELINE_FAIL",
+            payload: {
+              data: false,
+              error: {
+                code: 721,
+                message: "Could not create pipeline",
+                origin: "pipelines",
+              },
+            },
+          });
+        }
       });
   };
 };

@@ -168,9 +168,9 @@ export const createConnector = (connector) => {
           true,
           connector.url,
           connector.name ? connector.name : "",
-          connector.token,
           "description",
-          connector.companyPage.handle,
+          connector.token,
+          connector.enterprisePage.handle,
           "POLP",
           {
             share_projects: settings.shared.projects,

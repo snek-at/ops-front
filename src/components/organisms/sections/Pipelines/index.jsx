@@ -53,7 +53,7 @@ class Pipelines extends React.Component {
     this.props.getPipelines();
   };
 
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps) => {
     // Check if there are no current pipelines set
     if (this.props.pipelines && !this.state.pipelines && !this.state.refetch) {
       this.setState({
@@ -70,6 +70,13 @@ class Pipelines extends React.Component {
         },
         () => this.props.getPipelines()
       );
+    } else if (
+      JSON.stringify(prevProps.pipelines) !==
+      JSON.stringify(this.props.pipelines)
+    ) {
+      this.setState({
+        pipelines: this.props.pipelines,
+      });
     }
   };
 
@@ -269,7 +276,7 @@ class Pipelines extends React.Component {
                           this.setState({
                             selectedPipeline: {
                               ...this.state.selectedPipeline,
-                              companyPage: {
+                              enterprisePage: {
                                 handle: value[0],
                               },
                             },

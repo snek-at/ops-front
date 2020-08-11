@@ -95,14 +95,11 @@ export const createGitlab = (gitlab) => {
       // Get current gitlabs
       let gitlabs = getState().gitlabs.gitlabs;
 
-      // Do authy thingies
-      const token = gitlab.token;
-
       intel
         .addGitlab(
           true,
           "description",
-          gitlab.companyPage.handle,
+          gitlab.enterprisePage.handle,
           gitlab.token,
           gitlab.name ? gitlab.name : "",
           gitlab.isIDC ? "IDC" : "POLP",
@@ -114,8 +111,7 @@ export const createGitlab = (gitlab) => {
           const newGitLab = {
             isActive: true,
             description: "",
-            companyPage: {
-              title: "sneklab",
+            enterprisePage: {
               handle: "e-sneklab",
             },
             url: gitlab.url ? gitlab.url : null,
@@ -127,6 +123,8 @@ export const createGitlab = (gitlab) => {
 
           // Append new gitlab
           gitlabs = [...gitlabs, newGitLab];
+
+          console.log(gitlabs);
 
           if (true === true) {
             dispatch({

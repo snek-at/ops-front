@@ -57,9 +57,13 @@ class Connectors extends React.Component {
     this.props.getGitLabs();
   };
 
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps) => {
     // Check if there are no current connectors set
-    if (this.props.connectors && !this.state.connectors) {
+    if (
+      (this.props.connectors && !this.state.connectors) ||
+      JSON.stringify(prevProps.connectors) !==
+        JSON.stringify(this.props.connectors)
+    ) {
       this.setState({
         connectors: this.props.connectors,
       });
@@ -314,7 +318,7 @@ class Connectors extends React.Component {
                       this.setState({
                         selectedConnector: {
                           ...this.state.selectedConnector,
-                          companyPage: {
+                          enterprisePage: {
                             handle: value[0],
                           },
                         },
