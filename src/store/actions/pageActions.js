@@ -514,6 +514,14 @@ export const getProjectById = (id) => {
   };
 };
 
+export const publishPage = (handle) => {
+  return (dispatch, getState, { getIntel }) => {
+    // Get connectors and get correct connector by page handle
+    console.log(handle);
+    // TODO - Publish page
+  };
+};
+
 export const clearSelection = (handle) => {
   return (dispatch, getState, { getIntel }) => {
     dispatch({

@@ -29,11 +29,18 @@ import {
   MDBNavLink,
   MDBNavItem,
   MDBSpinner,
+  MDBModal,
+  MDBModalBody,
+  MDBAlert,
 } from "mdbreact";
 
 //> Actions
 // Functions to send data from the application to the store
-import { getPageByHandle } from "../../../../store/actions/pageActions";
+import {
+  getPageByHandle,
+  publishPage,
+} from "../../../../store/actions/pageActions";
+import { authenticate } from "../../../../store/actions/authActions";
 //> Components
 import { PageOverview, PageProjects, PageUsers, PageImprint } from "../../";
 //> CSS
@@ -261,7 +268,11 @@ class Page extends React.Component {
                           </p>
                         </div>
                         <div className="d-flex">
-                          <MDBBtn color="green" size="md">
+                          <MDBBtn
+                            color="green"
+                            size="md"
+                            onClick={() => this.setState({ reAuth: true })}
+                          >
                             Publish
                           </MDBBtn>
                         </div>
@@ -387,6 +398,43 @@ class Page extends React.Component {
             <MDBSpinner />
           </div>
         )}
+        {this.state.reAuth && (
+          <MDBModal isOpen={true} size="sm">
+            <MDBModalBody>
+              <p>Please reenter your password.</p>
+              {this.state.reAuthError && (
+                <MDBAlert color="danger">
+                  The password you have entered is wrong.
+                </MDBAlert>
+              )}
+              <input
+                type="password"
+                className="form-control"
+                value={this.state.password}
+                onChange={(e) => this.setState({ password: e.target.value })}
+              />
+              <MDBBtn
+                color="elegant"
+                size="md"
+                onClick={async () => {
+                  const result = await this.props.authenticate(
+                    this.state.password
+                  );
+
+                  if (result) {
+                    this.setState({ reAuth: false }, () =>
+                      this.props.publishPage(page.company.handle)
+                    );
+                  } else {
+                    this.setState({ reAuthError: true });
+                  }
+                }}
+              >
+                Authenticate
+              </MDBBtn>
+            </MDBModalBody>
+          </MDBModal>
+        )}
       </MDBContainer>
     );
   }
@@ -401,6 +449,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getPageByHandle: (handle) => dispatch(getPageByHandle(handle)),
+    authenticate: (password) => dispatch(authenticate(password)),
+    publishPage: (handle) => dispatch(publishPage(handle)),
   };
 };
 //#endregion

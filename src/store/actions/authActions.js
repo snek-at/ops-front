@@ -4,7 +4,7 @@ export const loginUser = (user) => {
     const intel = getIntel();
     const session = intel.snekclient.session;
 
-    session.begin()
+    session.begin();
 
     return session
       .begin(user)
@@ -51,26 +51,11 @@ export const authenticate = (password) => {
     if (
       getState().auth.user &&
       getState().auth.user.username &&
-      password === "cisco"
+      password === "ciscocisco"
     ) {
-      dispatch({
-        type: "AUTH_SUCCESS",
-        payload: {
-          data: true,
-        },
-      });
+      return true;
     } else {
-      dispatch({
-        type: "AUTH_FAIL",
-        payload: {
-          data: false,
-          error: {
-            code: 751,
-            message: "Auth failed for user.",
-            origin: "auth",
-          },
-        },
-      });
+      return false;
     }
   };
 };
