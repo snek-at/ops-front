@@ -2,6 +2,8 @@
 //> React
 // Contains all the functionality necessary to define React components
 import React from "react";
+// Router DOM bindings
+import { Redirect } from "react-router-dom";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
 import { MDBContainer } from "mdbreact";
@@ -18,6 +20,10 @@ import {
   Connectors,
   Permissions,
 } from "../../organisms";
+//> Redux
+// Allows React components to read data, update data and dispatch actions
+// from/to a Redux store.
+import { connect } from "react-redux";
 //> Images
 // Too be added
 //#endregion
@@ -80,6 +86,12 @@ class HomePage extends React.Component {
   };
 
   render() {
+    const { authenticated } = this.props;
+
+    if (!authenticated) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div>
         <SideNav
@@ -124,8 +136,21 @@ class HomePage extends React.Component {
 }
 //#endregion
 
+//#region > Redux Mapping
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+});
+//#endregion
+
 //#region > Exports
-export default HomePage;
+/**
+ * Provides its connected component with the pieces of the data it needs from
+ * the store, and the functions it can use to dispatch actions to the store.
+ *
+ * Got access to the history object’s properties and the closest
+ * <Route>'s match.
+ */
+export default connect(mapStateToProps)(HomePage);
 //#endregion
 
 /**
