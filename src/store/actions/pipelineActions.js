@@ -152,19 +152,21 @@ export const createPipeline = (newPipeline) => {
   };
 };
 
-export const removePipeline = (id) => {
+export const removePipeline = (token) => {
   return (dispatch, getState, { getIntel }) => {
-    if (id) {
+    if (token) {
       // Get current connectors
       const pipelines = getState().pipelines.pipelines;
 
       // get intel instance
       const intel = getIntel();
       // Removes connector
-      intel.deletePipeline({ id }).then((res) => {
+      intel.deletePipeline({ token }).then((res) => {
         if (res.success) {
           // remove connector from current connectors
-          const leftovers = pipelines.filter((selected) => selected.id !== id);
+          const leftovers = pipelines.filter(
+            (selected) => selected.token !== token
+          );
 
           dispatch({
             type: "REMOVE_PIPELINE_SUCCESS",
