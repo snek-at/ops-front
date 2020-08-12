@@ -161,7 +161,7 @@ export const removePipeline = (token) => {
       // get intel instance
       const intel = getIntel();
       // Removes connector
-      intel.deletePipeline({ token }).then((res) => {
+      intel.deletePipeline({ id: token }).then((res) => {
         if (res.success) {
           // remove connector from current connectors
           const leftovers = pipelines.filter(
