@@ -79,7 +79,7 @@ class AIBarChart extends React.Component {
       <Bar
         data={this.state.dataBar}
         options={this.state.barChartOptions}
-        height="40"
+        height={40}
       />
     );
   }
