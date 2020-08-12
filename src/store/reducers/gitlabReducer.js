@@ -101,6 +101,23 @@ const gitlabReducer = (state = initState, action) => {
         ...state,
         error: action.payload.error,
       };
+    case "REMOVE_GITLAB_SUCCESS":
+      return {
+        ...state,
+        gitlabs: action.payload.data,
+        error: null,
+      };
+    case "REMOVE_GITLAB_FAIL":
+      console.error(
+        action.payload.error.code,
+        action.payload.error.origin,
+        action.payload.error.message
+      );
+
+      return {
+        ...state,
+        error: action.payload.error,
+      };
     default:
       return state;
   }
