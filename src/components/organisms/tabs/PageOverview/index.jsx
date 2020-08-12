@@ -18,6 +18,8 @@ import {
   MDBRow,
   MDBCol,
   MDBBtn,
+  MDBCard,
+  MDBCardBody,
 } from "mdbreact";
 //> Additional
 // Everything time related
@@ -85,18 +87,40 @@ class PageOverview extends React.Component {
 
     return (
       <MDBRow id="pageoverview">
-        <MDBCol lg="4">
+        <MDBCol lg="3">
           <div className="mt-3">
-            <p className="lead font-weight-bold mb-0">Code statistics</p>
-            <p className="text-muted small">
-              <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
-            </p>
+            <p className="lead font-weight-bold mb-0">Contributions</p>
+            {feed && (
+              <MDBCard className="mt-4">
+                <MDBCardBody>
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <p className="text-muted small mb-0">Total</p>
+                      <p className="mb-0">
+                        <span className="lead font-weight-bold">
+                          {feed.length}
+                        </span>{" "}
+                        <span className="small">commits</span>
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-muted small mb-0">Average</p>
+                      <p className="mb-0">
+                        <span className="lead font-weight-bold">
+                          {(365 / feed.length).toFixed(2)}
+                        </span>{" "}
+                        <span className="small">/ day</span>
+                      </p>
+                    </div>
+                  </div>
+                </MDBCardBody>
+              </MDBCard>
+            )}
           </div>
         </MDBCol>
-        <MDBCol lg="4">
+        <MDBCol lg="5">
           <div className="mt-3">
-            <p className="lead font-weight-bold mb-0">Chart</p>
+            <p className="lead font-weight-bold mb-0">Statistics</p>
             <div className="text-right">
               {mergedFeed &&
                 mergedFeed.years.map((year, y) => {
@@ -124,12 +148,14 @@ class PageOverview extends React.Component {
                 Current
               </p>
             </div>
-            <AILineChart
-              data={mergedFeed}
-              year={this.state.selectedYearIndex}
-              size={50}
-              key="overview-chart"
-            />
+            <div className="canvas-container">
+              <AILineChart
+                data={mergedFeed}
+                year={this.state.selectedYearIndex}
+                size={50}
+                key="overview-chart"
+              />
+            </div>
           </div>
         </MDBCol>
         <MDBCol lg="4">

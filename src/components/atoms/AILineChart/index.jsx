@@ -15,13 +15,7 @@ class AILineChart extends React.Component {
   state = {
     dataBar: {
       labels: Array.from(Array(200).keys()),
-      datasets: [
-        {
-          fill: false,
-          borderWidth: 1,
-          lineTension: 0.4,
-        },
-      ],
+      datasets: [],
     },
     barChartOptions: {
       responsive: true,
@@ -77,7 +71,6 @@ class AILineChart extends React.Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    console.log(prevProps.year, this.props.year);
     if (prevProps.year !== this.props.year) {
       this.init();
     }
@@ -86,7 +79,7 @@ class AILineChart extends React.Component {
   init = () => {
     const data = this.props.data;
 
-    console.log("CALLED");
+    console.log("DATAAAAA", data);
 
     if (data) {
       const year = this.props.year;
@@ -111,16 +104,24 @@ class AILineChart extends React.Component {
           : val.total
       );
 
-      this.setState({
-        dataBar: {
-          ...this.state.dataBar,
-          labels: dates,
-          datasets: [
-            ...this.state.dataBar.datasets,
-            { data: contribs, borderColor: colors },
-          ],
+      this.setState(
+        {
+          dataBar: {
+            ...this.state.dataBar,
+            labels: dates,
+            datasets: [
+              {
+                data: contribs,
+                borderColor: colors,
+                fill: false,
+                borderWidth: 1,
+                lineTension: 0.4,
+              },
+            ],
+          },
         },
-      });
+        () => console.log(this.state)
+      );
     }
   };
 
@@ -128,11 +129,7 @@ class AILineChart extends React.Component {
     const { size } = this.props;
 
     return (
-      <Line
-        data={this.state.dataBar}
-        options={this.state.barChartOptions}
-        height={size}
-      />
+      <Line data={this.state.dataBar} options={this.state.barChartOptions} />
     );
   }
 }

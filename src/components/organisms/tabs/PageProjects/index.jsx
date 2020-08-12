@@ -46,6 +46,7 @@ class PageProjects extends React.Component {
   };
 
   componentDidUpdate = (prevProps) => {
+    console.log("UPDATED");
     if (this.props.projects && !this.state.projects) {
       this.setState({
         projects: this.props.projects,
@@ -154,16 +155,16 @@ class PageProjects extends React.Component {
                       Owner: {project.ownerName}
                     </p>
                   </div>
-                  <div className="d-flex align-items-center justify-content-center">
+                  <div className="canvas-container">
                     {this.state.chartType === "line" ? (
                       <AILineChart
                         data={project.mergedContributionFeed}
-                        size={40}
+                        key={"project-chart-" + p}
                       />
                     ) : (
                       <AIBarChart
                         data={project.mergedTransitionFeed}
-                        size={40}
+                        key={"project-chart-" + p}
                       />
                     )}
                   </div>

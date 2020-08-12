@@ -344,28 +344,38 @@ class Page extends React.Component {
                 className="card"
                 activeItem={this.state.activeItem}
               >
-                <MDBTabPane tabId={0} role="tabpanel">
-                  <PageOverview
-                    filter={this.state.globalFilter}
-                    feed={page.company?.enterpriseContributionFeed}
-                    mergedFeed={page.company?.mergedEnterpriseContributionFeed}
-                  />
-                </MDBTabPane>
-                <MDBTabPane tabId={1} role="tabpanel">
-                  <PageProjects
-                    filter={this.state.globalFilter}
-                    navigateTo={this.props.navigateTo}
-                  />
-                </MDBTabPane>
-                <MDBTabPane tabId={2} role="tabpanel">
-                  <PageUsers
-                    filter={this.state.globalFilter}
-                    navigateTo={this.props.navigateTo}
-                  />
-                </MDBTabPane>
-                <MDBTabPane tabId={3} role="tabpanel">
-                  <PageImprint />
-                </MDBTabPane>
+                {this.state.activeItem === 0 && (
+                  <MDBTabPane tabId={0} role="tabpanel">
+                    <PageOverview
+                      filter={this.state.globalFilter}
+                      feed={page.company?.enterpriseContributionFeed}
+                      mergedFeed={
+                        page.company?.mergedEnterpriseContributionFeed
+                      }
+                    />
+                  </MDBTabPane>
+                )}
+                {this.state.activeItem === 1 && (
+                  <MDBTabPane tabId={1} role="tabpanel">
+                    <PageProjects
+                      filter={this.state.globalFilter}
+                      navigateTo={this.props.navigateTo}
+                    />
+                  </MDBTabPane>
+                )}
+                {this.state.activeItem === 2 && (
+                  <MDBTabPane tabId={2} role="tabpanel">
+                    <PageUsers
+                      filter={this.state.globalFilter}
+                      navigateTo={this.props.navigateTo}
+                    />
+                  </MDBTabPane>
+                )}
+                {this.state.activeItem === 3 && (
+                  <MDBTabPane tabId={3} role="tabpanel">
+                    <PageImprint />
+                  </MDBTabPane>
+                )}
               </MDBTabContent>
             </MDBCol>
           </MDBRow>
