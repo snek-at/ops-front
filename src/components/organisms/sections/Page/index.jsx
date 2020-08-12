@@ -28,6 +28,7 @@ import {
   MDBNav,
   MDBNavLink,
   MDBNavItem,
+  MDBSpinner,
 } from "mdbreact";
 
 //> Actions
@@ -128,7 +129,7 @@ class Page extends React.Component {
   render() {
     const { page } = this.state;
 
-    console.log(page);
+    console.log("PAGE", page);
 
     return (
       <MDBContainer id="company">
@@ -362,8 +363,8 @@ class Page extends React.Component {
             </MDBCol>
           </MDBRow>
         ) : (
-          <div>
-            <p>No page</p>
+          <div className="flex-center">
+            <MDBSpinner />
           </div>
         )}
       </MDBContainer>
