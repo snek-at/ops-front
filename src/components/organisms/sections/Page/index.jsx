@@ -152,10 +152,10 @@ class Page extends React.Component {
                       </p>
                     </div>
                     <div>
-                      <MDBBtn color="indigo" outline>
+                      {/*<MDBBtn color="indigo" outline>
                         <MDBIcon icon="eye" />
                         View as public
-                      </MDBBtn>
+                      </MDBBtn>*/}
                       <MDBBtn
                         color="indigo"
                         onClick={() => this.props.navigateTo("connectors")}
@@ -262,7 +262,7 @@ class Page extends React.Component {
                         </div>
                         <div className="d-flex">
                           <MDBBtn color="green" size="md">
-                            Nice button
+                            Publish
                           </MDBBtn>
                         </div>
                       </div>

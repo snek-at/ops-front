@@ -46,7 +46,6 @@ class PageProjects extends React.Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    console.log("UPDATED");
     if (this.props.projects && !this.state.projects) {
       this.setState({
         projects: this.props.projects,
