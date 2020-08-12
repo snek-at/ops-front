@@ -348,7 +348,7 @@ class Permissions extends React.Component {
             </MDBListGroup>
           </MDBTabPane>
           <MDBTabPane tabId={1} role="tabpanel">
-            <div className="text-right mb-3">
+            {/*<div className="text-right mb-3">
               <MDBBtn
                 color="green"
                 className="mr-0"
@@ -363,7 +363,7 @@ class Permissions extends React.Component {
               >
                 Add group
               </MDBBtn>
-            </div>
+            </div>*/}
             <MDBListGroup>
               {groups &&
                 groups.map((group, p) => {
