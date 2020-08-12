@@ -519,6 +519,22 @@ class Connectors extends React.Component {
                   />
                 </MDBCol>
               </MDBRow>
+              <MDBRow className="mt-3">
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="isHashed"
+                    label="Use encryption"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared.isHashed
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("isHashed", val)
+                    }
+                  />
+                </MDBCol>
+              </MDBRow>
               <div className="d-flex justify-content-between mt-5">
                 <div>
                   {!this.state.addConnector && (
