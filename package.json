@@ -15,7 +15,8 @@
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "serialize-error": "^7.0.1"
+    "serialize-error": "^7.0.1",
+    "tippy.js": "^6.2.6"
   },
   "repository": {
     "type": "git",
