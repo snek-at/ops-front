@@ -58,6 +58,12 @@ const pipelineReducer = (state = initState, action) => {
         ...state,
         error: action.payload.error,
       };
+    case "REMOVE_PIPELINE_SUCCESS":
+      return {
+        ...state,
+        pipelines: action.payload.data,
+        error: null,
+      };
     default:
       return state;
   }

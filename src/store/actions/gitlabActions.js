@@ -3,7 +3,7 @@ export const getGitLabs = () => {
   return (dispatch, getState, { getIntel }) => {
     const intel = getIntel();
 
-    intel.snekclient.session.begin()
+    intel.snekclient.session.begin();
 
     intel.getGitlabs().then((result) => {
       if (result) {
@@ -221,10 +221,11 @@ export const removeGitlab = (id) => {
 
       // get intel instance
       const intel = getIntel();
-      // Removes connector
-      intel.deleteConnector({ id }).then((res) => {
+
+      // Removes GitLab
+      intel.deleteGitlab({ id }).then((res) => {
         if (res.success) {
-          // remove connector from current connectors
+          // remove GitLab from current GitLabs
           const leftovers = gitlabs.filter((obj) => obj.id !== id);
 
           dispatch({

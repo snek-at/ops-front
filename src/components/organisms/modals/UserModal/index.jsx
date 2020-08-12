@@ -8,7 +8,19 @@ import React from "react";
 import { connect } from "react-redux";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
-import { MDBModal, MDBModalBody } from "mdbreact";
+import {
+  MDBModal,
+  MDBModalBody,
+  MDBRow,
+  MDBCol,
+  MDBListGroup,
+  MDBListGroupItem,
+  MDBCard,
+  MDBCardBody,
+} from "mdbreact";
+//> Additional
+// Everything time related
+import moment from "moment";
 
 //> Actions
 // Functions to send data from the application to the store
@@ -24,8 +36,6 @@ class UserModal extends React.Component {
   state = { user: undefined };
 
   componentDidMount = () => {
-    console.log("MOUNT");
-    console.log(this.props.handle);
     this.props.getUserByHandle(this.props.handle);
   };
 
@@ -47,13 +57,68 @@ class UserModal extends React.Component {
   render() {
     const { user } = this.state;
 
+    console.log(user);
+
     return (
       <MDBModal isOpen={true} toggle={this.props.toggle} size="lg">
         <MDBModalBody>
           {user ? (
             <div>
-              <p>{user.avatar}</p>
-              <p>{user.username}</p>
+              <MDBRow>
+                <MDBCol lg="4">
+                  <p className="lead font-weight-bold">User info</p>
+                  <MDBCard className="border">
+                    <MDBCardBody>
+                      <p className="lead font-weight-bold mb-1">{user.name}</p>
+                      <p className="text-muted small">
+                        <p>{user.username}</p>
+                      </p>
+                    </MDBCardBody>
+                  </MDBCard>
+                  <p className="lead font-weight-bold mt-4">Code statistics</p>
+                  <MDBCard className="border">
+                    <MDBCardBody>
+                      <p>Languages</p>
+                      <p>Transition</p>
+                    </MDBCardBody>
+                  </MDBCard>
+                </MDBCol>
+                <MDBCol lg="8">
+                  <p className="lead font-weight-bold">Graphs</p>
+                  <MDBCard className="border">
+                    <MDBCardBody>
+                      <p>Contrib</p>
+                    </MDBCardBody>
+                  </MDBCard>
+                  <div className="activity">
+                    <p className="lead font-weight-bold">Activity</p>
+                    <MDBCard className="border">
+                      <MDBListGroup>
+                        {user.contributionFeed &&
+                          user.contributionFeed.map((contrib, i) => {
+                            return (
+                              <MDBListGroupItem>
+                                <p className="mb-0">{contrib.message}</p>
+                                <div className="d-flex justify-content-between">
+                                  <div>
+                                    <p className="text-muted small mb-0">
+                                      {contrib.type}
+                                    </p>
+                                  </div>
+                                  <p className="text-muted small mb-0">
+                                    {moment(contrib.datetime).format(
+                                      "DD.MM.YYYY h:mm a"
+                                    )}
+                                  </p>
+                                </div>
+                              </MDBListGroupItem>
+                            );
+                          })}
+                      </MDBListGroup>
+                    </MDBCard>
+                  </div>
+                </MDBCol>
+              </MDBRow>
             </div>
           ) : (
             <div>

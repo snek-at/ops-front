@@ -8,7 +8,20 @@ import React from "react";
 import { connect } from "react-redux";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
-import { MDBModal, MDBModalBody } from "mdbreact";
+import {
+  MDBModal,
+  MDBModalBody,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBBtn,
+  MDBListGroup,
+  MDBListGroupItem,
+} from "mdbreact";
+//> Additional
+// Everything time related
+import moment from "moment";
 
 //> Actions
 // Functions to send data from the application to the store
@@ -16,6 +29,8 @@ import {
   getProjectById,
   clearSelection,
 } from "../../../../store/actions/pageActions";
+//> Components
+import { AIBarChart } from "../../../atoms";
 //#endregion
 
 //#region > Components
@@ -46,12 +61,97 @@ class ProjectModal extends React.Component {
   render() {
     const { project } = this.state;
 
+    console.log(project);
+
     return (
       <MDBModal isOpen={true} toggle={this.props.toggle} size="lg">
         <MDBModalBody>
           {project ? (
             <div>
-              <p>{project.title}</p>
+              <MDBRow>
+                <MDBCol lg="4">
+                  <p className="lead font-weight-bold">Project info</p>
+                  <MDBCard className="border">
+                    <MDBCardBody>
+                      <p className="mb-1">{project.title}</p>
+                      <p className="small text-muted">{project.description}</p>
+                      <p className="mb-0">Owner</p>
+                      <p className="small text-muted">{project.ownerName}</p>
+                      {project.url && (
+                        <MDBBtn
+                          color="elegant"
+                          href={project.url}
+                          target="_blank"
+                          className="ml-0"
+                          size="md"
+                        >
+                          View repository
+                        </MDBBtn>
+                      )}
+                    </MDBCardBody>
+                  </MDBCard>
+                  <p className="lead font-weight-bold mt-3">Contributors</p>
+                  <div className="activity">
+                    <MDBCard className="border">
+                      <MDBListGroup>
+                        {project.contributors &&
+                          project.contributors.map((contributor, i) => {
+                            return (
+                              <MDBListGroupItem key={"project-contrib-" + i}>
+                                <p className="mb-0">{contributor.name}</p>
+                                <p className="mb-0 small text-muted">
+                                  {contributor.username}
+                                </p>
+                                <p className="blue-text small">
+                                  {(
+                                    (100 / project.contributionFeed.length) *
+                                    contributor.contributionFeed.length
+                                  ).toFixed(2)}{" "}
+                                  %
+                                </p>
+                              </MDBListGroupItem>
+                            );
+                          })}
+                      </MDBListGroup>
+                    </MDBCard>
+                  </div>
+                </MDBCol>
+                <MDBCol lg="8" className="activity">
+                  <p className="lead font-weight-bold">Activity</p>
+                  <MDBCard className="border">
+                    <MDBCardBody>
+                      <AIBarChart data={this.props.chart} size={100} />
+                    </MDBCardBody>
+                  </MDBCard>
+                  <p className="lead font-weight-bold mt-3">History</p>
+                  <MDBCard className="border">
+                    <MDBCardBody>
+                      <MDBListGroup>
+                        {project.contributionFeed &&
+                          project.contributionFeed.map((contrib, i) => {
+                            return (
+                              <MDBListGroupItem key={"project-contrib-" + i}>
+                                <p className="mb-0">{contrib.message}</p>
+                                <div className="d-flex justify-content-between">
+                                  <div>
+                                    <p className="text-muted small mb-0">
+                                      {contrib.type}
+                                    </p>
+                                  </div>
+                                  <p className="text-muted small mb-0">
+                                    {moment(contrib.datetime).format(
+                                      "DD.MM.YYYY h:mm a"
+                                    )}
+                                  </p>
+                                </div>
+                              </MDBListGroupItem>
+                            );
+                          })}
+                      </MDBListGroup>
+                    </MDBCardBody>
+                  </MDBCard>
+                </MDBCol>
+              </MDBRow>
             </div>
           ) : (
             <div>
