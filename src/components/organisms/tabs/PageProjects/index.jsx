@@ -136,7 +136,7 @@ class PageProjects extends React.Component {
                     </p>
                   </div>
                   <div className="d-flex align-items-center justify-content-center">
-                    <AIBarChart data={this.generateRandomChart()} />
+                    <AIBarChart data={this.generateRandomChart()} size={40} />
                   </div>
                 </MDBListGroupItem>
               );
@@ -151,6 +151,7 @@ class PageProjects extends React.Component {
           <ProjectModal
             toggle={this.toggle}
             projects={this.props.projects}
+            chart={this.generateRandomChart()}
             id={this.state.id}
           />
         )}

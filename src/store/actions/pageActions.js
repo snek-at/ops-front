@@ -2,7 +2,7 @@ export const getPageNames = () => {
   return (dispatch, getState, { getIntel }) => {
     const intel = getIntel();
 
-    intel.snekclient.session.begin()
+    intel.snekclient.session.begin();
 
     intel.getEnterprisePages().then((result) => {
       console.log(result);
@@ -445,12 +445,12 @@ export const editImprint = (newCompanyInfo) => {
   };
 };
 
-export const getUserByHandle = (id) => {
+export const getUserByHandle = (username) => {
   return (dispatch, getState, { getIntel }) => {
     // @TODO: Replace by function to query all users. For now it will not work on refresh.
     const users = getState().pages.users;
 
-    const user = users.filter((user) => user.id === id);
+    const user = users.filter((user) => user.username === username);
 
     if (user.length > 0) {
       dispatch({
@@ -466,7 +466,7 @@ export const getUserByHandle = (id) => {
           data: false,
           error: {
             code: 747,
-            message: "Could not get user by id " + id,
+            message: "Could not get user by username " + username,
             origin: "imprint",
           },
         },

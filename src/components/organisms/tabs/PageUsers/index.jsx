@@ -17,6 +17,7 @@ import {
   MDBInput,
   MDBRow,
   MDBCol,
+  MDBSpinner,
 } from "mdbreact";
 //> Additional
 // Everything time related
@@ -105,7 +106,7 @@ class PageUsers extends React.Component {
         </div>
 
         <MDBListGroup>
-          {users &&
+          {users ? (
             users.map((user, p) => {
               return (
                 <MDBListGroupItem
@@ -133,7 +134,12 @@ class PageUsers extends React.Component {
                   </div>
                 </MDBListGroupItem>
               );
-            })}
+            })
+          ) : (
+            <div className="flex-center">
+              <MDBSpinner />
+            </div>
+          )}
         </MDBListGroup>
         {this.state.modal && this.props.users && this.state.handle && (
           <UserModal
