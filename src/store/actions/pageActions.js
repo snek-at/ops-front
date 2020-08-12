@@ -38,7 +38,7 @@ export const getPageByHandle = (handle) => {
     intel
       .getEnterprisePageGeneralContent({ slug: handle })
       .then((companyData) => {
-        console.log(companyData);
+        console.log("TEST", companyData);
         // Dummy Data - retrieve all pages
         const results = [
           {
@@ -128,6 +128,8 @@ export const getPageByHandle = (handle) => {
               enterpriseContributionFeed:
                 companyData.enterpriseContributionFeed,
               enterpriseContributors: companyData.enterpriseContributors,
+              mergedEnterpriseContributionFeed:
+                companyData.mergedEnterpriseContributionFeed,
               /* Number of employees including founder (min. value: 1) */
               employees: 3,
               hasVAT: true,

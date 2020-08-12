@@ -91,8 +91,6 @@ class AIBarChart extends React.Component {
   render() {
     const { size } = this.props;
 
-    console.log(this.state);
-
     return (
       <Bar
         data={this.state.dataBar}

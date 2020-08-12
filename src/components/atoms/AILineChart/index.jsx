@@ -38,12 +38,10 @@ class AILineChart extends React.Component {
       scales: {
         xAxes: [
           {
-            display: false,
             barPercentage: 1,
             gridLines: {
-              display: true,
+              display: false,
               color: "transparent",
-              display: true,
               drawBorder: false,
               zeroLineColor: "#ededed",
             },
@@ -58,7 +56,6 @@ class AILineChart extends React.Component {
         yAxes: [
           {
             gridLines: {
-              display: true,
               color: "transparent",
               display: true,
               drawBorder: false,
@@ -76,11 +73,29 @@ class AILineChart extends React.Component {
   };
 
   componentDidMount = () => {
+    this.init();
+  };
+
+  componentDidUpdate = (prevProps) => {
+    console.log(prevProps.year, this.props.year);
+    if (prevProps.year !== this.props.year) {
+      this.init();
+    }
+  };
+
+  init = () => {
     const data = this.props.data;
 
+    console.log("CALLED");
+
     if (data) {
+      const year = this.props.year;
+      const weeks =
+        year !== undefined ? data.years[year].weeks : data.current.weeks;
+
       let results = [];
-      data.current.weeks.forEach((week, w) => {
+
+      weeks.forEach((week, w) => {
         week.days.forEach((day, d) => {
           results = [...results, { total: day.total, date: day.date }];
         });
@@ -111,8 +126,6 @@ class AILineChart extends React.Component {
 
   render() {
     const { size } = this.props;
-
-    console.log(this.state);
 
     return (
       <Line

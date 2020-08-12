@@ -348,6 +348,7 @@ class Page extends React.Component {
                   <PageOverview
                     filter={this.state.globalFilter}
                     feed={page.company?.enterpriseContributionFeed}
+                    mergedFeed={page.company?.mergedEnterpriseContributionFeed}
                   />
                 </MDBTabPane>
                 <MDBTabPane tabId={1} role="tabpanel">

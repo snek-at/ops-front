@@ -137,7 +137,6 @@ class PageProjects extends React.Component {
         <MDBListGroup>
           {projects ? (
             projects.map((project, p) => {
-              console.log(project);
               return (
                 <MDBListGroupItem
                   onClick={() => this.setState({ modal: true, id: project.id })}

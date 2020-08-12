@@ -51,7 +51,6 @@ class ProjectModal extends React.Component {
       (this.props.project && !this.state.project) ||
       (this.state.project && this.state.project.id !== this.props.id)
     ) {
-      console.log(this.props.project);
       this.setState({
         project: this.props.project,
       });
@@ -60,8 +59,6 @@ class ProjectModal extends React.Component {
 
   render() {
     const { project } = this.state;
-
-    console.log(project);
 
     return (
       <MDBModal isOpen={true} toggle={this.props.toggle} size="lg">

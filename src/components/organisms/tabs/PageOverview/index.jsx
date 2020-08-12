@@ -17,14 +17,15 @@ import {
   MDBInput,
   MDBRow,
   MDBCol,
+  MDBBtn,
 } from "mdbreact";
 //> Additional
 // Everything time related
 import moment from "moment";
 
 //> Actions
-// Functions to send data from the application to the store
-import { getActivity } from "../../../../store/actions/pageActions";
+//> Components
+import { AIBarChart, AILineChart } from "../../../atoms";
 //> CSS
 import "./pageoverview.scss";
 //> Images
@@ -37,7 +38,9 @@ class PageOverview extends React.Component {
   state = { activities: null };
 
   componentDidMount = () => {
-    this.props.getActivity();
+    this.setState({
+      feed: this.props.feed,
+    });
   };
 
   componentDidUpdate = (prevProps) => {
@@ -78,8 +81,7 @@ class PageOverview extends React.Component {
 
   render() {
     const { feed } = this.state;
-
-    console.log(feed);
+    const { mergedFeed } = this.props;
 
     return (
       <MDBRow id="pageoverview">
@@ -95,10 +97,39 @@ class PageOverview extends React.Component {
         <MDBCol lg="4">
           <div className="mt-3">
             <p className="lead font-weight-bold mb-0">Chart</p>
-            <p className="text-muted small">
-              <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
-            </p>
+            <div className="text-right">
+              {mergedFeed &&
+                mergedFeed.years.map((year, y) => {
+                  return (
+                    <p
+                      className={
+                        this.state.selectedYearIndex === y
+                          ? "blue-text clickable mx-2 d-inline-block"
+                          : "text-muted clickable mx-2 d-inline-block"
+                      }
+                      onClick={() => this.setState({ selectedYearIndex: y })}
+                    >
+                      {moment(year.endDate).format("YYYY")}
+                    </p>
+                  );
+                })}
+              <p
+                className={
+                  this.state.selectedYearIndex === undefined
+                    ? "blue-text clickable mx-2 d-inline-block"
+                    : "text-muted clickable mx-2 d-inline-block"
+                }
+                onClick={() => this.setState({ selectedYearIndex: undefined })}
+              >
+                Current
+              </p>
+            </div>
+            <AILineChart
+              data={mergedFeed}
+              year={this.state.selectedYearIndex}
+              size={50}
+              key="overview-chart"
+            />
           </div>
         </MDBCol>
         <MDBCol lg="4">
@@ -115,7 +146,7 @@ class PageOverview extends React.Component {
           <MDBListGroup>
             {feed ? (
               <>
-                {feed.reverse().map((activity, a) => {
+                {feed.map((activity, a) => {
                   return (
                     <MDBListGroupItem
                       className="d-flex align-items-center"
@@ -235,12 +266,6 @@ class PageOverview extends React.Component {
 const mapStateToProps = (state) => ({
   activities: state.pages.activities,
 });
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getActivity: () => dispatch(getActivity()),
-  };
-};
 //#endregion
 
 //#region > Exports
@@ -251,7 +276,7 @@ const mapDispatchToProps = (dispatch) => {
  * Got access to the history object’s properties and the closest
  * <Route>'s match.
  */
-export default connect(mapStateToProps, mapDispatchToProps)(PageOverview);
+export default connect(mapStateToProps)(PageOverview);
 //#endregion
 
 /**
