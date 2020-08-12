@@ -163,7 +163,7 @@ class PageProjects extends React.Component {
                       />
                     ) : (
                       <AIBarChart
-                        data={project.mergedContributionFeed}
+                        data={project.mergedTransitionFeed}
                         size={40}
                       />
                     )}
