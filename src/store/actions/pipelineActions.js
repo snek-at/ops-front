@@ -102,8 +102,11 @@ export const createPipeline = (newPipeline) => {
 
     intel
       .addPipeline({
-        enterprisePageSlug: newPipeline.enterprisePage.handle,
         active: newPipeline.isActive,
+        description: newPipeline.description
+          ? newPipeline.description
+          : "description",
+        enterprisePageSlug: newPipeline.enterprisePage.handle,
         name: newPipeline.title,
       })
       .then((result) => {
