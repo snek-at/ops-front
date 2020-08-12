@@ -8,11 +8,22 @@ import AIToggle from "./AIToggle";
 import AICheckbox from "./AICheckbox";
 import AIBarChart from "./AIBarChart";
 import AILineChart from "./AILineChart";
+import AIContribCalendar from "./AIContribCalendar";
+import AILanguageChart from "./AILanguageChart";
 //#endregion
 
 //#region > Exports
 //> Atoms
-export { ScrollToTop, AIInput, AIToggle, AICheckbox, AIBarChart, AILineChart };
+export {
+  ScrollToTop,
+  AIInput,
+  AIToggle,
+  AICheckbox,
+  AIBarChart,
+  AILineChart,
+  AIContribCalendar,
+  AILanguageChart,
+};
 //#endregion
 
 /**

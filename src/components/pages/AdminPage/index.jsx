@@ -14,11 +14,10 @@ import { SideNav } from "../../molecules";
 import {
   Page,
   Pipelines,
-  User,
-  Project,
   GitLabs,
   Connectors,
   Permissions,
+  Dashboard,
 } from "../../organisms";
 //> Redux
 // Allows React components to read data, update data and dispatch actions
@@ -67,12 +66,21 @@ class HomePage extends React.Component {
   navigateTo = (page, handle) => {
     console.log(page, handle);
 
-    this.setState(
-      {
-        page: `${page}-${handle}`,
-      },
-      () => localStorage.setItem("nav", `${page}-${handle}`)
-    );
+    if (handle) {
+      this.setState(
+        {
+          page: `${page}-${handle}`,
+        },
+        () => localStorage.setItem("nav", `${page}-${handle}`)
+      );
+    } else {
+      this.setState(
+        {
+          page: `${page}`,
+        },
+        () => localStorage.setItem("nav", `${page}`)
+      );
+    }
   };
 
   renderPages = (selectedPage) => {
@@ -111,9 +119,7 @@ class HomePage extends React.Component {
             {(() => {
               switch (this.state.page) {
                 case "dashboard":
-                  return <p>Dashboard</p>;
-                case "pages":
-                  return <p>Pages</p>;
+                  return <Dashboard navigateTo={this.navigateTo} />;
                 case "permissions":
                   return <Permissions />;
                 case "connectors":

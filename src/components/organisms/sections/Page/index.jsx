@@ -156,7 +156,10 @@ class Page extends React.Component {
                         <MDBIcon icon="eye" />
                         View as public
                       </MDBBtn>
-                      <MDBBtn color="indigo">
+                      <MDBBtn
+                        color="indigo"
+                        onClick={() => this.props.navigateTo("connectors")}
+                      >
                         <MDBIcon icon="key" />
                         Edit
                       </MDBBtn>

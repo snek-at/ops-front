@@ -17,6 +17,7 @@ import {
   MDBListGroupItem,
   MDBCard,
   MDBCardBody,
+  MDBIcon,
 } from "mdbreact";
 //> Additional
 // Everything time related
@@ -28,6 +29,8 @@ import {
   getUserByHandle,
   clearSelection,
 } from "../../../../store/actions/pageActions";
+//> Components
+import { AIContribCalendar, AILanguageChart } from "../../../atoms";
 //#endregion
 
 //#region > Components
@@ -57,7 +60,7 @@ class UserModal extends React.Component {
   render() {
     const { user } = this.state;
 
-    console.log(user);
+    console.log("USER", user);
 
     return (
       <MDBModal isOpen={true} toggle={this.props.toggle} size="lg">
@@ -78,16 +81,98 @@ class UserModal extends React.Component {
                   <p className="lead font-weight-bold mt-4">Code statistics</p>
                   <MDBCard className="border">
                     <MDBCardBody>
-                      <p>Languages</p>
-                      <p>Transition</p>
+                      <AILanguageChart
+                        languages={[
+                          {
+                            color: "rgb(241, 224, 90)",
+                            share: 40,
+                          },
+                          {
+                            color: "rgb(299, 150, 90)",
+                            share: 60,
+                          },
+                        ]}
+                      />
+                      <div className="px-1">
+                        <hr />
+                        {[
+                          {
+                            color: "rgb(241, 224, 90)",
+                            share: 40,
+                            name: "JavaScript",
+                          },
+                          {
+                            color: "rgb(299, 150, 90)",
+                            share: 60,
+                            name: "FooScript",
+                          },
+                        ].map((language, i) => {
+                          return (
+                            <small
+                              className="text-left text-muted d-block"
+                              key={i}
+                            >
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <MDBIcon
+                                    icon="square"
+                                    className="pr-1"
+                                    style={{
+                                      color: language.color,
+                                    }}
+                                  />
+                                  <span>{language.name}</span>
+                                </div>
+                                <span className="text-muted small">
+                                  {language.share}%
+                                </span>
+                              </div>
+                            </small>
+                          );
+                        })}
+                      </div>
                     </MDBCardBody>
                   </MDBCard>
                 </MDBCol>
                 <MDBCol lg="8">
-                  <p className="lead font-weight-bold">Graphs</p>
+                  <p className="lead font-weight-bold">Contributions</p>
                   <MDBCard className="border">
                     <MDBCardBody>
-                      <p>Contrib</p>
+                      <div className="text-right">
+                        {user.mergedContributionFeed &&
+                          user.mergedContributionFeed.years.map((year, y) => {
+                            return (
+                              <p
+                                className={
+                                  this.state.selectedYearIndex === y
+                                    ? "blue-text clickable mx-2 d-inline-block"
+                                    : "text-muted clickable mx-2 d-inline-block"
+                                }
+                                onClick={() =>
+                                  this.setState({ selectedYearIndex: y })
+                                }
+                              >
+                                {moment(year.endDate).format("YYYY")}
+                              </p>
+                            );
+                          })}
+                        <p
+                          className={
+                            this.state.selectedYearIndex === undefined
+                              ? "blue-text clickable mx-2 d-inline-block"
+                              : "text-muted clickable mx-2 d-inline-block"
+                          }
+                          onClick={() =>
+                            this.setState({ selectedYearIndex: undefined })
+                          }
+                        >
+                          Current
+                        </p>
+                      </div>
+                      <AIContribCalendar
+                        platformData={user.mergedContributionFeed}
+                        year={this.state.selectedYearIndex}
+                      />
                     </MDBCardBody>
                   </MDBCard>
                   <div className="activity">

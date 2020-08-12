@@ -104,7 +104,6 @@ class PageUsers extends React.Component {
           </div>
           <div></div>
         </div>
-
         <MDBListGroup>
           {users ? (
             users.map((user, p) => {
@@ -119,7 +118,11 @@ class PageUsers extends React.Component {
                   <div className="d-flex align-items-center">
                     <MDBAvatar className="white mr-2">
                       <img
-                        src={user.avatar}
+                        src={
+                          user.avatar
+                            ? user.avatar
+                            : "https://octodex.github.com/images/nyantocat.gif"
+                        }
                         alt={user.name}
                         className="rounded-circle img-fluid"
                       />

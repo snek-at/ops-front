@@ -140,7 +140,7 @@ class PageProjects extends React.Component {
             projects.map((project, p) => {
               return (
                 <MDBListGroupItem
-                  onClick={() => this.setState({ modal: true, id: project.id })}
+                  onClick={() => this.setState({ modal: true, project })}
                   className="d-flex justify-content-between align-items-center clickable"
                   key={p}
                 >
@@ -177,12 +177,12 @@ class PageProjects extends React.Component {
             </div>
           )}
         </MDBListGroup>
-        {this.state.modal && this.state.id && this.props.projects && (
+        {this.state.modal && this.state.project && this.props.projects && (
           <ProjectModal
             toggle={this.toggle}
             projects={this.props.projects}
-            chart={this.generateRandomChart()}
-            id={this.state.id}
+            chart={this.state.project.mergedContributionFeed}
+            id={this.state.project.id}
           />
         )}
       </div>
