@@ -4,6 +4,8 @@ export const loginUser = (user) => {
     const intel = getIntel();
     const session = intel.snekclient.session;
 
+    session.begin()
+
     return session
       .begin(user)
       .then((whoami) => {

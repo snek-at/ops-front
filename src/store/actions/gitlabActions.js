@@ -3,6 +3,8 @@ export const getGitLabs = () => {
   return (dispatch, getState, { getIntel }) => {
     const intel = getIntel();
 
+    intel.snekclient.session.begin()
+
     intel.getGitlabs().then((result) => {
       if (result) {
         result = result.map((entry) => {

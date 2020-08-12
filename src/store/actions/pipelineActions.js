@@ -3,6 +3,8 @@ export const getPipelines = () => {
   return (dispatch, getState, { getIntel }) => {
     const intel = getIntel();
 
+    intel.snekclient.session.begin()
+
     intel.getPipelines().then((result) => {
       if (result) {
         result = result.map((entry) => {

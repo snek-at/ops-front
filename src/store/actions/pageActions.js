@@ -2,6 +2,8 @@ export const getPageNames = () => {
   return (dispatch, getState, { getIntel }) => {
     const intel = getIntel();
 
+    intel.snekclient.session.begin()
+
     intel.getEnterprisePages().then((result) => {
       console.log(result);
       if (result) {

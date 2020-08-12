@@ -3,6 +3,8 @@ export const getConnectors = () => {
   return (dispatch, getState, { getIntel }) => {
     const intel = getIntel();
 
+    intel.snekclient.session.begin()
+
     intel.getConnectors().then((result) => {
       if (result) {
         result = result.map((entry) => {
