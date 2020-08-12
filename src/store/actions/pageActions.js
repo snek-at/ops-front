@@ -121,6 +121,13 @@ export const getPageByHandle = (handle) => {
               description: companyData.description
                 ? companyData.description
                 : "",
+              enterpriseCodelanguageStatistic:
+                companyData.enterpriseCodelanguageStatistic,
+              enterpriseCodetransitionStatistic:
+                companyData.enterpriseCodetransitionStatistic,
+              enterpriseContributionFeed:
+                companyData.enterpriseContributionFeed,
+              enterpriseContributors: companyData.enterpriseContributors,
               /* Number of employees including founder (min. value: 1) */
               employees: 3,
               hasVAT: true,

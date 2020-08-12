@@ -40,16 +40,46 @@ class PageOverview extends React.Component {
     this.props.getActivity();
   };
 
-  componentDidUpdate = () => {
-    if (this.props.activities && !this.state.activities) {
+  componentDidUpdate = (prevProps) => {
+    if (this.props.feed && !this.state.feed) {
       this.setState({
-        activities: this.props.activities,
+        feed: this.props.feed,
       });
+    }
+
+    if (this.props.filter !== prevProps.filter) {
+      this.filter(this.props.filter);
     }
   };
 
+  unifyString = (str) => {
+    if (str) {
+      return str.toLowerCase().trim();
+    } else {
+      return "";
+    }
+  };
+
+  filter = (value) => {
+    // Retrieve all pipelines
+    const { feed } = this.props;
+    // Unify value
+    const val = this.unifyString(value);
+
+    // Searches for search value in title, domain and org
+    let results = feed.filter((item) => {
+      if (this.unifyString(item.message).includes(val)) {
+        return item;
+      }
+    });
+
+    this.setState({ feed: results });
+  };
+
   render() {
-    const { activities } = this.state;
+    const { feed } = this.state;
+
+    console.log(feed);
 
     return (
       <MDBRow id="pageoverview">
@@ -76,13 +106,16 @@ class PageOverview extends React.Component {
             <p className="lead font-weight-bold mb-0">Activity</p>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
+              History of all projects in your page.
             </p>
           </div>
+          {this.props.filter && (
+            <p className="blue-text">{feed.length} matches found.</p>
+          )}
           <MDBListGroup>
-            {activities ? (
+            {feed ? (
               <>
-                {activities.map((activity, a) => {
+                {feed.reverse().map((activity, a) => {
                   return (
                     <MDBListGroupItem
                       className="d-flex align-items-center"
@@ -91,17 +124,21 @@ class PageOverview extends React.Component {
                       <div className="d-inline-block d-flex align-items-center">
                         <span className="activity-icon">
                           {(() => {
-                            switch (activity.action) {
-                              case "deployed":
+                            switch (activity.type) {
+                              case "deploy":
                                 return (
                                   <MDBIcon icon="hammer" className="mr-2" />
                                 );
-                              case "merged":
+                              case "merge":
                                 return (
                                   <MDBIcon
                                     icon="code-branch"
                                     className="mr-2"
                                   />
+                                );
+                              case "commit":
+                                return (
+                                  <MDBIcon icon="angle-up" className="mr-2" />
                                 );
                               default:
                                 return null;
@@ -110,41 +147,35 @@ class PageOverview extends React.Component {
                         </span>
                         <MDBAvatar className="white">
                           <img
-                            src={activity.author.avatar}
-                            alt={activity.author.name}
+                            src={activity.author}
+                            alt={activity.name}
                             className="rounded-circle img-fluid"
                           />
                         </MDBAvatar>
                       </div>
                       <div className="d-inline-block pl-2">
+                        <p className="mb-1 small">{activity.message}</p>
                         <div className="mb-0 d-flex align-items-center">
-                          <span>
-                            <span className="font-weight-bold">
-                              {activity.author.name.split(" ").length > 0
-                                ? activity.author.name.split(" ")[0]
-                                : activity.author.name}
-                            </span>{" "}
-                            {activity.action}:
+                          <span className="text-muted small">
+                            {activity.type}
                           </span>
-                          <code>{activity.ref.commit}</code>
+                          <code>{activity.cid.substring(0, 8)}</code>
                         </div>
                         {activity.action === "merged" && (
                           <p className="mb-0 text-muted">
                             <small>
-                              {activity.ref.from} <MDBIcon icon="angle-right" />{" "}
-                              {activity.ref.to}
+                              {activity.ref} <MDBIcon icon="angle-right" />{" "}
+                              {activity.ref}
                             </small>
                             <code>
-                              {activity.ref.code.add - activity.ref.code.sub >
-                              0 ? (
+                              {activity.ref - activity.ref > 0 ? (
                                 <span className="text-success">
                                   <MDBIcon
                                     icon="plus"
                                     size="sm"
                                     className="mr-1"
                                   />
-                                  {activity.ref.code.add -
-                                    activity.ref.code.sub}
+                                  {activity.ref - activity.ref}
                                 </span>
                               ) : (
                                 <span className="text-danger">
@@ -153,15 +184,13 @@ class PageOverview extends React.Component {
                                     size="sm"
                                     className="mr-1"
                                   />
-                                  {(activity.ref.code.add -
-                                    activity.ref.code.sub) *
-                                    -1}
+                                  {(activity.ref - activity.ref) * -1}
                                 </span>
                               )}
                             </code>
                           </p>
                         )}
-                        {activity.ref.code && (
+                        {activity.ref && (
                           <p className="mb-0">
                             <code>
                               <span className="text-success">
@@ -170,7 +199,7 @@ class PageOverview extends React.Component {
                                   size="sm"
                                   className="mr-1"
                                 />
-                                {activity.ref.code.add}
+                                {activity.ref}
                               </span>
                               <span className="text-danger ml-2">
                                 <MDBIcon
@@ -178,13 +207,13 @@ class PageOverview extends React.Component {
                                   size="sm"
                                   className="mr-1"
                                 />
-                                {activity.ref.code.sub}
+                                {activity.ref}
                               </span>
                             </code>
                           </p>
                         )}
                         <p className="mb-0 text-muted small">
-                          {moment(activity.time).endOf("day").fromNow()}
+                          {moment(activity.datetime).endOf("day").fromNow()}
                         </p>
                       </div>
                     </MDBListGroupItem>

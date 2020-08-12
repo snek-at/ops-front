@@ -326,7 +326,8 @@ class Page extends React.Component {
                   })}
                 </div>
                 <div>
-                  {(this.state.activeItem === 1 ||
+                  {(this.state.activeItem === 0 ||
+                    this.state.activeItem === 1 ||
                     this.state.activeItem === 2) && (
                     <input
                       type="text"
@@ -344,7 +345,10 @@ class Page extends React.Component {
                 activeItem={this.state.activeItem}
               >
                 <MDBTabPane tabId={0} role="tabpanel">
-                  <PageOverview />
+                  <PageOverview
+                    filter={this.state.globalFilter}
+                    feed={page.company?.enterpriseContributionFeed}
+                  />
                 </MDBTabPane>
                 <MDBTabPane tabId={1} role="tabpanel">
                   <PageProjects
