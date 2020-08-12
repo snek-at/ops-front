@@ -18,6 +18,7 @@ import {
   MDBRow,
   MDBCol,
   MDBSpinner,
+  MDBBtn,
 } from "mdbreact";
 //> Additional
 // Everything time related
@@ -28,7 +29,7 @@ import moment from "moment";
 import { getProjects } from "../../../../store/actions/pageActions";
 //> Components
 import { UserModal, ProjectModal } from "../../";
-import { AIBarChart } from "../../../atoms";
+import { AIBarChart, AILineChart } from "../../../atoms";
 //> CSS
 import "./pageprojects.scss";
 //> Images
@@ -38,7 +39,7 @@ import "./pageprojects.scss";
 //#region > Components
 /** @class This component displays page overview of the page section */
 class PageProjects extends React.Component {
-  state = { projects: null };
+  state = { projects: null, chartType: "line" };
 
   componentDidMount = () => {
     this.props.getProjects();
@@ -108,16 +109,35 @@ class PageProjects extends React.Component {
 
     return (
       <div id="pageprojects">
-        <div className="mt-3">
-          <p className="lead font-weight-bold mb-0">Project Overview</p>
-          <p className="text-muted small">
-            <MDBIcon icon="question-circle" className="mr-2" />
-            Lorem Ipsum Dolor sit amet.
-          </p>
+        <div className="mt-3 d-flex justify-content-between">
+          <div>
+            <p className="lead font-weight-bold mb-0">Project Overview</p>
+            <p className="text-muted small">
+              <MDBIcon icon="question-circle" className="mr-2" />
+              Lorem Ipsum Dolor sit amet.
+            </p>
+          </div>
+          <div>
+            <MDBBtn
+              color={this.state.chartType === "line" ? "green" : "elegant"}
+              size="sm"
+              onClick={() => this.setState({ chartType: "line" })}
+            >
+              Commits
+            </MDBBtn>
+            <MDBBtn
+              color={this.state.chartType === "bar" ? "green" : "elegant"}
+              size="sm"
+              onClick={() => this.setState({ chartType: "bar" })}
+            >
+              Lines
+            </MDBBtn>
+          </div>
         </div>
         <MDBListGroup>
           {projects ? (
             projects.map((project, p) => {
+              console.log(project);
               return (
                 <MDBListGroupItem
                   onClick={() => this.setState({ modal: true, id: project.id })}
@@ -136,7 +156,17 @@ class PageProjects extends React.Component {
                     </p>
                   </div>
                   <div className="d-flex align-items-center justify-content-center">
-                    <AIBarChart data={this.generateRandomChart()} size={40} />
+                    {this.state.chartType === "line" ? (
+                      <AILineChart
+                        data={project.mergedContributionFeed}
+                        size={40}
+                      />
+                    ) : (
+                      <AIBarChart
+                        data={project.mergedContributionFeed}
+                        size={40}
+                      />
+                    )}
                   </div>
                 </MDBListGroupItem>
               );
