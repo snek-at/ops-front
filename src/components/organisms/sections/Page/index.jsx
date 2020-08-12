@@ -80,10 +80,8 @@ class Page extends React.Component {
   };
 
   componentDidMount = () => {
-    // Retrieve Pipelines
-    if (!this.props.page) {
-      this.props.getPageByHandle(this.props.handle);
-    }
+    // Retrieve Page
+    this.props.getPageByHandle(this.props.handle);
   };
 
   componentDidUpdate = () => {
