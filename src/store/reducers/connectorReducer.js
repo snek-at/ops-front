@@ -87,6 +87,11 @@ const connectorReducer = (state = initState, action) => {
         testConnector: null,
         error: action.payload.error,
       };
+    case "REMOVE_CONNECTOR_SUCCESS":
+      return {
+        ...state,
+        connectors: action.payload.data,
+      };
     default:
       return state;
   }

@@ -3,7 +3,7 @@ export const getConnectors = () => {
   return (dispatch, getState, { getIntel }) => {
     const intel = getIntel();
 
-    intel.snekclient.session.begin()
+    intel.snekclient.session.begin();
 
     intel.getConnectors().then((result) => {
       if (result) {
@@ -306,6 +306,13 @@ export const removeConnector = (id) => {
         if (res.success) {
           // remove connector from current connectors
           const leftovers = connectors.filter((selected) => selected.id !== id);
+
+          dispatch({
+            type: "REMOVE_CONNECTOR_SUCCESS",
+            payload: {
+              data: leftovers,
+            },
+          });
         }
       });
     }
