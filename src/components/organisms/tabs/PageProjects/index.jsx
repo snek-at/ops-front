@@ -17,6 +17,7 @@ import {
   MDBInput,
   MDBRow,
   MDBCol,
+  MDBSpinner,
 } from "mdbreact";
 //> Additional
 // Everything time related
@@ -115,7 +116,7 @@ class PageProjects extends React.Component {
           </p>
         </div>
         <MDBListGroup>
-          {projects &&
+          {projects ? (
             projects.map((project, p) => {
               return (
                 <MDBListGroupItem
@@ -125,13 +126,26 @@ class PageProjects extends React.Component {
                 >
                   <div>
                     <p className="lead mb-0">{project.title}</p>
+                    {project.description && (
+                      <p className="small text-muted mb-0">
+                        {project.description}
+                      </p>
+                    )}
+                    <p className="small text-muted mb-0">
+                      Owner: {project.ownerName}
+                    </p>
                   </div>
                   <div className="d-flex align-items-center justify-content-center">
                     <AIBarChart data={this.generateRandomChart()} />
                   </div>
                 </MDBListGroupItem>
               );
-            })}
+            })
+          ) : (
+            <div>
+              <MDBSpinner />
+            </div>
+          )}
         </MDBListGroup>
         {this.state.modal && this.state.id && this.props.projects && (
           <ProjectModal
