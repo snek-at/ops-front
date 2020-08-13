@@ -172,7 +172,7 @@ class PageOverview extends React.Component {
           <MDBListGroup>
             {feed ? (
               <>
-                {feed.map((activity, a) => {
+                {feed.reverse().map((activity, a) => {
                   return (
                     <MDBListGroupItem
                       className="d-flex align-items-center"
