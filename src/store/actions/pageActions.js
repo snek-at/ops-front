@@ -131,7 +131,7 @@ export const getPageByHandle = (handle) => {
               mergedEnterpriseContributionFeed:
                 companyData.mergedEnterpriseContributionFeed,
               /* Number of employees including founder (min. value: 1) */
-              employees: 3,
+              employees: companyData.employeeCount,
               hasVAT: true,
               vat: {
                 value: "ATU72504738",
