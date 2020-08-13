@@ -20,6 +20,7 @@ export const getConnectors = () => {
                 projects: entry.shareProjects,
                 users: entry.shareUsers,
                 mode: entry.shareMode,
+                isHashed: entry.isHashed,
                 /* @TODO Aichner: Add checkboxes in Component to determine what will be shared */
                 companyData: {
                   name: entry.shareCompanyName,
@@ -124,6 +125,9 @@ export const createConnector = (connector) => {
 
       const settings = {
         shared: {
+          isHashed: connector.settings?.shared?.isHashed
+            ? connector.settings.shared.isHashed
+            : false,
           projects: connector.settings?.shared?.companyData?.projects
             ? connector.settings.shared.companyData.projects
             : false,
@@ -175,6 +179,7 @@ export const createConnector = (connector) => {
           enterprisePageSlug: connector.enterprisePage.handle,
           privilegesMode: "POLP",
           settings: {
+            is_hashed: settings.shared.isHashed,
             share_projects: settings.shared.projects,
             share_users: settings.shared.users,
             share_company_name: settings.shared.companyData.name,
@@ -264,6 +269,7 @@ export const alterConnector = (id, newConnector) => {
         name: alteredConnector.name,
         privilegesMode: alteredConnector.isIDC ? "IDC" : "POLP",
         settings: {
+          is_hashed: alteredConnector.settings.shared.isHashed,
           share_projects: alteredConnector.settings.shared.projects,
           share_users: alteredConnector.settings.shared.users,
           share_company_name: alteredConnector.settings.shared.companyData.name,
