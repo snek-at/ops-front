@@ -250,7 +250,7 @@ class Page extends React.Component {
                   <MDBRow className="d-flex align-items-center">
                     <MDBCol lg="2">
                       <img
-                        src="https://avatars1.githubusercontent.com/u/50574311?s=200"
+                        src="https://www.htl-villach.at/typo3conf/ext/htl_villach/Resources/Public/Images/htl_logo_box.svg"
                         alt="Company logo"
                         className="img-fluid"
                       />
