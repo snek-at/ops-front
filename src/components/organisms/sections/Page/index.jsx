@@ -99,6 +99,13 @@ class Page extends React.Component {
     }
   };
 
+  // Toogle reauth
+  toggleModal = () => {
+    this.setState({
+      reAuth: false,
+    });
+  };
+
   // Toggle the visible tab
   toggle = (e, tab) => {
     e.preventDefault();
@@ -397,9 +404,9 @@ class Page extends React.Component {
           </div>
         )}
         {this.state.reAuth && (
-          <MDBModal isOpen={true} size="sm">
+          <MDBModal isOpen={true} toggle={this.toggleModal} size="sm">
             <MDBModalBody>
-              <p>Please reenter your password.</p>
+              <p>To continue, type an administrator password.</p>
               {this.state.reAuthError && (
                 <MDBAlert color="danger">
                   The password you have entered is wrong.
@@ -421,7 +428,7 @@ class Page extends React.Component {
 
                   if (result) {
                     this.setState({ reAuth: false }, () =>
-                      this.props.publishPage(page.company.handle)
+                      this.props.publishPage(page.company.connectorHandle)
                     );
                   } else {
                     this.setState({ reAuthError: true });

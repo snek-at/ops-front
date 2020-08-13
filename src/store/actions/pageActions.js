@@ -117,6 +117,7 @@ export const getPageByHandle = (handle) => {
             ],
             company: {
               name: companyData.name,
+              connectorHandle: companyData.assocConnectors[0].id,
               handle: companyData.handle,
               description: companyData.description
                 ? companyData.description
@@ -518,8 +519,20 @@ export const getProjectById = (id) => {
 export const publishPage = (handle) => {
   return (dispatch, getState, { getIntel }) => {
     // Get connectors and get correct connector by page handle
-    console.log(handle);
-    // TODO - Publish page
+    const intel = getIntel();
+
+    intel.snekclient.session.begin();
+    intel.publishEnterprisePageViaConnector({ connectorId: handle }).then((result) => {
+      // Success / Error dispatch
+
+      if (result) {
+        // dispatch success
+      } else {
+        // dispatch failure
+      }
+    })
+
+
   };
 };
 
