@@ -424,6 +424,7 @@ export const editImprint = (newCompanyInfo) => {
     console.log(dataToUpdate);
     intel
       .updateEnterprisePageGeneralContent({
+        slug: currentHandle,
         imprint: dataToUpdate.imprint,
         general: dataToUpdate.general,
       })
