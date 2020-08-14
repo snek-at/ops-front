@@ -128,7 +128,7 @@ class ProjectModal extends React.Component {
                     title="Authentication"
                     description="Please enter the gitlab access token"
                     name="token"
-                    placeholder="Token"
+                    placeholder="Personal Access Token"
                     value={selectedGitLab.token}
                     error={
                       this.state.error && !selectedGitLab.token

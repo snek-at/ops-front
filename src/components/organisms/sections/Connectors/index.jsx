@@ -311,7 +311,7 @@ class Connectors extends React.Component {
                 title="Authentication"
                 description="Please enter the connector token"
                 name="token"
-                placeholder="Token"
+                placeholder="Conenctor Access Token"
                 value={this.state.selectedConnector.token}
                 handleChange={this.handleConnectorChange}
                 key="token"
