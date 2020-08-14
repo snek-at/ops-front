@@ -60,6 +60,23 @@ export const authenticate = (password) => {
   };
 };
 
+// Logout
+export const logout = () => {
+  return (dispatch, getState, { getIntel }) => {
+    const intel = getIntel();
+    const session = intel.snekclient.session;
+
+    session.end().then(() => {
+      dispatch({
+        type: "LOGOUT_SUCCESS",
+        payload: {
+          data: null,
+        },
+      });
+    });
+  };
+};
+
 /**
  * SPDX-License-Identifier: (EUPL-1.2)
  * Copyright © 2020 Simon Prast

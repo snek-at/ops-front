@@ -6,7 +6,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
-import { MDBContainer } from "mdbreact";
+import { MDBContainer, MDBSpinner } from "mdbreact";
 //> Components
 // Molecules
 import { SideNav } from "../../molecules";
@@ -129,7 +129,11 @@ class HomePage extends React.Component {
                 case "gitlabs":
                   return <GitLabs />;
                 case "logout":
-                  return <p>Logout</p>;
+                  return (
+                    <div className="flex-center">
+                      <MDBSpinner />
+                    </div>
+                  );
                 default:
                   return this.renderPages(this.state.page);
               }
