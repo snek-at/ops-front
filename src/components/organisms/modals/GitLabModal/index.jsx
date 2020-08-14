@@ -321,6 +321,7 @@ class ProjectModal extends React.Component {
                     size="md"
                     onClick={() => {
                       if (!addGitLab) {
+                        this.props.toggle();
                         this.props.alterGitlab(
                           selectedGitLab.id,
                           selectedGitLab
