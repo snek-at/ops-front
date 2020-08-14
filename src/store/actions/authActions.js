@@ -9,11 +9,9 @@ export const loginUser = (user) => {
     return session
       .begin(user)
       .then((whoami) => {
-        if (whoami?.__typename !== "SNEKUser") {
-          throw Error("Login Failed");
-        }
-        if (whoami?.anonymous === false) {
-          console.log(whoami);
+        console.log(whoami)
+        if (!whoami?.anonymous && whoami?.__typename === "SNEKUser") {
+          console.log("dispatch success")
           dispatch({
             type: "LOGIN_SUCCESS",
             payload: {
@@ -22,11 +20,13 @@ export const loginUser = (user) => {
               },
             },
           });
-        } else {
+        } else if (whoami?.anonymous) {
           dispatch({
             type: "LOGIN_ANON_SUCCESS",
             payload: {},
           });
+        } else {
+          throw Error("Login Failed");
         }
       })
       .catch((ex) =>
