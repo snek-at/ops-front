@@ -139,14 +139,6 @@ class GitLabs extends React.Component {
                 >
                   <div>
                     <p className="lead mb-0">{gitlab.url}</p>
-                    {gitlab.token && (
-                      <p className="text-muted mb-0">
-                        <code className="text-success">
-                          <MDBIcon icon="check-circle" className="mr-2" />
-                          Authenticated
-                        </code>
-                      </p>
-                    )}
                   </div>
                   <div className="d-flex align-items-center justify-content-center">
                     <div className="small d-inline-block text-center px-2">

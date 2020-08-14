@@ -101,7 +101,7 @@ export const createGitlab = (gitlab) => {
           active: true,
           description: "description",
           enterprisePageSlug: gitlab.enterprisePage.handle,
-          gitlabToken: gitlab.token,
+          gitlabToken: gitlab.token ? gitlab.token : "none",
           name: gitlab.name ? gitlab.name : "",
           privilegesMode: gitlab.isIDC ? "IDC" : "POLP",
           url: gitlab.url,
