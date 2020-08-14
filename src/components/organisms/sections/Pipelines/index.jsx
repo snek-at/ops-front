@@ -59,11 +59,7 @@ class Pipelines extends React.Component {
       this.setState({
         pipelines: this.props.pipelines,
       });
-    } else if (
-      this.props.pipelines &&
-      !this.state.pipelines &&
-      this.state.refetch
-    ) {
+    } else if (this.props.pipelines && this.state.refetch) {
       this.setState(
         {
           refetch: false,
