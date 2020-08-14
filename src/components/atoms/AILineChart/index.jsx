@@ -94,9 +94,6 @@ class AILineChart extends React.Component {
         });
       });
 
-      const colors = results.map((val) =>
-        val.total < 0 ? "#f0f0f0" : "#77bd43"
-      );
       const dates = results.map((val) => val.date);
       const contribs = results.map((val, i) =>
         i > 0 && i < results.length - 1
@@ -112,7 +109,7 @@ class AILineChart extends React.Component {
             datasets: [
               {
                 data: contribs,
-                borderColor: colors,
+                borderColor: "#77bd43",
                 fill: false,
                 borderWidth: 1,
                 lineTension: 0.4,

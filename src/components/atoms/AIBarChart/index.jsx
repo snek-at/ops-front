@@ -27,10 +27,15 @@ class AIBarChart extends React.Component {
       scales: {
         xAxes: [
           {
-            display: false,
+            display: true,
             barPercentage: 1,
             gridLines: {
               display: true,
+              color: "transparent",
+              display: true,
+              drawBorder: false,
+              zeroLineColor: "#ededed",
+              zeroLineWidth: 1,
             },
             ticks: {
               display: false,
@@ -42,7 +47,6 @@ class AIBarChart extends React.Component {
             gridLines: {
               display: true,
               color: "transparent",
-              display: true,
               drawBorder: false,
               zeroLineColor: "#ededed",
               zeroLineWidth: 1,

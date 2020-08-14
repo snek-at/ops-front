@@ -163,7 +163,7 @@ class PageProjects extends React.Component {
                     ) : (
                       <AIBarChart
                         data={project.mergedCodetransition}
-                        key={"project-chart-" + p}
+                        key={"project-chart-bar-" + p}
                       />
                     )}
                   </div>
