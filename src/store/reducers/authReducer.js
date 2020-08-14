@@ -1,7 +1,7 @@
 // Have initial state when state is not ready to be passed
 const initState = {
   user: null,
-  authenticated: false,
+  authenticated: undefined,
   error: null,
 };
 

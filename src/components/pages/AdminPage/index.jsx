@@ -96,7 +96,7 @@ class HomePage extends React.Component {
   render() {
     const { authenticated } = this.props;
 
-    if (!authenticated) {
+    if (authenticated === false) {
       return <Redirect to="/" />;
     }
 
