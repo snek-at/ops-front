@@ -160,7 +160,6 @@ class Pipelines extends React.Component {
               this.setState({
                 modal: true,
                 selectedPipeline: {
-                  token: "token from Wagtail pipeline block",
                   isActive: true,
                 },
                 addPipeline: true,
@@ -249,6 +248,7 @@ class Pipelines extends React.Component {
                 type="text"
                 disabled
                 className="form-control"
+                placeholder="Generated after saving..."
                 value={this.state.selectedPipeline.token}
               />
               <MDBRow className="mb-3 mt-2">
