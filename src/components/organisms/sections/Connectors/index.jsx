@@ -523,7 +523,7 @@ class Connectors extends React.Component {
                 <MDBCol lg="6">
                   <AICheckbox
                     name="isHashed"
-                    label="Use encryption"
+                    label="Anonymization"
                     checked={
                       this.state.selectedConnector.settings
                         ? this.state.selectedConnector.settings.shared.isHashed
