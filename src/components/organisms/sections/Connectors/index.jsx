@@ -150,6 +150,7 @@ class Connectors extends React.Component {
               shared: this.state.selectedConnector.settings.shared
                 ? {
                     ...this.state.selectedConnector.settings.shared,
+                    [name]: val,
                     companyData: {
                       ...this.state.selectedConnector.settings.shared
                         .companyData,
