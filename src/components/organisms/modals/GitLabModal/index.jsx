@@ -116,16 +116,20 @@ class ProjectModal extends React.Component {
                 handleChange={this.handleGitLabChange}
                 key="url"
               />
-              <hr />
-              <AIInput
-                title="Authentication"
-                description="Please enter the gitlab access token"
-                name="token"
-                placeholder="Token"
-                value={this.state.selectedGitLab.token}
-                handleChange={this.handleGitLabChange}
-                key="token"
-              />
+              {!this.state.selectedGitLab.token && (
+                <>
+                  <hr />
+                  <AIInput
+                    title="Authentication"
+                    description="Please enter the gitlab access token"
+                    name="token"
+                    placeholder="Token"
+                    value={this.state.selectedGitLab.token}
+                    handleChange={this.handleGitLabChange}
+                    key="token"
+                  />
+                </>
+              )}
               <hr />
               <MDBRow className="mt-3">
                 <MDBCol lg="6">

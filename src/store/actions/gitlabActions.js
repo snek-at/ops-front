@@ -13,7 +13,6 @@ export const getGitLabs = () => {
             id: entry.id,
             isIDC: entry.privilegesMode === "IDC" ? true : false,
             isActive: entry.active,
-            token: entry.token,
             enterprisePage: {
               name: entry.enterprisePage.title,
               handle: entry.enterprisePage.slug,
@@ -178,7 +177,6 @@ export const alterGitlab = (handle, newGitLab) => {
             ? alterGitlab.alteredGitLab
             : "description",
           enterprisePageSlug: alteredGitLab.enterprisePage.handle,
-          gitlabToken: alteredGitLab.token,
           name: alteredGitLab.name ? alteredGitLab.name : "not set",
           privilegesMode: alteredGitLab.isIDC ? "IDC" : "POLP",
           url: alteredGitLab.url,
