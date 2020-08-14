@@ -64,10 +64,7 @@ class GitLabs extends React.Component {
 
     // Searches for search value in title, domain and org
     let results = gitlabs.filter((gitlab) => {
-      if (
-        this.unifyString(gitlab.url).includes(val) ||
-        this.unifyString(gitlab.mode).includes(val)
-      ) {
+      if (this.unifyString(gitlab.url).includes(val)) {
         return gitlab;
       }
     });
@@ -94,7 +91,7 @@ class GitLabs extends React.Component {
             <h2>GitLabs</h2>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
+              Connect your GitLab instances to receive information about it.
             </p>
           </div>
           <div>

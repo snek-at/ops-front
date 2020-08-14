@@ -140,7 +140,7 @@ class Pipelines extends React.Component {
             <h2>Pipelines</h2>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
+              Connect your pipeline plugins to retrieve data from GitLab CI.
             </p>
           </div>
           <div>

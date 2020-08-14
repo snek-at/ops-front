@@ -43,7 +43,7 @@ export const getPageByHandle = (handle) => {
         const results = [
           {
             /* 1 = Heavy, 2 = Moderate, 3 = Light, 4 = Open */
-            restrictionLevel: 2,
+            restrictionLevel: 0,
             milestones: [
               {
                 date: "11.11.2017",
@@ -522,17 +522,17 @@ export const publishPage = (handle) => {
     const intel = getIntel();
 
     intel.snekclient.session.begin();
-    intel.publishEnterprisePageViaConnector({ connectorId: handle }).then((result) => {
-      // Success / Error dispatch
+    intel
+      .publishEnterprisePageViaConnector({ connectorId: handle })
+      .then((result) => {
+        // Success / Error dispatch
 
-      if (result) {
-        // dispatch success
-      } else {
-        // dispatch failure
-      }
-    })
-
-
+        if (result) {
+          // dispatch success
+        } else {
+          // dispatch failure
+        }
+      });
   };
 };
 

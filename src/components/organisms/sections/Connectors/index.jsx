@@ -185,7 +185,14 @@ class Connectors extends React.Component {
             <h2>Connectors</h2>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
-              You decide what information you share.
+              Connect to share information to{" "}
+              <a
+                href="https://www.snek.at"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                snek.at
+              </a>
             </p>
           </div>
           <div>

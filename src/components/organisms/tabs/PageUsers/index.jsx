@@ -99,7 +99,7 @@ class PageUsers extends React.Component {
             <p className="lead font-weight-bold mb-0">User Overview</p>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
+              All enterprise users.
             </p>
           </div>
           <div></div>

@@ -114,7 +114,7 @@ class PageProjects extends React.Component {
             <p className="lead font-weight-bold mb-0">Project Overview</p>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
+              All enterprise projects.
             </p>
           </div>
           <div>
