@@ -277,6 +277,7 @@ class Page extends React.Component {
                             color="green"
                             size="md"
                             onClick={() => this.setState({ reAuth: true })}
+                            disabled={!page.company.connectorHandle}
                           >
                             Publish
                           </MDBBtn>
