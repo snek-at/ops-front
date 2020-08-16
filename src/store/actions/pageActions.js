@@ -117,7 +117,7 @@ export const getPageByHandle = (handle) => {
             ],
             company: {
               name: companyData.name,
-              connectorHandle: companyData.assocConnectors[0].id,
+              connectorHandle: companyData.assocConnectors[0]?.id,
               handle: companyData.handle,
               description: companyData.description
                 ? companyData.description
