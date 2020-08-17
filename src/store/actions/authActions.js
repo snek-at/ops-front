@@ -4,16 +4,14 @@ export const loginUser = (user) => {
     const intel = getIntel();
     const session = intel.snekclient.session;
 
-    session.begin()
+    session.begin();
 
     return session
       .begin(user)
       .then((whoami) => {
-        if (whoami?.__typename !== "SNEKUser") {
-          throw Error("Login Failed");
-        }
-        if (whoami?.anonymous === false) {
-          console.log(whoami);
+        console.log(whoami)
+        if (!whoami?.anonymous && whoami?.__typename === "SNEKUser") {
+          console.log("dispatch success")
           dispatch({
             type: "LOGIN_SUCCESS",
             payload: {
@@ -22,11 +20,13 @@ export const loginUser = (user) => {
               },
             },
           });
-        } else {
+        } else if (whoami?.anonymous) {
           dispatch({
             type: "LOGIN_ANON_SUCCESS",
             payload: {},
           });
+        } else {
+          throw Error("Login Failed");
         }
       })
       .catch((ex) =>
@@ -51,27 +51,29 @@ export const authenticate = (password) => {
     if (
       getState().auth.user &&
       getState().auth.user.username &&
-      password === "cisco"
+      password === "ciscocisco"
     ) {
-      dispatch({
-        type: "AUTH_SUCCESS",
-        payload: {
-          data: true,
-        },
-      });
+      return true;
     } else {
+      return false;
+    }
+  };
+};
+
+// Logout
+export const logout = () => {
+  return (dispatch, getState, { getIntel }) => {
+    const intel = getIntel();
+    const session = intel.snekclient.session;
+
+    session.end().then(() => {
       dispatch({
-        type: "AUTH_FAIL",
+        type: "LOGOUT_SUCCESS",
         payload: {
-          data: false,
-          error: {
-            code: 751,
-            message: "Auth failed for user.",
-            origin: "auth",
-          },
+          data: null,
         },
       });
-    }
+    });
   };
 };
 

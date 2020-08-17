@@ -16,6 +16,7 @@ class AIInput extends React.Component {
       placeholder,
       value,
       className,
+      error,
     } = this.props;
 
     if (type !== "textarea") {
@@ -40,7 +41,7 @@ class AIInput extends React.Component {
                   : e.target.value
               )
             }
-            className="form-control"
+            className={error ? "form-control is-invalid" : "form-control"}
           />
         </div>
       );

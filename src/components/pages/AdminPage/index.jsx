@@ -2,9 +2,11 @@
 //> React
 // Contains all the functionality necessary to define React components
 import React from "react";
+// Router DOM bindings
+import { Redirect } from "react-router-dom";
 //> MDB
 // "Material Design for Bootstrap" is a great UI design framework
-import { MDBContainer } from "mdbreact";
+import { MDBContainer, MDBSpinner } from "mdbreact";
 //> Components
 // Molecules
 import { SideNav } from "../../molecules";
@@ -12,12 +14,15 @@ import { SideNav } from "../../molecules";
 import {
   Page,
   Pipelines,
-  User,
-  Project,
   GitLabs,
   Connectors,
   Permissions,
+  Dashboard,
 } from "../../organisms";
+//> Redux
+// Allows React components to read data, update data and dispatch actions
+// from/to a Redux store.
+import { connect } from "react-redux";
 //> Images
 // Too be added
 //#endregion
@@ -61,12 +66,21 @@ class HomePage extends React.Component {
   navigateTo = (page, handle) => {
     console.log(page, handle);
 
-    this.setState(
-      {
-        page: `${page}-${handle}`,
-      },
-      () => localStorage.setItem("nav", `${page}-${handle}`)
-    );
+    if (handle) {
+      this.setState(
+        {
+          page: `${page}-${handle}`,
+        },
+        () => localStorage.setItem("nav", `${page}-${handle}`)
+      );
+    } else {
+      this.setState(
+        {
+          page: `${page}`,
+        },
+        () => localStorage.setItem("nav", `${page}`)
+      );
+    }
   };
 
   renderPages = (selectedPage) => {
@@ -80,6 +94,12 @@ class HomePage extends React.Component {
   };
 
   render() {
+    const { authenticated } = this.props;
+
+    if (!authenticated) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div>
         <SideNav
@@ -99,9 +119,7 @@ class HomePage extends React.Component {
             {(() => {
               switch (this.state.page) {
                 case "dashboard":
-                  return <p>Dashboard</p>;
-                case "pages":
-                  return <p>Pages</p>;
+                  return <Dashboard navigateTo={this.navigateTo} />;
                 case "permissions":
                   return <Permissions />;
                 case "connectors":
@@ -111,7 +129,11 @@ class HomePage extends React.Component {
                 case "gitlabs":
                   return <GitLabs />;
                 case "logout":
-                  return <p>Logout</p>;
+                  return (
+                    <div className="flex-center">
+                      <MDBSpinner />
+                    </div>
+                  );
                 default:
                   return this.renderPages(this.state.page);
               }
@@ -124,8 +146,21 @@ class HomePage extends React.Component {
 }
 //#endregion
 
+//#region > Redux Mapping
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+});
+//#endregion
+
 //#region > Exports
-export default HomePage;
+/**
+ * Provides its connected component with the pieces of the data it needs from
+ * the store, and the functions it can use to dispatch actions to the store.
+ *
+ * Got access to the history object’s properties and the closest
+ * <Route>'s match.
+ */
+export default connect(mapStateToProps)(HomePage);
 //#endregion
 
 /**

@@ -18,6 +18,7 @@ import {
   MDBRow,
   MDBCol,
   MDBSpinner,
+  MDBBtn,
 } from "mdbreact";
 //> Additional
 // Everything time related
@@ -28,6 +29,7 @@ import moment from "moment";
 import { getUsers } from "../../../../store/actions/pageActions";
 //> Components
 import { UserModal } from "../../";
+import { AIBarChart, AILineChart } from "../../../atoms";
 //> CSS
 import "./pageusers.scss";
 //> Images
@@ -37,7 +39,7 @@ import "./pageusers.scss";
 //#region > Components
 /** @class This component displays page overview of the page section */
 class PageUsers extends React.Component {
-  state = { users: null, modal: false };
+  state = { users: null, modal: false, chartType: "line" };
 
   componentDidMount = () => {
     this.props.getUsers();
@@ -99,12 +101,26 @@ class PageUsers extends React.Component {
             <p className="lead font-weight-bold mb-0">User Overview</p>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
+              All enterprise users.
             </p>
           </div>
-          <div></div>
+          <div>
+            <MDBBtn
+              color={this.state.chartType === "line" ? "green" : "elegant"}
+              size="sm"
+              onClick={() => this.setState({ chartType: "line" })}
+            >
+              Commits
+            </MDBBtn>
+            <MDBBtn
+              color={this.state.chartType === "bar" ? "green" : "elegant"}
+              size="sm"
+              onClick={() => this.setState({ chartType: "bar" })}
+            >
+              Lines
+            </MDBBtn>
+          </div>
         </div>
-
         <MDBListGroup>
           {users ? (
             users.map((user, p) => {
@@ -119,7 +135,11 @@ class PageUsers extends React.Component {
                   <div className="d-flex align-items-center">
                     <MDBAvatar className="white mr-2">
                       <img
-                        src={user.avatar}
+                        src={
+                          user.avatar
+                            ? user.avatar
+                            : "https://octodex.github.com/images/nyantocat.gif"
+                        }
                         alt={user.name}
                         className="rounded-circle img-fluid"
                       />
@@ -129,8 +149,18 @@ class PageUsers extends React.Component {
                       <p className="small text-muted mb-0">{user.username}</p>
                     </div>
                   </div>
-                  <div className="d-flex align-items-center justify-content-center">
-                    Chart
+                  <div className="canvas-container">
+                    {this.state.chartType === "line" ? (
+                      <AILineChart
+                        data={user.mergedContributionFeed}
+                        key={"project-chart-" + p}
+                      />
+                    ) : (
+                      <AIBarChart
+                        data={user.mergedCodetransition}
+                        key={"project-chart-bar-" + p}
+                      />
+                    )}
                   </div>
                 </MDBListGroupItem>
               );

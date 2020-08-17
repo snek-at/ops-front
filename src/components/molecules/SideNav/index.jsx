@@ -18,6 +18,7 @@ import { MDBIcon } from "mdbreact";
 //> Actions
 // Functions to send data from the application to the store
 import { getPageNames } from "../../../store/actions/pageActions";
+import { logout } from "../../../store/actions/authActions";
 //> CSS
 // Basic adjustments
 import "./sidenav.scss";
@@ -143,7 +144,11 @@ class SideNavbar extends React.Component {
               </NavItem>
             );
           })}
-          <NavItem eventKey="logout" className="item-bottom">
+          <NavItem
+            eventKey="logout"
+            className="item-bottom"
+            onClick={() => this.props.logout()}
+          >
             <NavIcon className="flex-center d-flex">
               <MDBIcon icon="door-open" size="lg" />
             </NavIcon>
@@ -164,6 +169,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getPageNames: () => dispatch(getPageNames()),
+    logout: () => dispatch(logout()),
   };
 };
 //#endregion

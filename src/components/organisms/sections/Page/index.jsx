@@ -29,11 +29,18 @@ import {
   MDBNavLink,
   MDBNavItem,
   MDBSpinner,
+  MDBModal,
+  MDBModalBody,
+  MDBAlert,
 } from "mdbreact";
 
 //> Actions
 // Functions to send data from the application to the store
-import { getPageByHandle } from "../../../../store/actions/pageActions";
+import {
+  getPageByHandle,
+  publishPage,
+} from "../../../../store/actions/pageActions";
+import { authenticate } from "../../../../store/actions/authActions";
 //> Components
 import { PageOverview, PageProjects, PageUsers, PageImprint } from "../../";
 //> CSS
@@ -73,10 +80,8 @@ class Page extends React.Component {
   };
 
   componentDidMount = () => {
-    // Retrieve Pipelines
-    if (!this.props.page) {
-      this.props.getPageByHandle(this.props.handle);
-    }
+    // Retrieve Page
+    this.props.getPageByHandle(this.props.handle);
   };
 
   componentDidUpdate = () => {
@@ -92,6 +97,13 @@ class Page extends React.Component {
         page: this.props.page,
       });
     }
+  };
+
+  // Toogle reauth
+  toggleModal = () => {
+    this.setState({
+      reAuth: false,
+    });
   };
 
   // Toggle the visible tab
@@ -152,11 +164,14 @@ class Page extends React.Component {
                       </p>
                     </div>
                     <div>
-                      <MDBBtn color="indigo" outline>
+                      {/*<MDBBtn color="indigo" outline>
                         <MDBIcon icon="eye" />
                         View as public
-                      </MDBBtn>
-                      <MDBBtn color="indigo">
+                      </MDBBtn>*/}
+                      <MDBBtn
+                        color="indigo"
+                        onClick={() => this.props.navigateTo("connectors")}
+                      >
                         <MDBIcon icon="key" />
                         Edit
                       </MDBBtn>
@@ -242,7 +257,7 @@ class Page extends React.Component {
                   <MDBRow className="d-flex align-items-center">
                     <MDBCol lg="2">
                       <img
-                        src="https://avatars1.githubusercontent.com/u/50574311?s=200"
+                        src="https://www.htl-villach.at/typo3conf/ext/htl_villach/Resources/Public/Images/htl_logo_box.svg"
                         alt="Company logo"
                         className="img-fluid"
                       />
@@ -258,8 +273,13 @@ class Page extends React.Component {
                           </p>
                         </div>
                         <div className="d-flex">
-                          <MDBBtn color="green" size="md">
-                            Nice button
+                          <MDBBtn
+                            color="green"
+                            size="md"
+                            onClick={() => this.setState({ reAuth: true })}
+                            disabled={!page.company.connectorHandle}
+                          >
+                            Publish
                           </MDBBtn>
                         </div>
                       </div>
@@ -344,27 +364,38 @@ class Page extends React.Component {
                 className="card"
                 activeItem={this.state.activeItem}
               >
-                <MDBTabPane tabId={0} role="tabpanel">
-                  <PageOverview
-                    filter={this.state.globalFilter}
-                    feed={page.company?.enterpriseContributionFeed}
-                  />
-                </MDBTabPane>
-                <MDBTabPane tabId={1} role="tabpanel">
-                  <PageProjects
-                    filter={this.state.globalFilter}
-                    navigateTo={this.props.navigateTo}
-                  />
-                </MDBTabPane>
-                <MDBTabPane tabId={2} role="tabpanel">
-                  <PageUsers
-                    filter={this.state.globalFilter}
-                    navigateTo={this.props.navigateTo}
-                  />
-                </MDBTabPane>
-                <MDBTabPane tabId={3} role="tabpanel">
-                  <PageImprint />
-                </MDBTabPane>
+                {this.state.activeItem === 0 && (
+                  <MDBTabPane tabId={0} role="tabpanel">
+                    <PageOverview
+                      filter={this.state.globalFilter}
+                      feed={page.company?.enterpriseContributionFeed}
+                      mergedFeed={
+                        page.company?.mergedEnterpriseContributionFeed
+                      }
+                    />
+                  </MDBTabPane>
+                )}
+                {this.state.activeItem === 1 && (
+                  <MDBTabPane tabId={1} role="tabpanel">
+                    <PageProjects
+                      filter={this.state.globalFilter}
+                      navigateTo={this.props.navigateTo}
+                    />
+                  </MDBTabPane>
+                )}
+                {this.state.activeItem === 2 && (
+                  <MDBTabPane tabId={2} role="tabpanel">
+                    <PageUsers
+                      filter={this.state.globalFilter}
+                      navigateTo={this.props.navigateTo}
+                    />
+                  </MDBTabPane>
+                )}
+                {this.state.activeItem === 3 && (
+                  <MDBTabPane tabId={3} role="tabpanel">
+                    <PageImprint />
+                  </MDBTabPane>
+                )}
               </MDBTabContent>
             </MDBCol>
           </MDBRow>
@@ -372,6 +403,43 @@ class Page extends React.Component {
           <div className="flex-center">
             <MDBSpinner />
           </div>
+        )}
+        {this.state.reAuth && (
+          <MDBModal isOpen={true} toggle={this.toggleModal} size="sm">
+            <MDBModalBody>
+              <p>To continue, type an administrator password.</p>
+              {this.state.reAuthError && (
+                <MDBAlert color="danger">
+                  The password you have entered is wrong.
+                </MDBAlert>
+              )}
+              <input
+                type="password"
+                className="form-control"
+                value={this.state.password}
+                onChange={(e) => this.setState({ password: e.target.value })}
+              />
+              <MDBBtn
+                color="elegant"
+                size="md"
+                onClick={async () => {
+                  const result = await this.props.authenticate(
+                    this.state.password
+                  );
+
+                  if (result) {
+                    this.setState({ reAuth: false }, () =>
+                      this.props.publishPage(page.company.connectorHandle)
+                    );
+                  } else {
+                    this.setState({ reAuthError: true });
+                  }
+                }}
+              >
+                Authenticate
+              </MDBBtn>
+            </MDBModalBody>
+          </MDBModal>
         )}
       </MDBContainer>
     );
@@ -387,6 +455,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getPageByHandle: (handle) => dispatch(getPageByHandle(handle)),
+    authenticate: (password) => dispatch(authenticate(password)),
+    publishPage: (handle) => dispatch(publishPage(handle)),
   };
 };
 //#endregion

@@ -247,7 +247,7 @@ class Permissions extends React.Component {
           <h2>Permissions</h2>
           <p className="text-muted small">
             <MDBIcon icon="question-circle" className="mr-2" />
-            Lorem Ipsum Dolor sit amet.
+            Manage access and permissions.
           </p>
         </div>
         <MDBNav tabs className="d-flex justify-content-between">
@@ -348,7 +348,7 @@ class Permissions extends React.Component {
             </MDBListGroup>
           </MDBTabPane>
           <MDBTabPane tabId={1} role="tabpanel">
-            <div className="text-right mb-3">
+            {/*<div className="text-right mb-3">
               <MDBBtn
                 color="green"
                 className="mr-0"
@@ -363,22 +363,14 @@ class Permissions extends React.Component {
               >
                 Add group
               </MDBBtn>
-            </div>
+            </div>*/}
             <MDBListGroup>
               {groups &&
                 groups.map((group, p) => {
                   return (
                     <MDBListGroupItem
-                      className="d-flex justify-content-between align-items-center clickable"
+                      className="d-flex justify-content-between align-items-center"
                       key={p}
-                      onClick={() =>
-                        this.setState({
-                          modal: true,
-                          selectedGroup: group,
-                          addGroup: false,
-                          type: "group",
-                        })
-                      }
                     >
                       <div>
                         <p className="lead mb-0">{group.title}</p>

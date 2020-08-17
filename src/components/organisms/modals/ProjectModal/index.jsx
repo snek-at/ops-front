@@ -30,7 +30,7 @@ import {
   clearSelection,
 } from "../../../../store/actions/pageActions";
 //> Components
-import { AIBarChart } from "../../../atoms";
+import { AIBarChart, AILineChart } from "../../../atoms";
 //#endregion
 
 //#region > Components
@@ -51,7 +51,6 @@ class ProjectModal extends React.Component {
       (this.props.project && !this.state.project) ||
       (this.state.project && this.state.project.id !== this.props.id)
     ) {
-      console.log(this.props.project);
       this.setState({
         project: this.props.project,
       });
@@ -60,8 +59,6 @@ class ProjectModal extends React.Component {
 
   render() {
     const { project } = this.state;
-
-    console.log(project);
 
     return (
       <MDBModal isOpen={true} toggle={this.props.toggle} size="lg">
@@ -118,11 +115,44 @@ class ProjectModal extends React.Component {
                 </MDBCol>
                 <MDBCol lg="8" className="activity">
                   <p className="lead font-weight-bold">Activity</p>
-                  <MDBCard className="border">
-                    <MDBCardBody>
-                      <AIBarChart data={this.props.chart} size={100} />
-                    </MDBCardBody>
-                  </MDBCard>
+                  <div className="text-right">
+                    {this.props.chart &&
+                      this.props.chart.years.map((year, y) => {
+                        return (
+                          <p
+                            className={
+                              this.state.selectedYearIndex === y
+                                ? "blue-text clickable mx-2 d-inline-block"
+                                : "text-muted clickable mx-2 d-inline-block"
+                            }
+                            onClick={() =>
+                              this.setState({ selectedYearIndex: y })
+                            }
+                          >
+                            {moment(year.endDate).format("YYYY")}
+                          </p>
+                        );
+                      })}
+                    <p
+                      className={
+                        this.state.selectedYearIndex === undefined
+                          ? "blue-text clickable mx-2 d-inline-block"
+                          : "text-muted clickable mx-2 d-inline-block"
+                      }
+                      onClick={() =>
+                        this.setState({ selectedYearIndex: undefined })
+                      }
+                    >
+                      Current
+                    </p>
+                  </div>
+                  <div className="canvas-container-modal">
+                    <AILineChart
+                      data={this.props.chart}
+                      year={this.state.selectedYearIndex}
+                      key="overview-chart"
+                    />
+                  </div>
                   <p className="lead font-weight-bold mt-3">History</p>
                   <MDBCard className="border">
                     <MDBCardBody>

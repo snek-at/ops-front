@@ -7,6 +7,7 @@ import Pipelines from "./sections/Pipelines";
 import GitLabs from "./sections/GitLabs";
 import Connectors from "./sections/Connectors";
 import Permissions from "./sections/Permissions";
+import Dashboard from "./sections/Dashboard";
 // Tabs
 import PageOverview from "./tabs/PageOverview";
 import PageProjects from "./tabs/PageProjects";
@@ -28,6 +29,7 @@ export {
   GitLabs,
   Connectors,
   Permissions,
+  Dashboard,
   /* Tabs */
   PageOverview,
   PageProjects,

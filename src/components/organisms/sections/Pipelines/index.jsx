@@ -59,11 +59,7 @@ class Pipelines extends React.Component {
       this.setState({
         pipelines: this.props.pipelines,
       });
-    } else if (
-      this.props.pipelines &&
-      !this.state.pipelines &&
-      this.state.refetch
-    ) {
+    } else if (this.props.pipelines && this.state.refetch) {
       this.setState(
         {
           refetch: false,
@@ -144,7 +140,7 @@ class Pipelines extends React.Component {
             <h2>Pipelines</h2>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
+              Connect your pipeline plugins to retrieve data from GitLab CI.
             </p>
           </div>
           <div>
@@ -164,7 +160,6 @@ class Pipelines extends React.Component {
               this.setState({
                 modal: true,
                 selectedPipeline: {
-                  token: "token from Wagtail pipeline block",
                   isActive: true,
                 },
                 addPipeline: true,
@@ -253,6 +248,7 @@ class Pipelines extends React.Component {
                 type="text"
                 disabled
                 className="form-control"
+                placeholder="Generated after saving..."
                 value={this.state.selectedPipeline.token}
               />
               <MDBRow className="mb-3 mt-2">

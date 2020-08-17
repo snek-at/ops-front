@@ -108,24 +108,38 @@ class ProjectModal extends React.Component {
                 </MDBBtn>
               </div>
               <AIInput
-                title="URL"
+                title="Address"
                 description="Enter the GitLab IP or domain."
                 name="url"
-                placeholder="GitLab URL"
+                placeholder="https://gitlab.domain.com/api/v4"
                 value={selectedGitLab.url}
+                error={
+                  this.state.error && !selectedGitLab.url
+                    ? "Please enter a GitLab address"
+                    : false
+                }
                 handleChange={this.handleGitLabChange}
                 key="url"
               />
-              <hr />
-              <AIInput
-                title="Authentication"
-                description="Please enter the gitlab access token"
-                name="token"
-                placeholder="Token"
-                value={this.state.selectedGitLab.token}
-                handleChange={this.handleGitLabChange}
-                key="token"
-              />
+              {addGitLab && (
+                <>
+                  <hr />
+                  <AIInput
+                    title="Authentication"
+                    description="Please enter the gitlab access token"
+                    name="token"
+                    placeholder="Personal Access Token"
+                    value={selectedGitLab.token}
+                    error={
+                      this.state.error && !selectedGitLab.token
+                        ? "Please enter a GitLab access token"
+                        : false
+                    }
+                    handleChange={this.handleGitLabChange}
+                    key="token"
+                  />
+                </>
+              )}
               <hr />
               <MDBRow className="mt-3">
                 <MDBCol lg="6">
@@ -307,14 +321,31 @@ class ProjectModal extends React.Component {
                     size="md"
                     onClick={() => {
                       if (!addGitLab) {
+                        this.props.toggle();
                         this.props.alterGitlab(
                           selectedGitLab.id,
                           selectedGitLab
                         );
                       } else {
-                        this.props.createGitlab(selectedGitLab);
+                        if (
+                          this.state.selectedGitLab.url &&
+                          this.state.selectedGitLab.token
+                        ) {
+                          this.setState(
+                            {
+                              error: false,
+                            },
+                            () => {
+                              this.props.toggle();
+                              this.props.createGitlab(selectedGitLab);
+                            }
+                          );
+                        } else {
+                          this.setState({
+                            error: true,
+                          });
+                        }
                       }
-                      this.props.toggle();
                     }}
                   >
                     <MDBIcon icon="check-circle" />

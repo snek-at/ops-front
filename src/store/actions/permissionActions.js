@@ -6,13 +6,13 @@ export const getAllUsers = () => {
       {
         /* Wagtail uid */
         id: "296f9448212b537473769a5ded79fc6a658d4a3b2bcbc2cd762ea817f125ec10",
-        full_name: "Florian Schett",
-        username: "schettf",
+        full_name: "Administrator",
+        username: "snekmin",
         groups: [
           /* Admin */
           "418a6dcfe4fbf7c194efac9b37cc0395241dd2590049477dc47950069fd6cb0c",
-          /* Moderator */
-          "41bc06a11bee0f62f9ce469ebe6659f4587f9b88cfad4f3bf5c3261e4d7e5d76",
+          // /* Moderator */
+          // "41bc06a11bee0f62f9ce469ebe6659f4587f9b88cfad4f3bf5c3261e4d7e5d76",
         ],
         isActive: true,
         status: {
@@ -25,8 +25,8 @@ export const getAllUsers = () => {
       {
         /* Wagtail uid */
         id: "3ae093f08af3622a290e81a33fbe50e052f12c765253d84ac85155a8f70e075d",
-        full_name: "Nico Kleber",
-        username: "klebern",
+        full_name: "Nico Schett",
+        username: "sct",
         groups: [
           /* Moderator */
           "41bc06a11bee0f62f9ce469ebe6659f4587f9b88cfad4f3bf5c3261e4d7e5d76",

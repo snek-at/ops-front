@@ -150,6 +150,7 @@ class Connectors extends React.Component {
               shared: this.state.selectedConnector.settings.shared
                 ? {
                     ...this.state.selectedConnector.settings.shared,
+                    [name]: val,
                     companyData: {
                       ...this.state.selectedConnector.settings.shared
                         .companyData,
@@ -185,7 +186,14 @@ class Connectors extends React.Component {
             <h2>Connectors</h2>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
-              You decide what information you share.
+              Connect to share information to{" "}
+              <a
+                href="https://www.snek.at"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                snek.at
+              </a>
             </p>
           </div>
           <div>
@@ -304,7 +312,7 @@ class Connectors extends React.Component {
                 title="Authentication"
                 description="Please enter the connector token"
                 name="token"
-                placeholder="Token"
+                placeholder="Connector Access Token"
                 value={this.state.selectedConnector.token}
                 handleChange={this.handleConnectorChange}
                 key="token"
@@ -515,6 +523,22 @@ class Connectors extends React.Component {
                     }
                     handleChange={(val) =>
                       this.handleSettingsChange("projects", val)
+                    }
+                  />
+                </MDBCol>
+              </MDBRow>
+              <MDBRow className="mt-3">
+                <MDBCol lg="6">
+                  <AICheckbox
+                    name="isHashed"
+                    label="Anonymization"
+                    checked={
+                      this.state.selectedConnector.settings
+                        ? this.state.selectedConnector.settings.shared.isHashed
+                        : false
+                    }
+                    handleChange={(val) =>
+                      this.handleSettingsChange("isHashed", val)
                     }
                   />
                 </MDBCol>

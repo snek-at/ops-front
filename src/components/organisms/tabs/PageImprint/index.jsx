@@ -93,7 +93,7 @@ class PageImprint extends React.Component {
             <p className="lead font-weight-bold mb-0">Imprint</p>
             <p className="text-muted small">
               <MDBIcon icon="question-circle" className="mr-2" />
-              Lorem Ipsum Dolor sit amet.
+              Manage your enterprise imprint
             </p>
           </div>
           <div>

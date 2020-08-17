@@ -6,12 +6,12 @@ import React from "react";
 // "Material Design for Bootstrap" is a great UI design framework
 import { MDBInput } from "mdbreact";
 //> Charts
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 //#endregion
 
 //#region > Components
 /** @class Contrib add/sub chart */
-class AIBarChart extends React.Component {
+class AILineChart extends React.Component {
   state = {
     dataBar: {
       labels: Array.from(Array(200).keys()),
@@ -22,31 +22,36 @@ class AIBarChart extends React.Component {
       legend: {
         display: false,
       },
+      elements: {
+        point: {
+          radius: 0,
+        },
+      },
       events: [],
       maintainAspectRatio: false,
       scales: {
         xAxes: [
           {
-            display: true,
             barPercentage: 1,
             gridLines: {
-              display: true,
+              display: false,
               color: "transparent",
-              display: true,
               drawBorder: false,
               zeroLineColor: "#ededed",
-              zeroLineWidth: 1,
             },
             ticks: {
               display: false,
+              autoSkip: false,
+              maxRotation: 0,
+              minRotation: 0,
             },
           },
         ],
         yAxes: [
           {
             gridLines: {
-              display: true,
               color: "transparent",
+              display: true,
               drawBorder: false,
               zeroLineColor: "#ededed",
               zeroLineWidth: 1,
@@ -62,33 +67,58 @@ class AIBarChart extends React.Component {
   };
 
   componentDidMount = () => {
+    this.init();
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.year !== this.props.year) {
+      this.init();
+    }
+  };
+
+  init = () => {
     const data = this.props.data;
 
+    console.log("DATAAAAA", data);
+
     if (data) {
+      const year = this.props.year;
+      const weeks =
+        year !== undefined ? data.years[year].weeks : data.current.weeks;
+
       let results = [];
 
-      data.current.weeks.forEach((week, w) => {
+      weeks.forEach((week, w) => {
         week.days.forEach((day, d) => {
           results = [...results, { total: day.total, date: day.date }];
         });
       });
 
-      const colors = results.map((val) =>
-        val.total === 0 ? "#f0f0f0" : "#77bd43"
-      );
       const dates = results.map((val) => val.date);
-      const contribs = results.map((val, i) => val.total);
+      const contribs = results.map((val, i) =>
+        i > 0 && i < results.length - 1
+          ? (val.total + results[i - 1].total + results[i + 1].total) / 3
+          : val.total
+      );
 
-      this.setState({
-        dataBar: {
-          ...this.state.dataBar,
-          labels: dates,
-          datasets: [
-            ...this.state.dataBar.datasets,
-            { data: contribs, backgroundColor: colors },
-          ],
+      this.setState(
+        {
+          dataBar: {
+            ...this.state.dataBar,
+            labels: dates,
+            datasets: [
+              {
+                data: contribs,
+                borderColor: "#77bd43",
+                fill: false,
+                borderWidth: 1,
+                lineTension: 0.4,
+              },
+            ],
+          },
         },
-      });
+        () => console.log(this.state)
+      );
     }
   };
 
@@ -96,18 +126,14 @@ class AIBarChart extends React.Component {
     const { size } = this.props;
 
     return (
-      <Bar
-        data={this.state.dataBar}
-        options={this.state.barChartOptions}
-        height={size}
-      />
+      <Line data={this.state.dataBar} options={this.state.barChartOptions} />
     );
   }
 }
 //#endregion
 
 //#region > Exports
-export default AIBarChart;
+export default AILineChart;
 //#endregion
 
 /**
