@@ -12,8 +12,11 @@ import { loadingBarMiddleware } from "react-redux-loading-bar";
 import { Provider } from "react-redux";
 // Thunk
 import thunk from "redux-thunk";
+//> Client
+import { SnekClient } from "snek-client";
+
 //> Intel
-import OpsProvider from "snek-intel/lib/utils/ops";
+import INTEL_ENTERPRISE from "snek-intel/lib/utils/enterprise";
 
 //> Font Awesome
 // Font Awesome is an awesome icon library
@@ -37,8 +40,7 @@ import registerServiceWorker from "./registerServiceWorker";
 //#endregion
 
 //#region > Redux Store Initialization
-const OPS_PROVIDER = new OpsProvider("http://localhost:8000/graphql");
-
+const CLIENT_SNEK = new SnekClient("http://localhost:8000/graphql");
 //#TODO
 // Must be moved to INTEL in future?
 //const getIntel = () => {
@@ -47,9 +49,6 @@ const OPS_PROVIDER = new OpsProvider("http://localhost:8000/graphql");
 
 //#TODO
 // This is only a placeholder. Intel not required in OPS.
-const getIntel = () => {
-  return OPS_PROVIDER;
-};
 
 const composeEnhancers =
   typeof window === "object" &&
@@ -65,7 +64,7 @@ const enhancer = composeEnhancers(
     loadingBarMiddleware(),
     thunk.withExtraArgument({
       // Intel
-      getIntel,
+      CLIENT_SNEK,
     })
   )
   // other store enhancers if any

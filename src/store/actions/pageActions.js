@@ -1,10 +1,9 @@
+//> Intel
+import INTEL_ENTERPRISE from "snek-intel/lib/utils/enterprise";
+
 export const getPageNames = () => {
   return (dispatch, getState, { getIntel }) => {
-    const intel = getIntel();
-
-    intel.snekclient.session.begin();
-
-    intel.getEnterprisePages().then((result) => {
+    INTEL_ENTERPRISE.general.getEnterprisePages().then((result) => {
       console.log(result);
       if (result) {
         dispatch({
@@ -32,10 +31,8 @@ export const getPageNames = () => {
 
 // Get page by handle
 export const getPageByHandle = (handle) => {
-  return (dispatch, getState, { getIntel }) => {
-    const intel = getIntel();
-
-    intel
+  return (dispatch, getState, {}) => {
+    INTEL_ENTERPRISE.ops
       .getEnterprisePageGeneralContent({ slug: handle })
       .then((companyData) => {
         console.log("TEST", companyData);
@@ -234,7 +231,7 @@ export const getPageByHandle = (handle) => {
 };
 
 export const getActivity = () => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     // Dummy Data
     const result = [
       {
@@ -289,11 +286,10 @@ export const getActivity = () => {
 };
 
 export const getProjects = () => {
-  return (dispatch, getState, { getIntel }) => {
-    const intel = getIntel();
+  return (dispatch, getState, {}) => {
     const currentHandle = getState().pages.page.company.handle;
 
-    intel
+    INTEL_ENTERPRISE.general
       .getEnterprisePageProjectsContent({ slug: currentHandle })
       .then((result) => {
         if (result) {
@@ -344,11 +340,10 @@ export const getProjects = () => {
 };
 
 export const getUsers = () => {
-  return (dispatch, getState, { getIntel }) => {
-    const intel = getIntel();
+  return (dispatch, getState, {}) => {
     const currentHandle = getState().pages.page.company.handle;
 
-    intel
+    INTEL_ENTERPRISE.general
       .getEnterprisePageUsersContent({ slug: currentHandle })
       .then((result) => {
         if (result) {
@@ -376,7 +371,7 @@ export const getUsers = () => {
 };
 
 export const editImprint = (newCompanyInfo) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     /* 
     Save changes like:
     const page = {test: 123, test2: 456}; -> {test: 123, test2: 456}
@@ -420,10 +415,9 @@ export const editImprint = (newCompanyInfo) => {
 
     console.log("test");
 
-    const intel = getIntel();
     const currentHandle = getState().pages.page.company.handle;
     console.log(dataToUpdate);
-    intel
+    INTEL_ENTERPRISE.general
       .updateEnterprisePageGeneralContent({
         slug: currentHandle,
         imprint: dataToUpdate.imprint,
@@ -457,7 +451,7 @@ export const editImprint = (newCompanyInfo) => {
 };
 
 export const getUserByHandle = (username) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     // @TODO: Replace by function to query all users. For now it will not work on refresh.
     const users = getState().pages.users;
 
@@ -487,7 +481,7 @@ export const getUserByHandle = (username) => {
 };
 
 export const getProjectById = (id) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     // @TODO: Replace by function to query all projects. For now it will not work on refresh.
     const projects = getState().pages.projects;
 
@@ -517,12 +511,10 @@ export const getProjectById = (id) => {
 };
 
 export const publishPage = (handle) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     // Get connectors and get correct connector by page handle
-    const intel = getIntel();
 
-    intel.snekclient.session.begin();
-    intel
+    INTEL_ENTERPRISE.ops
       .publishEnterprisePageViaConnector({ connectorId: handle })
       .then((result) => {
         // Success / Error dispatch
@@ -537,7 +529,7 @@ export const publishPage = (handle) => {
 };
 
 export const clearSelection = (handle) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     dispatch({
       type: "CLEAR_SELECTION",
       payload: {

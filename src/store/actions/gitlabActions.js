@@ -1,11 +1,10 @@
+//> Intel
+import INTEL_ENTERPRISE from "snek-intel/lib/utils/enterprise";
+
 // Get all GitLabs
 export const getGitLabs = () => {
-  return (dispatch, getState, { getIntel }) => {
-    const intel = getIntel();
-
-    intel.snekclient.session.begin();
-
-    intel.getGitlabs().then((result) => {
+  return (dispatch, getState, {}) => {
+    INTEL_ENTERPRISE.ops.getGitlabs().then((result) => {
       if (result) {
         result = result.map((entry) => {
           return {
@@ -44,7 +43,7 @@ export const getGitLabs = () => {
 
 // Get GitLab by handle
 export const getGitLabByHandle = (handle) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     let gitlabs = getState().gitlabs;
 
     // Returns only matches
@@ -90,13 +89,12 @@ export const getGitLabByHandle = (handle) => {
 
 // Create GitLab
 export const createGitlab = (gitlab) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     if (gitlab) {
-      const intel = getIntel();
       // Get current gitlabs
       let gitlabs = getState().gitlabs.gitlabs;
 
-      intel
+      INTEL_ENTERPRISE.ops
         .addGitlab({
           active: true,
           description: "description",
@@ -154,10 +152,9 @@ export const createGitlab = (gitlab) => {
 
 // Alter gitlab by handle (ip or url)
 export const alterGitlab = (handle, newGitLab) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     // Get current gitlabs
     const gitlabs = getState().gitlabs.gitlabs;
-    const intel = getIntel();
 
     const selectedGitLab = gitlabs.filter((selected) => selected.id === handle);
     const notSelectedGitLabs = gitlabs.filter(
@@ -169,7 +166,7 @@ export const alterGitlab = (handle, newGitLab) => {
       const alteredGitLab = { ...selectedGitLab[0], ...newGitLab };
 
       console.log("ALTER GITLAB", alteredGitLab);
-      intel
+      INTEL_ENTERPRISE.ops
         .updateGitlab({
           id: alteredGitLab.id,
           active: alteredGitLab.isActive,
@@ -212,16 +209,13 @@ export const alterGitlab = (handle, newGitLab) => {
 
 // Remove gitlab by handle (ip or url)
 export const removeGitlab = (id) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     if (id) {
       // Get current GitLabs
       const gitlabs = getState().gitlabs.gitlabs;
 
-      // get intel instance
-      const intel = getIntel();
-
       // Removes GitLab
-      intel.deleteGitlab({ id }).then((res) => {
+      INTEL_ENTERPRISE.ops.deleteGitlab({ id }).then((res) => {
         if (res.success) {
           // remove GitLab from current GitLabs
           const leftovers = gitlabs.filter((obj) => obj.id !== id);
@@ -252,7 +246,7 @@ export const removeGitlab = (id) => {
 
 // Test GitLab connection
 export const testConnection = (connector) => {
-  return async (dispatch, getState, { getIntel }) => {
+  return async (dispatch, getState, {}) => {
     if (connector) {
       if (true === true) {
         // Wait for 2 sec to simulate connection test

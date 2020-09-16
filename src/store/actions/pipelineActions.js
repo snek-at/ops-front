@@ -1,11 +1,10 @@
+//> Intel
+import INTEL_ENTERPRISE from "snek-intel/lib/utils/enterprise";
+
 // Get all pipelines
 export const getPipelines = () => {
-  return (dispatch, getState, { getIntel }) => {
-    const intel = getIntel();
-
-    intel.snekclient.session.begin();
-
-    intel.getPipelines().then((result) => {
+  return (dispatch, getState, {}) => {
+    INTEL_ENTERPRISE.ops.getPipelines().then((result) => {
       if (result) {
         result = result.map((entry) => {
           return {
@@ -45,9 +44,7 @@ export const getPipelines = () => {
 };
 
 export const alterPipeline = (token, newPipeline) => {
-  return (dispatch, getState, { getIntel }) => {
-    // get intel instance
-    const intel = getIntel();
+  return (dispatch, getState, {}) => {
     // Get current pipelines
     const pipelines = getState().pipelines.pipelines;
     // Get all pipelines but the one to alter
@@ -58,7 +55,7 @@ export const alterPipeline = (token, newPipeline) => {
     console.log(newPipelines);
 
     if (newPipelines) {
-      intel
+      INTEL_ENTERPRISE.ops
         .updatePipeline({
           id: newPipeline.token,
           active: newPipeline.isActive,
@@ -95,12 +92,10 @@ export const alterPipeline = (token, newPipeline) => {
 };
 
 export const createPipeline = (newPipeline) => {
-  return (dispatch, getState, { getIntel }) => {
-    const intel = getIntel();
-
+  return (dispatch, getState, {}) => {
     console.log(newPipeline);
 
-    intel
+    INTEL_ENTERPRISE.ops
       .addPipeline({
         active: newPipeline.isActive,
         description: newPipeline.description
@@ -153,15 +148,13 @@ export const createPipeline = (newPipeline) => {
 };
 
 export const removePipeline = (token) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     if (token) {
       // Get current connectors
       const pipelines = getState().pipelines.pipelines;
 
-      // get intel instance
-      const intel = getIntel();
       // Removes connector
-      intel.deletePipeline({ id: token }).then((res) => {
+      INTEL_ENTERPRISE.ops.deletePipeline({ id: token }).then((res) => {
         if (res.success) {
           // remove connector from current connectors
           const leftovers = pipelines.filter(

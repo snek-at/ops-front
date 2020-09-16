@@ -1,14 +1,12 @@
+//> Intel
+import INTEL_ENTERPRISE from "snek-intel/lib/utils/enterprise";
+
 // Get all connectors
 export const getConnectors = () => {
-  return (dispatch, getState, { getIntel }) => {
-    const intel = getIntel();
-
-    intel.snekclient.session.begin();
-
-    intel.getConnectors().then((result) => {
+  return (dispatch, getState, {}) => {
+    INTEL_ENTERPRISE.ops.getConnectors().then((result) => {
       if (result) {
         result = result.map((entry) => {
-          console.log(entry);
           return {
             id: entry.id,
             token: entry.token,
@@ -67,7 +65,7 @@ export const getConnectors = () => {
 
 // Get connector by id
 export const getConnectorById = (id) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     // Dummy Data
     const connectors = getState().connectors.connectors;
 
@@ -98,7 +96,7 @@ export const getConnectorById = (id) => {
 
 // Test Connector connection
 export const testConnection = (connector) => {
-  return async (dispatch, getState, { getIntel }) => {
+  return async (dispatch, getState, {}) => {
     if (connector) {
       if (true === true) {
         // Wait for 2 sec to simulate connection test
@@ -117,9 +115,8 @@ export const testConnection = (connector) => {
 
 // Create connector
 export const createConnector = (connector) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     if (connector) {
-      const intel = getIntel();
       // Get current connectors
       let connectors = getState().connectors.connectors;
 
@@ -169,7 +166,7 @@ export const createConnector = (connector) => {
       };
 
       console.log(connector);
-      intel
+      INTEL_ENTERPRISE.ops
         .addConnector({
           active: true,
           url: connector.url,
@@ -238,9 +235,7 @@ export const createConnector = (connector) => {
 
 // Create connector
 export const alterConnector = (id, newConnector) => {
-  return (dispatch, getState, { getIntel }) => {
-    // get intel instance
-    const intel = getIntel();
+  return (dispatch, getState, {}) => {
     // Get current connectors
     const connectors = getState().connectors.connectors;
 
@@ -258,7 +253,7 @@ export const alterConnector = (id, newConnector) => {
     console.log(alteredConnector);
 
     if (alteredConnector) {
-      intel.updateConnector({
+      INTEL_ENTERPRISE.ops.updateConnector({
         id: alteredConnector.id,
         active: alteredConnector.isActive,
         connectorToken: alteredConnector.token,
@@ -300,15 +295,13 @@ export const alterConnector = (id, newConnector) => {
 
 // Remove connector
 export const removeConnector = (id) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     if (id) {
       // Get current connectors
       const connectors = getState().connectors.connectors;
 
-      // get intel instance
-      const intel = getIntel();
       // Removes connector
-      intel.deleteConnector({ id }).then((res) => {
+      INTEL_ENTERPRISE.ops.deleteConnector({ id }).then((res) => {
         if (res.success) {
           // remove connector from current connectors
           const leftovers = connectors.filter((selected) => selected.id !== id);

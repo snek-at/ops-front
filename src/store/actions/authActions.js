@@ -1,47 +1,42 @@
+//> Intel
+import INTEL_SNEK from "snek-intel/lib/utils/snek";
+
 // Login user
 export const loginUser = (user) => {
-  return (dispatch, getState, { getIntel }) => {
-    const intel = getIntel();
-    const session = intel.snekclient.session;
+  return async (dispatch, getState, { CLIENT_SNEK }) => {
+    try {
+      const whoami = await CLIENT_SNEK.session.begin(user);
 
-    session.begin();
-
-    return session
-      .begin(user)
-      .then((whoami) => {
-        console.log(whoami)
-        if (!whoami?.anonymous && whoami?.__typename === "SNEKUser") {
-          console.log("dispatch success")
-          dispatch({
-            type: "LOGIN_SUCCESS",
-            payload: {
-              data: {
-                username: whoami.username,
-              },
-            },
-          });
-        } else if (whoami?.anonymous) {
-          dispatch({
-            type: "LOGIN_ANON_SUCCESS",
-            payload: {},
-          });
-        } else {
-          throw Error("Login Failed");
-        }
-      })
-      .catch((ex) =>
+      if (!whoami?.anonymous && whoami?.__typename === "SNEKUser") {
         dispatch({
-          type: "LOGIN_FAIL",
+          type: "LOGIN_SUCCESS",
           payload: {
-            data: false,
-            error: {
-              code: 750,
-              message: "Login failed for user " + user,
-              origin: "auth",
+            data: {
+              username: whoami.username,
             },
           },
-        })
-      );
+        });
+      } else if (whoami?.anonymous) {
+        dispatch({
+          type: "LOGIN_ANON_SUCCESS",
+          payload: {},
+        });
+      } else {
+        throw Error("Login Failed");
+      }
+    } catch {
+      dispatch({
+        type: "LOGIN_FAIL",
+        payload: {
+          data: false,
+          error: {
+            code: 750,
+            message: "Login failed for user " + user,
+            origin: "auth",
+          },
+        },
+      });
+    }
   };
 };
 
@@ -62,11 +57,8 @@ export const authenticate = (password) => {
 
 // Logout
 export const logout = () => {
-  return (dispatch, getState, { getIntel }) => {
-    const intel = getIntel();
-    const session = intel.snekclient.session;
-
-    session.end().then(() => {
+  return (dispatch, getState, { CLIENT_SNEK }) => {
+    CLIENT_SNEK.session.end().then(() => {
       dispatch({
         type: "LOGOUT_SUCCESS",
         payload: {

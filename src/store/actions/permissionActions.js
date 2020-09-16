@@ -1,6 +1,9 @@
+//> Intel
+import INTEL_ENTERPRISE from "snek-intel/lib/utils/enterprise";
+
 // Get all Wagtail users
 export const getAllUsers = () => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     // Dummy Data
     const result = [
       {
@@ -66,7 +69,7 @@ export const getAllUsers = () => {
 
 // Creates new user in Wagtail
 export const addUser = (user) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     if (user) {
       let users = getState().permissions.users;
 
@@ -96,7 +99,7 @@ export const addUser = (user) => {
 
 // Removes user
 export const removeUser = (id) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     console.log(id);
 
     //@TODO Error handling: 738 Could not remove user <id>
@@ -105,7 +108,7 @@ export const removeUser = (id) => {
 
 // Alters user
 export const alterUser = (id, newData) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     console.log(id, newData);
 
     //@TODO Error handling: 739 Could not alter user <id>
@@ -114,7 +117,7 @@ export const alterUser = (id, newData) => {
 
 // Creates new group in Wagtail
 export const addGroup = (group) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     if (group) {
       let groups = getState().permissions.groups;
 
@@ -145,7 +148,7 @@ export const addGroup = (group) => {
 };
 
 export const getGroupPermissions = () => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     // Dummy data
     const result = [
       {
@@ -183,7 +186,7 @@ export const getGroupPermissions = () => {
 
 // Get all Wagtail groups
 export const getAllGroups = () => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     // Dummy data
     const result = [
       {
@@ -241,7 +244,7 @@ export const getAllGroups = () => {
 
 // Alters group
 export const alterGroup = (id, newGroup) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     console.log(id, newGroup);
 
     //@TODO Error handling: 735 Could not alter group <id>
@@ -250,7 +253,7 @@ export const alterGroup = (id, newGroup) => {
 
 // Create group
 export const createGroup = (newGroup) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     console.log(newGroup);
 
     //@TODO Error handling: 736 Could not create group
@@ -259,7 +262,7 @@ export const createGroup = (newGroup) => {
 
 // Removes group
 export const removeGroup = (id) => {
-  return (dispatch, getState, { getIntel }) => {
+  return (dispatch, getState, {}) => {
     console.log(id);
 
     //@TODO Error handling: 737 Could not remove group <id>
