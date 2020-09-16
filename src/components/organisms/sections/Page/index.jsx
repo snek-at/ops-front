@@ -256,11 +256,11 @@ class Page extends React.Component {
                 <MDBCardBody>
                   <MDBRow className="d-flex align-items-center">
                     <MDBCol lg="2">
-                      <img
+                      {/* <img
                         src="https://www.htl-villach.at/typo3conf/ext/htl_villach/Resources/Public/Images/htl_logo_box.svg"
                         alt="Company logo"
                         className="img-fluid"
-                      />
+                      /> */}
                     </MDBCol>
                     <MDBCol lg="10">
                       <div className="d-flex justify-content-space-between">
@@ -277,7 +277,8 @@ class Page extends React.Component {
                             color="green"
                             size="md"
                             onClick={() => this.setState({ reAuth: true })}
-                            disabled={!page.company.connectorHandle}
+                            // disabled={!page.company.connectorHandle}
+                            disabled
                           >
                             Publish
                           </MDBBtn>

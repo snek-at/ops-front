@@ -34,10 +34,10 @@ const MENU_ITEMS = [
     name: "Pages",
     icon: "book",
   },
-  {
-    name: "Permissions",
-    icon: "key",
-  },
+  // {
+  //   name: "Permissions",
+  //   icon: "key",
+  // },
   {
     name: "Connectors",
     icon: "ring",

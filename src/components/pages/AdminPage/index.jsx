@@ -121,7 +121,7 @@ class HomePage extends React.Component {
                 case "dashboard":
                   return <Dashboard navigateTo={this.navigateTo} />;
                 case "permissions":
-                  return <Permissions />;
+                // return <Permissions />;
                 case "connectors":
                   return <Connectors />;
                 case "pipelines":
