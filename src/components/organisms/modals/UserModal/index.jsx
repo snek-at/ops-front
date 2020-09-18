@@ -81,55 +81,60 @@ class UserModal extends React.Component {
                   <p className="lead font-weight-bold mt-4">Code statistics</p>
                   <MDBCard className="border">
                     <MDBCardBody>
-                      <AILanguageChart
-                        languages={[
-                          {
-                            color: "rgb(241, 224, 90)",
-                            share: 40,
-                          },
-                          {
-                            color: "rgb(299, 150, 90)",
-                            share: 60,
-                          },
-                        ]}
-                      />
                       <div className="px-1">
-                        <hr />
-                        {[
-                          {
-                            color: "rgb(241, 224, 90)",
-                            share: 40,
-                            name: "JavaScript",
-                          },
-                          {
-                            color: "rgb(299, 150, 90)",
-                            share: 60,
-                            name: "FooScript",
-                          },
-                        ].map((language, i) => {
-                          return (
-                            <small
-                              className="text-left text-muted d-block"
-                              key={i}
-                            >
-                              <div className="d-flex justify-content-between">
-                                <div>
-                                  <MDBIcon
-                                    icon="square"
-                                    className="pr-1"
-                                    style={{
-                                      color: language.color,
-                                    }}
-                                  />
-                                  <span>{language.name}</span>
-                                </div>
-                                <span className="text-muted small">
-                                  {language.share}%
-                                </span>
-                              </div>
-                            </small>
-                          );
-                        })}
+                        {user.codelanguages && user.codelanguages.length > 0 ? (
+                          <div>
+                            {user.codelanguages.map((language, i) => {
+                              return (
+                                <small
+                                  className={
+                                    user.codelanguages.length === i + 1
+                                      ? "text-left text-muted d-block py-1"
+                                      : "text-left text-muted d-block py-1 border-bottom"
+                                  }
+                                  key={i}
+                                >
+                                  <div className="d-flex justify-content-between align-items-center">
+                                    <div>
+                                      <MDBIcon
+                                        icon="square"
+                                        className="pr-1"
+                                        style={{
+                                          color: language.color,
+                                        }}
+                                      />
+                                      <span>{language.name}</span>
+                                    </div>
+                                    <span className="small text-right">
+                                      <span className="d-block">
+                                        {language.insertions}
+                                        <MDBIcon
+                                          icon="plus"
+                                          size="sm"
+                                          className="text-success pl-1"
+                                        />
+                                      </span>
+                                      <span className="d-block">
+                                        {language.deletions}
+                                        <MDBIcon
+                                          icon="minus"
+                                          size="sm"
+                                          className="text-danger pl-1"
+                                        />
+                                      </span>
+                                    </span>
+                                  </div>
+                                </small>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className="text-center p-3">
+                            <span className="d-block small text-muted">
+                              No information yet.
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </MDBCardBody>
                   </MDBCard>
@@ -143,6 +148,7 @@ class UserModal extends React.Component {
                           user.mergedContributionFeed.years.map((year, y) => {
                             return (
                               <p
+                                key={y}
                                 className={
                                   this.state.selectedYearIndex === y
                                     ? "blue-text clickable mx-2 d-inline-block"
